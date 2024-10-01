@@ -1,4 +1,4 @@
-﻿cmake_minimum_required(VERSION 3.29)
+﻿cmake_minimum_required(VERSION 3.28.1)
 project(Broadway_Simulation)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -11,7 +11,16 @@ include_directories("${SDL2_PATH}/include/SDL2")
 #GLM
 include_directories("${CMAKE_MODULE_PATH}/glm")
 
-add_executable(${PROJECT_NAME} main.cpp)
+add_executable(${PROJECT_NAME} main.cpp
+        Engine/WindowModule.cpp
+        Engine/WindowModule.h
+        Engine/RenderingModule.cpp
+        Engine/RenderingModule.h
+        Engine/InputModule.cpp
+        Engine/InputModule.h
+        Engine/Application.cpp
+        Engine/Application.h
+)
 
 target_link_libraries(${PROJECT_NAME}
         mingw32

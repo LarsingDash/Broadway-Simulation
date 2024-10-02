@@ -13,13 +13,13 @@ include_directories("${CMAKE_MODULE_PATH}/glm")
 
 add_executable(${PROJECT_NAME} main.cpp
         Engine/WindowModule.cpp
-        Engine/WindowModule.h
+        Engine/WindowModule.hpp
         Engine/RenderingModule.cpp
-        Engine/RenderingModule.h
+        Engine/RenderingModule.hpp
         Engine/InputModule.cpp
-        Engine/InputModule.h
+        Engine/InputModule.hpp
         Engine/SimulationManager.cpp
-        Engine/SimulationManager.h
+        Engine/SimulationManager.hpp
 )
 
 target_link_libraries(${PROJECT_NAME}

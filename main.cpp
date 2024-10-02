@@ -1,6 +1,6 @@
 ﻿#include <iostream>
 #include <SDL.h>
-#include "Engine/SimulationManager.h"
+#include "Engine/SimulationManager.hpp"
 
 int main(int argc, char* argv[]) {
     SimulationManager engine;

@@ -1,16 +1,10 @@
-#include "SimulationManager.h"
+#include "SimulationManager.hpp"
 #include <iostream>
 
 SimulationManager::SimulationManager() : shouldQuit(false) {
-    windowModule = new WindowModule();
-    renderingModule = new RenderingModule(windowModule->getWindow());
-    inputModule = new InputModule();
-}
-
-SimulationManager::~SimulationManager() {
-    delete windowModule;
-    delete renderingModule;
-    delete inputModule;
+    windowModule = std::make_unique<WindowModule>();
+    renderingModule = std::make_unique<RenderingModule>(windowModule->getWindow());
+    inputModule = std::make_unique<InputModule>();
 }
 
 void SimulationManager::processEvents() {
@@ -19,7 +13,7 @@ void SimulationManager::processEvents() {
         if (event.type == SDL_QUIT) {
             shouldQuit = true;
         } else if (event.type == SDL_KEYDOWN) {
-            inputModule->handleExit(event.key.keysym.scancode, shouldQuit);
+			inputModule->handleScancode(event.key.keysym.scancode, shouldQuit);
         }
     }
 }

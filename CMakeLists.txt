@@ -12,12 +12,12 @@ include_directories("${SDL2_PATH}/include/SDL2")
 include_directories("${CMAKE_MODULE_PATH}/glm")
 
 add_executable(${PROJECT_NAME} main.cpp
-        Engine/WindowModule.cpp
-        Engine/WindowModule.hpp
-        Engine/RenderingModule.cpp
-        Engine/RenderingModule.hpp
-        Engine/InputModule.cpp
-        Engine/InputModule.hpp
+        Engine/Modules/WindowModule.cpp
+        Engine/Modules/WindowModule.hpp
+        Engine/Modules/RenderingModule.cpp
+        Engine/Modules/RenderingModule.hpp
+        Engine/Modules/InputModule.cpp
+        Engine/Modules/InputModule.hpp
         Engine/SimulationManager.cpp
         Engine/SimulationManager.hpp
 )

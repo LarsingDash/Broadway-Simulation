@@ -2,7 +2,6 @@
 #define WINDOW_MODULE_HPP
 
 #include <SDL.h>
-#include <memory>
 
 class WindowModule {
 	public:

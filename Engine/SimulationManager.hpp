@@ -1,9 +1,9 @@
 #ifndef SIMULATION_MANAGER_HPP
 #define SIMULATION_MANAGER_HPP
 
-#include "WindowModule.hpp"
-#include "RenderingModule.hpp"
-#include "InputModule.hpp"
+#include "Modules/WindowModule.hpp"
+#include "Modules/RenderingModule.hpp"
+#include "Modules/InputModule.hpp"
 #include <memory>
 
 class SimulationManager {

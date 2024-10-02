@@ -1,7 +1,6 @@
 #define STB_IMAGE_IMPLEMENTATION
 
 #include "RenderingModule.hpp"
-#include <SDL.h>
 #include <iostream>
 
 RenderingModule::RenderingModule(SDL_Window* window) {

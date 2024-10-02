@@ -7,8 +7,9 @@ class RenderingModule {
 public:
     explicit RenderingModule(SDL_Window* window);
     ~RenderingModule();
+	void clear();
     void draw();
-    void update(float delta);
+	void present();
 
 private:
     SDL_Renderer* renderer;

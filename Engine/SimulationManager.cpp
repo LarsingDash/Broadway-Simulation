@@ -29,8 +29,12 @@ void SimulationManager::run() {
         prevTicks = curTicks;
 
         processEvents();
-        renderingModule->update(static_cast<float>(delta) / 1000.f);
+        renderingModule->clear();
+		
+//		artistManager->update(static_cast<float>(delta) / 1000.f));
         renderingModule->draw();
+		
+		renderingModule->present();
 
         frameCount++;
         fps += delta;

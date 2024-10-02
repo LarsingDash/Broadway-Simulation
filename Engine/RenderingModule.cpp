@@ -15,10 +15,12 @@ RenderingModule::~RenderingModule() {
 	SDL_DestroyRenderer(renderer);
 }
 
-void RenderingModule::draw() {
-	SDL_SetRenderDrawColor(renderer, 25, 25, 25, SDL_ALPHA_OPAQUE);
+void RenderingModule::clear() {
+	SDL_SetRenderDrawColor(renderer,25, 25, 25, SDL_ALPHA_OPAQUE);
 	SDL_RenderClear(renderer);
+}
 
+void RenderingModule::draw() {
 	const int gridSize = 30;
 	const int squareSize = 20;
 	SDL_Color colors[] = {
@@ -37,10 +39,8 @@ void RenderingModule::draw() {
 			SDL_RenderFillRect(renderer, &rect);
 		}
 	}
-
-	SDL_RenderPresent(renderer);
 }
 
-void RenderingModule::update(float delta) {
-
+void RenderingModule::present() {
+	SDL_RenderPresent(renderer);
 }

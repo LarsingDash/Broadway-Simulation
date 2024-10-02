@@ -18,8 +18,8 @@ add_executable(${PROJECT_NAME} main.cpp
         Engine/RenderingModule.h
         Engine/InputModule.cpp
         Engine/InputModule.h
-        Engine/Application.cpp
-        Engine/Application.h
+        Engine/SimulationManager.cpp
+        Engine/SimulationManager.h
 )
 
 target_link_libraries(${PROJECT_NAME}

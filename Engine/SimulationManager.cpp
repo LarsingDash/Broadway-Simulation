@@ -1,19 +1,19 @@
-#include "Application.h"
+#include "SimulationManager.h"
 #include <iostream>
 
-Application::Application() : shouldQuit(false) {
+SimulationManager::SimulationManager() : shouldQuit(false) {
     windowModule = new WindowModule();
     renderingModule = new RenderingModule(windowModule->getWindow());
     inputModule = new InputModule();
 }
 
-Application::~Application() {
+SimulationManager::~SimulationManager() {
     delete windowModule;
     delete renderingModule;
     delete inputModule;
 }
 
-void Application::processEvents() {
+void SimulationManager::processEvents() {
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
         if (event.type == SDL_QUIT) {
@@ -24,7 +24,7 @@ void Application::processEvents() {
     }
 }
 
-void Application::run() {
+void SimulationManager::run() {
     Uint32 prevTicks = SDL_GetTicks();
     Uint32 fpsInterval = 1000;
     Uint32 fps = 0, frameCount = 0;

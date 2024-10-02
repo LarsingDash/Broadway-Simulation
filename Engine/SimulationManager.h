@@ -4,10 +4,10 @@
 #include "RenderingModule.h"
 #include "InputModule.h"
 
-class Application {
+class SimulationManager {
 public:
-    Application();
-    ~Application();
+    SimulationManager();
+    ~SimulationManager();
     void run();
 
 private:

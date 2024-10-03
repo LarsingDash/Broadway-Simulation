@@ -11,7 +11,7 @@
 class SimulationManager {
 public:
     SimulationManager();
-    ~SimulationManager() = default;
+    ~SimulationManager();
     void run();
 
 private:

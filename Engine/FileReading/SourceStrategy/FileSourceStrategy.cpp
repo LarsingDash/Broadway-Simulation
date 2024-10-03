@@ -15,7 +15,7 @@ std::unique_ptr<Source> FileSourceStrategy::fetchSource(const std::string& path)
 	}
 	
 	//Remove possible BOM
-	ISourceStrategy::removeBOM(file);
+	removeBOM(file);
 
 	//Create source
 	std::unique_ptr<Source> source = std::make_unique<Source>();

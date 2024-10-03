@@ -1,6 +1,7 @@
 #include "SimulationManager.hpp"
 #include "Tiles/TileStates/Blue.hpp"
 #include "Tiles/TileStates/White.hpp"
+#include "FileReading/SourceStrategy/WebSourceStrategy.hpp"
 #include <iostream>
 
 SimulationManager::SimulationManager() : shouldQuit(false) {
@@ -12,6 +13,10 @@ SimulationManager::SimulationManager() : shouldQuit(false) {
 
 
     museum->setNeighbors();
+}
+
+SimulationManager::~SimulationManager() {
+	WebSourceStrategy::cleanup();
 }
 
 void SimulationManager::processEvents() {

@@ -5,7 +5,7 @@
 #ifndef BROADWAY_SIMULATION_RED_HPP
 #define BROADWAY_SIMULATION_RED_HPP
 
-#include "TileState.hpp"
+#include "../TileState.hpp"
 
 class Red : public TileState {
 	public:

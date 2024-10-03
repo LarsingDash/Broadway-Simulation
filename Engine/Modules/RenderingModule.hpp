@@ -2,10 +2,11 @@
 #define RENDERING_MODULE_HPP
 
 #include <SDL.h>
+#include "../Tiles/Museum.hpp"
 
 class RenderingModule {
 public:
-    explicit RenderingModule(SDL_Window* window);
+    explicit RenderingModule(SDL_Window* window, Museum* museum);
     ~RenderingModule();
 	void clear();
     void draw();
@@ -13,6 +14,7 @@ public:
 
 private:
     SDL_Renderer* renderer;
+    Museum* museum;
 };
 
 #endif /* RENDERING_MODULE_HPP */

@@ -15,6 +15,17 @@ void SimulationManager::processEvents() {
         } else if (event.type == SDL_KEYDOWN) {
 			inputModule->handleScancode(event.key.keysym.scancode, shouldQuit);
         }
+
+		if (event.type == SDL_MOUSEBUTTONDOWN) {
+			int x;
+			int y;
+			SDL_GetMouseState(&x, &y);
+			
+			x /= 20;
+			y /= 20;
+			
+			std::cout << x << " - " << y << std::endl;
+		}
     }
 }
 

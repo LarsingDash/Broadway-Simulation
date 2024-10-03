@@ -20,6 +20,17 @@ add_executable(${PROJECT_NAME} main.cpp
         Engine/Modules/InputModule.hpp
         Engine/SimulationManager.cpp
         Engine/SimulationManager.hpp
+        Engine/Tiles/TileState.hpp
+        Engine/Tiles/Red.cpp
+        Engine/Tiles/Red.hpp
+        Engine/Tiles/Yellow.cpp
+        Engine/Tiles/Yellow.hpp
+        Engine/Tiles/Blue.cpp
+        Engine/Tiles/Blue.hpp
+        Engine/Tiles/Grey.cpp
+        Engine/Tiles/Grey.hpp
+        Engine/Tiles/White.cpp
+        Engine/Tiles/White.hpp
 )
 
 target_link_libraries(${PROJECT_NAME}

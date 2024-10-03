@@ -6,10 +6,16 @@
 #define BROADWAY_SIMULATION_WEBSOURCESTRATEGY_HPP
 
 #include "ISourceStrategy.hpp"
+#include "curl/curl.h"
 
 class WebSourceStrategy : public ISourceStrategy {
 	public:
 		std::unique_ptr<Source> fetchSource(const std::string& pathOrURL) override;
+	private:
+		static CURL* curl;
+		static bool isCurlInit;
+		static bool initCurl();
+		static size_t curlCallback(void* contents, size_t size, size_t nmemb, std::stringstream* output);
 };
 
 #endif //BROADWAY_SIMULATION_WEBSOURCESTRATEGY_HPP

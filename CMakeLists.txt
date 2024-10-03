@@ -11,6 +11,11 @@ include_directories("${SDL2_PATH}/include/SDL2")
 #GLM
 include_directories("${CMAKE_MODULE_PATH}/glm")
 
+#CURL
+set(CURL_PATH "${CMAKE_MODULE_PATH}/curl/lib/")
+include_directories("${CMAKE_MODULE_PATH}/curl/include")
+
+#Main
 add_executable(${PROJECT_NAME} main.cpp
         Engine/Modules/WindowModule.cpp
         Engine/Modules/WindowModule.hpp
@@ -52,4 +57,6 @@ target_link_libraries(${PROJECT_NAME}
 
         "${SDL2_PATH}/lib/libSDL2main.a"
         "${SDL2_PATH}/lib/libSDL2.dll.a"
+        
+        "${CURL_PATH}libcurl.dll.a"
 )

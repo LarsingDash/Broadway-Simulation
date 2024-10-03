@@ -2,7 +2,7 @@
 project(Broadway_Simulation)
 
 set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/libs)
+set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/Libs)
 
 #SDL
 set(SDL2_PATH "${CMAKE_MODULE_PATH}/SDL2")
@@ -31,6 +31,8 @@ add_executable(${PROJECT_NAME} main.cpp
         Engine/Tiles/Grey.hpp
         Engine/Tiles/White.cpp
         Engine/Tiles/White.hpp
+        Engine/FileReading/FileReaderTemplate.cpp
+        Engine/FileReading/FileReaderTemplate.hpp
 )
 
 target_link_libraries(${PROJECT_NAME}

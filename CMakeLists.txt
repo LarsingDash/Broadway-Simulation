@@ -2,7 +2,7 @@
 project(Broadway_Simulation)
 
 set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/Libs)
+set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/libs)
 
 #SDL
 set(SDL2_PATH "${CMAKE_MODULE_PATH}/SDL2")
@@ -21,16 +21,20 @@ add_executable(${PROJECT_NAME} main.cpp
         Engine/SimulationManager.cpp
         Engine/SimulationManager.hpp
         Engine/Tiles/TileState.hpp
-        Engine/Tiles/Red.cpp
-        Engine/Tiles/Red.hpp
-        Engine/Tiles/Yellow.cpp
-        Engine/Tiles/Yellow.hpp
-        Engine/Tiles/Blue.cpp
-        Engine/Tiles/Blue.hpp
-        Engine/Tiles/Grey.cpp
-        Engine/Tiles/Grey.hpp
-        Engine/Tiles/White.cpp
-        Engine/Tiles/White.hpp
+        Engine/Tiles/TileStates/Red.cpp
+        Engine/Tiles/TileStates/Red.hpp
+        Engine/Tiles/TileStates/Yellow.cpp
+        Engine/Tiles/TileStates/Yellow.hpp
+        Engine/Tiles/TileStates/Blue.cpp
+        Engine/Tiles/TileStates/Blue.hpp
+        Engine/Tiles/TileStates/Grey.cpp
+        Engine/Tiles/TileStates/Grey.hpp
+        Engine/Tiles/TileStates/White.cpp
+        Engine/Tiles/TileStates/White.hpp
+        Engine/Tiles/Tile.cpp
+        Engine/Tiles/Tile.hpp
+        Engine/Tiles/Museum.cpp
+        Engine/Tiles/Museum.hpp
         Engine/FileReading/FileReaderTemplate.cpp
         Engine/FileReading/FileReaderTemplate.hpp
 )

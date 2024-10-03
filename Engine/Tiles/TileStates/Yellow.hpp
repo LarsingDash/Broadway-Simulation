@@ -6,7 +6,7 @@
 #define BROADWAY_SIMULATION_YELLOW_HPP
 
 
-#include "TileState.hpp"
+#include "../TileState.hpp"
 
 class Yellow : public TileState {
 	public:

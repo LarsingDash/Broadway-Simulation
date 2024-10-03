@@ -4,6 +4,8 @@
 #include "Modules/WindowModule.hpp"
 #include "Modules/RenderingModule.hpp"
 #include "Modules/InputModule.hpp"
+#include "Tiles/Museum.hpp"
+
 #include <memory>
 
 class SimulationManager {
@@ -16,10 +18,12 @@ private:
     void processEvents();
 
     bool shouldQuit;
-	
+
     std::unique_ptr<WindowModule> windowModule;
     std::unique_ptr<RenderingModule> renderingModule;
     std::unique_ptr<InputModule> inputModule;
+
+    std::unique_ptr<Museum> museum;
 };
 
 #endif /* SIMULATION_MANAGER_HPP */

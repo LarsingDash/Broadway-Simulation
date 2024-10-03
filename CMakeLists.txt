@@ -37,6 +37,14 @@ add_executable(${PROJECT_NAME} main.cpp
         Engine/Tiles/Museum.hpp
         Engine/FileReading/FileReaderTemplate.cpp
         Engine/FileReading/FileReaderTemplate.hpp
+        Engine/FileReading/Source.hpp
+        Engine/FileReading/SourceStrategy/ISourceStrategy.hpp
+        Engine/FileReading/SourceStrategy/WebSourceStrategy.cpp
+        Engine/FileReading/SourceStrategy/WebSourceStrategy.hpp
+        Engine/FileReading/SourceStrategy/FileSourceStrategy.cpp
+        Engine/FileReading/SourceStrategy/FileSourceStrategy.hpp
+        Engine/FileReading/TileStrategy/TileStrategy.hpp
+        Engine/FileReading/ArtistStrategy/ArtistStrategy.hpp
 )
 
 target_link_libraries(${PROJECT_NAME}

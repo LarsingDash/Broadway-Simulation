@@ -6,6 +6,8 @@
 #define BROADWAY_SIMULATION_FILEREADERTEMPLATE_HPP
 
 #include <iostream>
+#include "SourceStrategy/ISourceStrategy.hpp"
+#include "TileStrategy/TileStrategy.hpp"
 
 enum FileType {
 	Map,
@@ -19,7 +21,7 @@ enum SourceType {
 
 class FileReaderTemplate {
 	public:
-	static void readFile(const std::string& path, SourceType sourceType, FileType fileType); 
+		static void readFileTemplate(const std::string& pathOrURL, SourceType sourceType, FileType fileType);
 };
 
 #endif //BROADWAY_SIMULATION_FILEREADERTEMPLATE_HPP

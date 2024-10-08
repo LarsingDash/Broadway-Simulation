@@ -14,19 +14,22 @@
 
 class Museum {
 private:
-    std::vector<std::vector<Tile>> grid;
+    std::vector<std::vector<std::unique_ptr<Tile>>> grid;
     int rows, cols;
     int tileSize;
 
 public:
-    Museum(int rows, int cols, int tileSize, TileState* defaultState);
+    Museum(int rows, int cols, int tileSize);
 
     void initializeRandomTiles();
     void render(SDL_Renderer* renderer);
     void setNeighbors();
-    int getRows() const;
-    int getCols() const;
+    [[nodiscard]] int getRows() const;
+    [[nodiscard]] int getCols() const;
+	void setRows(int rows);
+	void setCols(int cols);
     Tile& getTile(int row, int col);
+	void setTiles(std::vector<std::vector<std::unique_ptr<Tile>>>&& tiles);
 };
 
 #endif // BROADWAY_SIMULATION_MUSEUM_HPP

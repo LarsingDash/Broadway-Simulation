@@ -1,5 +1,4 @@
-﻿#include <iostream>
-#include <SDL.h>
+﻿#include <SDL.h>
 #include "Engine/SimulationManager.hpp"
 
 int main(int argc, char* argv[]) {

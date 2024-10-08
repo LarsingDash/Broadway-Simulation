@@ -7,7 +7,8 @@
 class TileState {
 public:
     TileState(SDL_Color color, float weight) : color{color}, weight{weight} {};
-
+	virtual ~TileState() = default;
+	
     virtual void handleInteraction() = 0;
 
     virtual void logTileData() {

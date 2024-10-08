@@ -6,7 +6,7 @@
 
 SimulationManager::SimulationManager() : shouldQuit(false) {
     windowModule = std::make_unique<WindowModule>();
-    museum = std::make_unique<Museum>(30, 30, 20, new White());
+    museum = std::make_unique<Museum>(30, 30, 20);
 
     renderingModule = std::make_unique<RenderingModule>(windowModule->getWindow(), museum.get());
     inputModule = std::make_unique<InputModule>();

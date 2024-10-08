@@ -49,7 +49,16 @@ add_executable(${PROJECT_NAME} main.cpp
         Engine/FileReading/SourceStrategy/FileSourceStrategy.cpp
         Engine/FileReading/SourceStrategy/FileSourceStrategy.hpp
         Engine/FileReading/TileStrategy/TileStrategy.hpp
-        Engine/FileReading/ArtistStrategy/ArtistStrategy.hpp
+        Engine/FileReading/ArtistStrategy/IArtistStrategy.hpp
+        Engine/FileReading/MapStrategy/IMapStrategy.hpp
+        Engine/FileReading/MapStrategy/XmlMapStrategy.cpp
+        Engine/FileReading/MapStrategy/XmlMapStrategy.hpp
+        Engine/FileReading/MapStrategy/TxtMapStrategy.cpp
+        Engine/FileReading/MapStrategy/TxtMapStrategy.hpp
+        Engine/FileReading/ArtistStrategy/CsvArtistStrategy.cpp
+        Engine/FileReading/ArtistStrategy/CsvArtistStrategy.hpp
+        Engine/Tiles/MuseumBuilder.cpp
+        Engine/Tiles/MuseumBuilder.hpp
 )
 
 target_link_libraries(${PROJECT_NAME}

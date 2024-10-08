@@ -9,29 +9,24 @@
 #include <vector>
 #include "TileState.hpp"
 #include "SDL_render.h"
+#include <memory>
 
 class Tile {
-public:
-    TileState* currentState;
-    std::vector<Tile*> neighbors;
+	public:
+		std::unique_ptr<TileState> currentState;
+		std::vector<Tile*> neighbors;
 
-    Tile(TileState* initialState) : currentState(initialState) {}
+		Tile() : currentState{nullptr} {}
 
-    void setState(TileState* newState) {
-        currentState = newState;
-    }
+		template<class TileState>
+		void setState() {
+			currentState = std::make_unique<TileState>();
+		}
 
-    void render(SDL_Renderer* renderer, int x, int y, int tileSize) {
-        SDL_Rect tileRect = { x, y, tileSize, tileSize };
-        SDL_SetRenderDrawColor(renderer, currentState->color.r, currentState->color.g, currentState->color.b, currentState->color.a);
-        SDL_RenderFillRect(renderer, &tileRect);
-    }
+		void render(SDL_Renderer* renderer, int x, int y, int tileSize) const;
 
-    void addNeighbor(Tile* neighbor) {
-        neighbors.push_back(neighbor);
-    }
+		void addNeighbor(Tile* neighbor);
 };
-
 
 
 #endif //BROADWAY_SIMULATION_TILE_HPP

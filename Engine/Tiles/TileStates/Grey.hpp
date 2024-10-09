@@ -9,7 +9,7 @@
 
 class Grey : public TileState {
 public:
-    Grey() : TileState(SDL_Color{150, 150, 150, SDL_ALPHA_OPAQUE}, 1.0f) {}
+    Grey() : TileState('G') {}
     void handleInteraction() override;
 };
 

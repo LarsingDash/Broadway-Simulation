@@ -9,7 +9,7 @@
 
 class White : public TileState {
 	public:
-		White(): TileState(SDL_Color{255,255,255}, 1) {}
+		White(): TileState('W') {}
 		void handleInteraction() override;
 };
 

@@ -10,7 +10,7 @@
 
 class Yellow : public TileState {
 	public:
-		Yellow(): TileState(SDL_Color{255,255,0}, 1) {}
+		Yellow(): TileState('Y') {}
 		void handleInteraction() override;
 };
 

@@ -3,24 +3,27 @@
 
 #include <iostream>
 #include "SDL_pixels.h"
+#include "SDL_render.h"
 
 class TileState {
-public:
-    TileState(SDL_Color color, float weight) : color{color}, weight{weight} {};
-	virtual ~TileState() = default;
-	
-    virtual void handleInteraction() = 0;
+	public:
+		explicit TileState(const char& c);;
+		virtual ~TileState() = default;
 
-    virtual void logTileData() {
-        std::cout << "Tile clicked: Weight=" << weight << ", Color (RGBA): "
-                  << static_cast<int>(color.r) << ", "
-                  << static_cast<int>(color.g) << ", "
-                  << static_cast<int>(color.b) << ", "
-                  << static_cast<int>(color.a) << ", Type: " << typeid(*this).name() << std::endl;
-    }
+		virtual void handleInteraction() = 0;
 
-    SDL_Color color;
-    float weight;
+		virtual void logTileData() {
+			std::cout << letter << " clicked: Weight=" << config.second << ", Color (RGBA): "
+					  << static_cast<int>(config.first.r) << ", "
+					  << static_cast<int>(config.first.g) << ", "
+					  << static_cast<int>(config.first.b) << ", "
+					  << static_cast<int>(config.first.a) << ", Type: " << typeid(*this).name() << std::endl;
+		}
+
+		void render(SDL_Renderer* renderer, int x, int y, int tileSize) const;
+
+		const char letter;
+		const std::pair<SDL_Color, float>& config;
 };
 
 #endif // BROADWAY_SIMULATION_TILESTATE_HPP

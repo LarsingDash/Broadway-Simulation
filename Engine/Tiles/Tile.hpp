@@ -5,26 +5,22 @@
 #ifndef BROADWAY_SIMULATION_TILE_HPP
 #define BROADWAY_SIMULATION_TILE_HPP
 
-
 #include <vector>
-#include "TileStates/TileState.hpp"
-#include "SDL_render.h"
 #include <memory>
+#include "TileStates/TileState.hpp"
 
 class Tile {
 	public:
 		std::unique_ptr<TileState> currentState;
 		std::vector<Tile*> neighbors;
 
-		Tile() : currentState{nullptr} {}
+		Tile() : currentState{nullptr} {};
 
-		template<class TileState>
+		template<class T>
 		void setState() {
-			currentState = std::make_unique<TileState>();
+			currentState = std::make_unique<T>();
 		}
-
-		void render(SDL_Renderer* renderer, int x, int y, int tileSize) const;
-
+		
 		void addNeighbor(Tile* neighbor);
 };
 

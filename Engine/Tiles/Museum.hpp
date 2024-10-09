@@ -2,6 +2,7 @@
 #define BROADWAY_SIMULATION_MUSEUM_HPP
 
 #include <vector>
+#include <unordered_map>
 #include <random>
 #include "SDL_render.h"
 #include "TileStates/TileState.hpp"
@@ -30,6 +31,9 @@ public:
 	void setCols(int cols);
     Tile& getTile(int row, int col);
 	void setTiles(std::vector<std::vector<std::unique_ptr<Tile>>>&& tiles);
+	void setColor(const char& c, const std::pair<SDL_Color, float>&& config);
+	
+	static std::unordered_map<char, std::pair<SDL_Color, float>> colors;
 };
 
 #endif // BROADWAY_SIMULATION_MUSEUM_HPP

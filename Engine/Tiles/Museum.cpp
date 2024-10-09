@@ -1,22 +1,33 @@
 #include "Museum.hpp"
 
+std::unordered_map<char, std::pair<SDL_Color, float>> Museum::colors;
+
 Museum::Museum(int rows, int cols, int tileSize)
 		: rows(rows), cols(cols), tileSize(tileSize) {
 	//Initialize rows
 	grid = std::vector<std::vector<std::unique_ptr<Tile>>>(rows);
-	
+
 	for (int i = 0; i < rows; i++) {
 		//Initialize columns
 		grid[i] = std::vector<std::unique_ptr<Tile>>(cols);
-		
+
 		for (int j = 0; j < cols; j++) {
 			//Initialize default tiles	
 			(grid[i][j] = std::make_unique<Tile>())->setState<White>();
 		}
 	}
+
+	initializeRandomTiles();
 }
 
 void Museum::initializeRandomTiles() {
+	//Initialize Colors
+	setColor('R', {SDL_Color{255, 0, 0}, 1});
+	setColor('B', {SDL_Color{0, 0, 255}, 1});
+	setColor('Y', {SDL_Color{255, 255, 0}, 1});
+	setColor('G', {SDL_Color{150, 150, 150}, 1});
+	setColor('W', {SDL_Color{255, 255, 255}, 1});
+
 	std::random_device rd;
 	std::mt19937 eng(rd());
 	std::uniform_int_distribution<> distr(0, 4);
@@ -50,7 +61,7 @@ void Museum::initializeRandomTiles() {
 void Museum::render(SDL_Renderer* renderer) {
 	for (int i = 0; i < rows; ++i) {
 		for (int j = 0; j < cols; ++j) {
-			grid[i][j]->render(renderer, j * tileSize, i * tileSize, tileSize);
+			grid[i][j]->currentState->render(renderer, j * tileSize, i * tileSize, tileSize);
 		}
 	}
 }
@@ -77,3 +88,5 @@ void Museum::setCols(int col) { cols = col; }
 Tile& Museum::getTile(int row, int col) { return *grid[row][col]; }
 
 void Museum::setTiles(std::vector<std::vector<std::unique_ptr<Tile>>>&& tiles) { grid = std::move(tiles); }
+
+void Museum::setColor(const char& c, const std::pair<SDL_Color, float>&& config) { Museum::colors[c] = config; }

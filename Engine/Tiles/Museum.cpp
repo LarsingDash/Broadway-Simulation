@@ -1,4 +1,5 @@
 #include "Museum.hpp"
+#include "../Modules/WindowModule.hpp"
 
 std::unordered_map<char, std::pair<SDL_Color, float>> Museum::colors;
 
@@ -62,9 +63,16 @@ void Museum::initializeRandomTiles() {
 }
 
 void Museum::render(SDL_Renderer* renderer) {
+	if (WindowModule::recalculateTileSize) _recalculateTileSize();
+
 	for (int x = 0; x < cols; ++x) {
 		for (int y = 0; y < rows; ++y) {
-			grid[x][y]->currentState->render(renderer, x * tileSize, y * tileSize, tileSize);
+			grid[x][y]->currentState->render(
+					renderer,
+					static_cast<float>(x) * tileSize.x,
+					static_cast<float>(y) * tileSize.y,
+					tileSize
+			);
 		}
 	}
 }
@@ -84,10 +92,24 @@ int Museum::getRows() const { return rows; }
 
 int Museum::getCols() const { return cols; }
 
-void Museum::setRows(int row) { rows = row; }
+void Museum::setRows(int row) {
+	rows = row;
+	_recalculateTileSize();
+}
 
-void Museum::setCols(int col) { cols = col; }
+void Museum::setCols(int col) {
+	cols = col;
+	_recalculateTileSize();
+}
 
 Tile& Museum::getTile(int row, int col) { return *grid[row][col]; }
 
 void Museum::setTiles(std::vector<std::vector<std::unique_ptr<Tile>>>&& tiles) { grid = std::move(tiles); }
+
+void Museum::_recalculateTileSize() {
+	tileSize = glm::vec2{
+			static_cast<float>(WindowModule::width) / static_cast<float>(cols),
+			static_cast<float>(WindowModule::height) / static_cast<float>(rows),
+	};
+	WindowModule::recalculateTileSize = false;
+}

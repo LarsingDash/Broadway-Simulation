@@ -2,6 +2,7 @@
 #define BROADWAY_SIMULATION_TILESTATE_HPP
 
 #include <iostream>
+#include <vec2.hpp>
 #include "SDL_pixels.h"
 #include "SDL_render.h"
 
@@ -20,7 +21,7 @@ class TileState {
 					  << static_cast<int>(config.first.a) << ", Type: " << typeid(*this).name() << std::endl;
 		}
 
-		void render(SDL_Renderer* renderer, int x, int y, int tileSize) const;
+		void render(SDL_Renderer* renderer, float x, float y, glm::vec2 tileSize) const;
 
 		const char letter;
 		const std::pair<SDL_Color, float>& config;

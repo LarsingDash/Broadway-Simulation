@@ -31,7 +31,6 @@ public:
 	void setCols(int cols);
     Tile& getTile(int row, int col);
 	void setTiles(std::vector<std::vector<std::unique_ptr<Tile>>>&& tiles);
-	void setColor(const char& c, const std::pair<SDL_Color, float>&& config);
 	
 	static std::unordered_map<char, std::pair<SDL_Color, float>> colors;
 };

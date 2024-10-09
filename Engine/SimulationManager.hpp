@@ -14,6 +14,7 @@ public:
     ~SimulationManager();
     void run();
 
+    static std::unique_ptr<Museum> museum;
 private:
     void processEvents();
 
@@ -22,8 +23,6 @@ private:
     std::unique_ptr<WindowModule> windowModule;
     std::unique_ptr<RenderingModule> renderingModule;
     std::unique_ptr<InputModule> inputModule;
-
-    std::unique_ptr<Museum> museum;
 };
 
 #endif /* SIMULATION_MANAGER_HPP */

@@ -5,31 +5,28 @@
 #ifndef BROADWAY_SIMULATION_MUSEUMBUILDER_HPP
 #define BROADWAY_SIMULATION_MUSEUMBUILDER_HPP
 
-#include "../Tiles/Museum.hpp"
+#include "../SimulationManager.hpp"
 #include "vec2.hpp"
 
 class MuseumBuilder {
 	public:
-		MuseumBuilder();
+		MuseumBuilder(int r, int c);
 		void withAutoNeighbors();
 
-		void setRows(int r);
-		void setCols(int c);
-
-		template<class TileState>
-		void addTile(const glm::ivec2& pos) {
-			tiles[pos.x][pos.y] = _builderTile{std::make_unique<TileState>(), {}};
-		}
-
+		void addTile(const glm::ivec2& pos, char c);
 		void addNeighbors(glm::ivec2 tile, const std::vector<glm::ivec2>& neighbors);
+		void addColor(char c, const std::pair<SDL_Color, float>&& config);
+
 		void finish() const;
 	private:
 		struct _builderTile {
-			std::unique_ptr<TileState> state;
+			char letter;
 			std::vector<glm::ivec2> neighbors;
 		};
 
-		std::vector<std::vector<_builderTile>> tiles;
+		std::vector<std::vector<std::unique_ptr<_builderTile>>> builderTiles;
+		std::unordered_map<char, std::pair<SDL_Color, float>> colors;
+
 		bool autoNeighbors;
 		int rows = 0, cols = 0;
 };

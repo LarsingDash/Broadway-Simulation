@@ -12,21 +12,24 @@ Museum::Museum(int rows, int cols, int tileSize)
 		grid[i] = std::vector<std::unique_ptr<Tile>>(cols);
 
 		for (int j = 0; j < cols; j++) {
-			//Initialize default tiles	
+			//Initialize default builderTiles	
 			(grid[i][j] = std::make_unique<Tile>())->setState<White>();
 		}
 	}
+	
+	//Add default color for blank (white) tiles
+	Museum::colors['W'] = {SDL_Color{255, 255, 255}, 1};
 
-	initializeRandomTiles();
+//	initializeRandomTiles();
 }
 
 void Museum::initializeRandomTiles() {
 	//Initialize Colors
-	setColor('R', {SDL_Color{255, 0, 0}, 1});
-	setColor('B', {SDL_Color{0, 0, 255}, 1});
-	setColor('Y', {SDL_Color{255, 255, 0}, 1});
-	setColor('G', {SDL_Color{150, 150, 150}, 1});
-	setColor('W', {SDL_Color{255, 255, 255}, 1});
+	Museum::colors['R'] = {SDL_Color{255, 0, 0}, 1};
+	Museum::colors['B'] = {SDL_Color{0, 0, 255}, 1};
+	Museum::colors['Y'] = {SDL_Color{255, 255, 0}, 1};
+	Museum::colors['G'] = {SDL_Color{150, 150, 150}, 1};
+	Museum::colors['W'] = {SDL_Color{255, 255, 255}, 1};
 
 	std::random_device rd;
 	std::mt19937 eng(rd());
@@ -88,5 +91,3 @@ void Museum::setCols(int col) { cols = col; }
 Tile& Museum::getTile(int row, int col) { return *grid[row][col]; }
 
 void Museum::setTiles(std::vector<std::vector<std::unique_ptr<Tile>>>&& tiles) { grid = std::move(tiles); }
-
-void Museum::setColor(const char& c, const std::pair<SDL_Color, float>&& config) { Museum::colors[c] = config; }

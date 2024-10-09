@@ -13,22 +13,25 @@ class MuseumBuilder {
 		MuseumBuilder();
 		void withAutoNeighbors();
 
-		template<class T>
-		void addTile(const glm::vec2&& pos) {
-			
+		void setRows(int r);
+		void setCols(int c);
+
+		template<class TileState>
+		void addTile(const glm::ivec2& pos) {
+			tiles[pos.x][pos.y] = _builderTile{std::make_unique<TileState>(), {}};
 		}
 
-		void addNeighbors(glm::vec2 tile, const std::vector<glm::vec2>& neighbors);
-		void finish();
+		void addNeighbors(glm::ivec2 tile, const std::vector<glm::ivec2>& neighbors);
+		void finish() const;
 	private:
 		struct _builderTile {
-			const glm::vec2 pos;
-			const TileState& state;
+			std::unique_ptr<TileState> state;
+			std::vector<glm::ivec2> neighbors;
 		};
 
 		std::vector<std::vector<_builderTile>> tiles;
 		bool autoNeighbors;
+		int rows = 0, cols = 0;
 };
-
 
 #endif //BROADWAY_SIMULATION_MUSEUMBUILDER_HPP

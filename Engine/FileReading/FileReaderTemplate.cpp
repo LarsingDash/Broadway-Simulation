@@ -36,7 +36,7 @@ void FileReaderTemplate::readFileTemplate(const std::string& pathOrURL, SourceTy
 		else if (source->extension == "txt") mapStrategy = std::make_unique<TxtMapStrategy>();
 		
 		//Parse Source to Map
-		if (mapStrategy) mapStrategy->parseMap(*source);
+		if (mapStrategy) mapStrategy->parseMap(source->data);
 		else std::cout << "No Map Strategy Found" << std::endl;;
 	} else {
 		//Decide Artist Strategy

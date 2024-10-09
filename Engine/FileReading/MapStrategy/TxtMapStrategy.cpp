@@ -13,32 +13,39 @@ void TxtMapStrategy::parseMap(const std::vector<std::string>& data) {
 	//Blank	-	end of letter definitions
 	//...	-	rows of the grid
 
-	//Rows - Cols
-	std::string rowsString, colsString;
-	bool toCols = false;
-
-	//Go through data[0] and place all numbers in rowsString or colsString
-	for (const char& c: data[0]) {
-		if (isdigit(c)) {
-			if (toCols) colsString += c;
-			else rowsString += c;
-		} else if (c == ',') toCols = true;
-	}
-
-	//Strings to ints
 	try {
+		//Rows - Cols
+		std::string rowsString, colsString;
+		_readGridSize(data[0], rowsString, colsString);
+		
 		int rows = std::stoi(rowsString);
 		int cols = std::stoi(colsString);
 
+		//Init builder
 		auto builder = std::make_unique<MuseumBuilder>(rows, cols);
 
 		builder->addTile({10, 10}, 'R');
+		builder->addTile({11, 10}, 'B');
+		builder->addTile({12, 10}, 'Y');
+		builder->addTile({13, 10}, 'G');
 		builder->addColor('R', {SDL_Color{255, 0, 0}, 1});
-		
+
 		//Finish builder
 		builder->finish();
 	} catch (const std::invalid_argument& e) {
 		std::cerr << "Cols - Rows string to int:" << e.what() << std::endl;
 		return;
+	}
+}
+
+void TxtMapStrategy::_readGridSize(const std::string& line, std::string& rows, std::string& cols) {
+	bool toCols = false;
+
+	//Go through line and place all numbers in rows or cols
+	for (const char& c: line) {
+		if (isdigit(c)) {
+			if (toCols) cols += c;
+			else rows += c;
+		} else if (c == ',') toCols = true;
 	}
 }

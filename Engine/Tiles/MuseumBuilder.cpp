@@ -37,18 +37,17 @@ void MuseumBuilder::finish() const {
 
 	//Initialize rows
 	auto tiles = std::vector<std::vector<std::unique_ptr<Tile>>>(rows);
-
-	for (int x = 0; x < rows; x++) {
+	for (int x = 0; x < cols; x++) {
 		//Initialize columns
 		tiles[x] = std::vector<std::unique_ptr<Tile>>(cols);
 
-		for (int y = 0; y < cols; y++) {
+		for (int y = 0; y < rows; y++) {
 			//When there is no tile, fill the blank space with white
 			if (builderTiles[x][y] == nullptr) {
 				(tiles[x][y] = std::make_unique<Tile>())->setState<White>();
 				continue;
 			}
-			
+
 			//Get letter
 			const char letter = builderTiles[x][y]->letter;
 
@@ -78,10 +77,10 @@ void MuseumBuilder::finish() const {
 	museum.setCols(cols);
 
 	//Set colors
-	for (auto& [c, value] : colors) {
+	for (auto& [c, value]: colors) {
 		Museum::colors[c] = {value.first, value.second};
 	}
-	
+
 	//Set new tiles
 	museum.setTiles(std::move(tiles));
 }

@@ -23,7 +23,7 @@ class MuseumBuilder {
 			char letter;
 			std::vector<glm::ivec2> neighbors;
 		};
-
+		
 		std::vector<std::vector<std::unique_ptr<_builderTile>>> builderTiles;
 		std::unordered_map<char, std::pair<SDL_Color, float>> colors;
 

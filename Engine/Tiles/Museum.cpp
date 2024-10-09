@@ -16,7 +16,7 @@ Museum::Museum(int rows, int cols, int tileSize)
 			(grid[i][j] = std::make_unique<Tile>())->setState<White>();
 		}
 	}
-	
+
 	//Add default color for blank (white) tiles
 	Museum::colors['W'] = {SDL_Color{255, 255, 255}, 1};
 
@@ -62,9 +62,9 @@ void Museum::initializeRandomTiles() {
 }
 
 void Museum::render(SDL_Renderer* renderer) {
-	for (int i = 0; i < rows; ++i) {
-		for (int j = 0; j < cols; ++j) {
-			grid[i][j]->currentState->render(renderer, j * tileSize, i * tileSize, tileSize);
+	for (int x = 0; x < cols; ++x) {
+		for (int y = 0; y < rows; ++y) {
+			grid[x][y]->currentState->render(renderer, x * tileSize, y * tileSize, tileSize);
 		}
 	}
 }

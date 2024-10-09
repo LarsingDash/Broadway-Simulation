@@ -12,7 +12,7 @@ SimulationManager::SimulationManager() : shouldQuit(false) {
     inputModule = std::make_unique<InputModule>();
 
 
-    museum->setNeighbors();
+//    museum->setNeighbors();
 }
 
 SimulationManager::~SimulationManager() {

@@ -5,7 +5,7 @@
 #ifndef BROADWAY_SIMULATION_WHITE_HPP
 #define BROADWAY_SIMULATION_WHITE_HPP
 
-#include "../TileState.hpp"
+#include "TileState.hpp"
 
 class White : public TileState {
 	public:

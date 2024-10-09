@@ -4,7 +4,7 @@
 #include <vector>
 #include <random>
 #include "SDL_render.h"
-#include "TileState.hpp"
+#include "TileStates/TileState.hpp"
 #include "Tile.hpp"
 #include "TileStates/White.hpp"
 #include "TileStates/Blue.hpp"

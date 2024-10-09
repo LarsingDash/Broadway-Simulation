@@ -25,7 +25,7 @@ add_executable(${PROJECT_NAME} main.cpp
         Engine/Modules/InputModule.hpp
         Engine/SimulationManager.cpp
         Engine/SimulationManager.hpp
-        Engine/Tiles/TileState.hpp
+        Engine/Tiles/TileStates/TileState.hpp
         Engine/Tiles/TileStates/Red.cpp
         Engine/Tiles/TileStates/Red.hpp
         Engine/Tiles/TileStates/Yellow.cpp

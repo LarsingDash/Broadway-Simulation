@@ -36,7 +36,7 @@ void SimulationManager::processEvents() {
             int tileY = y / 20;
 
             if (tileX >= 0 && tileX < museum->getCols() && tileY >= 0 && tileY < museum->getRows()) {
-                Tile& clickedTile = museum->getTile(tileY, tileX);
+                Tile& clickedTile = museum->getTile(tileX, tileY);
                 clickedTile.currentState->logTileData();
                 clickedTile.currentState->handleInteraction();
             }

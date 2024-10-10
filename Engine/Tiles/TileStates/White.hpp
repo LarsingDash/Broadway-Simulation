@@ -6,11 +6,11 @@
 #define BROADWAY_SIMULATION_WHITE_HPP
 
 #include "TileState.hpp"
-
+class Tile;
 class White : public TileState {
 	public:
 		White(): TileState('W') {}
-		void handleInteraction() override;
+    void handleInteraction(Tile* tile, bool mouseClick) override;
 };
 
 

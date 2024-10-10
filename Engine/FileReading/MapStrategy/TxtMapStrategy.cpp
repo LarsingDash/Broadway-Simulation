@@ -37,12 +37,12 @@ void TxtMapStrategy::parseMap(const std::vector<std::string>& data) {
 
 		int tileLineI = blankLineI + 1; //Increment in further to get to the start of the tiles
 
-		//Read tile lines
-		size_t size = data.size();
-		while (tileLineI < size && !data[tileLineI].empty()) {
+		//Continue reading file for tiles till the amount of rows specified or an empty line (end of file) is reached
+		while (tileLineI <= rows + blankLineI && !data[tileLineI].empty()) {
 			_readTile(*builder, data[tileLineI], tileLineI - blankLineI - 1, cols);
 			tileLineI++;
 		}
+
 		//Finish builder
 		builder->finish();
 	} catch (const std::invalid_argument& e) {
@@ -97,15 +97,14 @@ void TxtMapStrategy::_readColor(MuseumBuilder& builder, const std::string& line)
 }
 
 void TxtMapStrategy::_readTile(MuseumBuilder& builder, const std::string& line, int currentRowI, int cols) {
-	//Format check
-	if (cols != line.size()) {
-		std::cerr << "Invalid tile line format in _readTile()" << std::endl;
-		return;
-	}
+	//Choose the smallest between cols or length of the line to prevent crashing when they don't match
+	int size = static_cast<int>(line.size());
+	int amount = cols < size ? cols : size;
 
-	for (int i = 0; i < line.size(); i++) {
+	//Read every character in the line (till 'amount') and make the corresponding tile
+	for (int i = 0; i < amount; i++) {
 		char letter = static_cast<char>(toupper(line[i]));
-		
+
 		switch (letter) {
 			default: //'_' and unrecognised letters are set as White (blank)
 				builder.addTile(glm::vec2(i, currentRowI), 'W');

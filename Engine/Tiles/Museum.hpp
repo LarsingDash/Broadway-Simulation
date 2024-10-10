@@ -14,11 +14,9 @@
 
 class Museum {
 	public:
-		Museum(int rows, int cols, int tileSize);
+		Museum();
 
-		void initializeRandomTiles();
 		void render(SDL_Renderer* renderer);
-		void setNeighbors();
 		[[nodiscard]] int getRows() const;
 		[[nodiscard]] int getCols() const;
 		[[nodiscard]] glm::vec2 getTileSize() const;
@@ -30,7 +28,7 @@ class Museum {
 		static std::unordered_map<char, std::pair<SDL_Color, float>> colors;
 	private:
 		void _recalculateTileSize();
-		
+
 		std::vector<std::vector<std::unique_ptr<Tile>>> grid;
 		int rows, cols;
 		glm::vec2 tileSize;

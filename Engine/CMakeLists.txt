@@ -5,3 +5,4 @@
 add_subdirectory(FileReading)
 add_subdirectory(Modules)
 add_subdirectory(Tiles)
+add_subdirectory(CommandHandling)

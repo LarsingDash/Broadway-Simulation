@@ -44,7 +44,7 @@ void MuseumBuilder::finish() const {
 		for (int x = 0; x < cols; x++) {
 			//When there is no tile, fill the blank space with white
 			if (builderTiles[y][x] == nullptr) {
-				(tiles[y][x] = std::make_unique<Tile>())->setState<White>();
+				(tiles[y][x] = std::make_unique<Tile>(x, y))->setState<White>();
 				continue;
 			}
 
@@ -54,20 +54,32 @@ void MuseumBuilder::finish() const {
 			//Initialize tile	
 			switch (letter) {
 				default:
-					(tiles[y][x] = std::make_unique<Tile>())->setState<White>();
+					(tiles[y][x] = std::make_unique<Tile>(x, y))->setState<White>();
 					break;
 				case 'R':
-					(tiles[y][x] = std::make_unique<Tile>())->setState<Red>();
+					(tiles[y][x] = std::make_unique<Tile>(x, y))->setState<Red>();
 					break;
 				case 'B':
-					(tiles[y][x] = std::make_unique<Tile>())->setState<Blue>();
+					(tiles[y][x] = std::make_unique<Tile>(x, y))->setState<Blue>();
 					break;
 				case 'Y':
-					(tiles[y][x] = std::make_unique<Tile>())->setState<Yellow>();
+					(tiles[y][x] = std::make_unique<Tile>(x, y))->setState<Yellow>();
 					break;
 				case 'G':
-					(tiles[y][x] = std::make_unique<Tile>())->setState<Grey>();
+					(tiles[y][x] = std::make_unique<Tile>(x, y))->setState<Grey>();
 					break;
+			}
+		}
+	}
+
+	//Auto Neighbors
+	if (autoNeighbors) {
+		for (int y = 0; y < rows; y++) {
+			for (int x = 0; x < cols; x++) {
+				if (y > 0) _checkAndAddNeighbor(*tiles[y][x], *tiles[y - 1][x]);
+				if (y < rows - 1) _checkAndAddNeighbor(*tiles[y][x], *tiles[y + 1][x]);
+				if (x > 0) _checkAndAddNeighbor(*tiles[y][x], *tiles[y][x - 1]);
+				if (x < cols - 1) _checkAndAddNeighbor(*tiles[y][x], *tiles[y][x + 1]);
 			}
 		}
 	}
@@ -83,4 +95,9 @@ void MuseumBuilder::finish() const {
 
 	//Set new tiles
 	museum.setTiles(std::move(tiles));
+}
+
+void MuseumBuilder::_checkAndAddNeighbor(Tile& cur, Tile& neighbor) {
+	if (neighbor.currentState->letter == 'W') return;
+	cur.addNeighbor(&neighbor);
 }

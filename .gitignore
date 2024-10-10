@@ -38,6 +38,7 @@
 /libs/curl/
 /libs/glm/
 /libs/SDL2/
+/libs/imgui/
 
 !libs/**/*.a
 !libs/**/*.dll

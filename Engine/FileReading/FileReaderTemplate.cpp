@@ -29,19 +29,20 @@ void FileReaderTemplate::readFileTemplate(const std::string& pathOrURL, SourceTy
 	std::unique_ptr<Source> source = sourceStrategy->fetchSource(pathOrURL);
 	
 	//Execute Map / Artist Strategy to parse Source
+	//Use rfind() as a sort of extension.startsWith()
 	if (fileType == FileType::Map) {
 		//Decide Map Strategy
 		std::unique_ptr<IMapStrategy> mapStrategy = nullptr;
-		if (source->extension == "xml") mapStrategy = std::make_unique<XmlMapStrategy>();
-		else if (source->extension == "txt") mapStrategy = std::make_unique<TxtMapStrategy>();
+		if (source->extension.rfind("xml") == 0) mapStrategy = std::make_unique<XmlMapStrategy>();
+		else if (source->extension.rfind("txt") == 0) mapStrategy = std::make_unique<TxtMapStrategy>();
 		
 		//Parse Source to Map
 		if (mapStrategy) mapStrategy->parseMap(source->data);
-		else std::cout << "No Map Strategy Found" << std::endl;;
+		else std::cout << "No Map Strategy found for extension: " << source->extension << std::endl;;
 	} else {
 		//Decide Artist Strategy
 		std::unique_ptr<IArtistStrategy> artistStrategy;
-		if (source->extension == "csv") artistStrategy = std::make_unique<CsvArtistStrategy>();
+		if (source->extension.rfind("csv") == 0) artistStrategy = std::make_unique<CsvArtistStrategy>();
 		
 		//Parse Source to Artist
 		if (artistStrategy) artistStrategy->parseArtists(*source);

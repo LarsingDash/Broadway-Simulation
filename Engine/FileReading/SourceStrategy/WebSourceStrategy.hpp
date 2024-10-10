@@ -17,6 +17,7 @@ class WebSourceStrategy : public ISourceStrategy {
 		static bool isCurlInit;
 		static bool initCurl();
 		static size_t curlCallback(void* contents, size_t stride, size_t count, std::stringstream* output);
+		static void _trim(std::string& line);
 };
 
 #endif //BROADWAY_SIMULATION_WEBSOURCESTRATEGY_HPP

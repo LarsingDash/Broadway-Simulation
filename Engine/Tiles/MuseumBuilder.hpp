@@ -22,6 +22,8 @@ class MuseumBuilder {
 		struct _builderTile {
 			char letter;
 			std::vector<glm::ivec2> neighbors;
+
+			explicit _builderTile(char c) : letter(c), neighbors{} {}
 		};
 		
 		std::vector<std::vector<std::unique_ptr<_builderTile>>> builderTiles;

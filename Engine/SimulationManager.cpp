@@ -1,7 +1,9 @@
 #include "SimulationManager.hpp"
 #include "FileReading/SourceStrategy/WebSourceStrategy.hpp"
+#include "imgui.h"
+#include "backends/imgui_impl_sdl2.h"
+#include "backends/imgui_impl_sdlrenderer2.h"
 #include <iostream>
-
 std::unique_ptr<Museum> SimulationManager::museum;
 
 SimulationManager::SimulationManager() : shouldQuit(false) {
@@ -56,25 +58,47 @@ void SimulationManager::run() {
 	Uint32 fpsInterval = 1000;
 	Uint32 fps = 0, frameCount = 0;
 
-	while (!shouldQuit) {
-		Uint32 curTicks = SDL_GetTicks();
-		Uint32 delta = curTicks - prevTicks;
-		prevTicks = curTicks;
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGuiIO& io = ImGui::GetIO(); (void)io;
+    ImGui::StyleColorsDark();
 
-		processEvents();
-		renderingModule->clear();
+    ImGui_ImplSDL2_InitForSDLRenderer(windowModule->getWindow(), renderingModule->getRenderer());
+    ImGui_ImplSDLRenderer2_Init(renderingModule->getRenderer());
 
-//		artistManager->update(static_cast<float>(delta) / 1000.f));
-		renderingModule->draw();
 
-		renderingModule->present();
+    while (!shouldQuit) {
+        Uint32 curTicks = SDL_GetTicks();
+        Uint32 delta = curTicks - prevTicks;
+        prevTicks = curTicks;
 
-		frameCount++;
-		fps += delta;
-		if (fps >= fpsInterval) {
-//            std::cout << "FPS: " << frameCount << std::endl;
-			fps = 0;
-			frameCount = 0;
-		}
-	}
+        processEvents();
+
+        ImGui_ImplSDL2_NewFrame();
+        ImGui_ImplSDLRenderer2_NewFrame();
+        ImGui::NewFrame();
+
+        ImGui::Begin("Test Venster");
+        ImGui::Text("Yello!");
+        ImGui::End();
+
+        renderingModule->clear();
+
+        renderingModule->draw();
+
+        ImGui::Render();
+        ImGui_ImplSDLRenderer2_RenderDrawData(ImGui::GetDrawData(), renderingModule->getRenderer());
+
+        renderingModule->present();
+
+        frameCount++;
+        fps += delta;
+        if (fps >= fpsInterval) {
+            fps = 0;
+            frameCount = 0;
+        }
+    }
+    ImGui_ImplSDLRenderer2_Shutdown();
+    ImGui_ImplSDL2_Shutdown();
+    ImGui::DestroyContext();
 }

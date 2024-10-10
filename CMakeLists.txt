@@ -15,10 +15,27 @@ include_directories("${CMAKE_MODULE_PATH}/glm")
 set(CURL_PATH "${CMAKE_MODULE_PATH}/curl/lib/")
 include_directories("${CMAKE_MODULE_PATH}/curl/include")
 
+# ImGui
+set(IMGUI_PATH "${CMAKE_MODULE_PATH}/imgui")
+include_directories("${IMGUI_PATH}")
+
 #Main
-add_executable(${PROJECT_NAME} main.cpp)
+add_executable(${PROJECT_NAME} main.cpp
+        Engine/CommandHandling/Command.hpp)
 
 add_subdirectory(Engine)
+
+
+set(IMGUI_SOURCES
+        ${IMGUI_PATH}/imgui.cpp
+        ${IMGUI_PATH}/imgui_draw.cpp
+        ${IMGUI_PATH}/imgui_tables.cpp
+        ${IMGUI_PATH}/imgui_widgets.cpp
+        ${IMGUI_PATH}/backends/imgui_impl_sdl2.cpp
+        ${IMGUI_PATH}/backends/imgui_impl_sdlrenderer2.cpp
+)
+target_sources(${PROJECT_NAME} PRIVATE ${IMGUI_SOURCES})
+
 
 target_link_libraries(${PROJECT_NAME}
         mingw32

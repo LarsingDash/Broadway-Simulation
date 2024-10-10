@@ -45,8 +45,8 @@ void SimulationManager::processEvents() {
 			if (tileX >= 0 && tileX < museum->getCols() && tileY >= 0 && tileY < museum->getRows()) {
 				Tile& clickedTile = museum->getTile(tileX, tileY);
 				clickedTile.currentState->logTileData();
-				clickedTile.currentState->handleInteraction();
-			}
+                clickedTile.currentState->handleInteraction(&clickedTile, true);
+            }
 
 			std::cout << "Clicked tile at: " << tileX << " - " << tileY << std::endl;
 		}

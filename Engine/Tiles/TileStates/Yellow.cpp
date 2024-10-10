@@ -4,6 +4,6 @@
 
 #include "Yellow.hpp"
 
-void Yellow::handleInteraction() {
+void Yellow::handleInteraction(Tile* tile, bool mouseClick) {
 
 }

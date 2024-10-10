@@ -4,6 +4,6 @@
 
 #include "Grey.hpp"
 
-void Grey::handleInteraction() {
+void Grey::handleInteraction(Tile* tile, bool mouseClick) {
 
 }

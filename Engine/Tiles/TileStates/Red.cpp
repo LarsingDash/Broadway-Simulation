@@ -3,7 +3,7 @@
 //
 
 #include "Red.hpp"
+#include "Blue.hpp"
 
-void Red::handleInteraction() {
-
+void Red::handleInteraction(Tile* tile, bool mouseClick) {
 }

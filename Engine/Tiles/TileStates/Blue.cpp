@@ -4,6 +4,6 @@
 
 #include "Blue.hpp"
 
-void Blue::handleInteraction() {
+void Blue::handleInteraction(Tile* tile, bool mouseClick) {
 
 }

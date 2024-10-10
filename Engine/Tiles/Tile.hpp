@@ -13,7 +13,7 @@ class Tile {
 public:
     std::unique_ptr<TileState> currentState;
     std::vector<Tile*> neighbors;
-
+    int interactionCount;
     Tile() : currentState{nullptr} {}
 
     template<class T>

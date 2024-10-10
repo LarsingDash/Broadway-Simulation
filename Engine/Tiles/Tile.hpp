@@ -12,16 +12,21 @@
 class Tile {
 	public:
 		std::unique_ptr<TileState> currentState;
-		std::vector<Tile*> neighbors;
 
-		Tile() : currentState{nullptr} {};
+		explicit Tile(const glm::ivec2&& pos) : currentState{nullptr}, pos{pos} {};
+		Tile(int x, int y) : currentState{nullptr}, pos{x, y} {};
 
 		template<class T>
 		void setState() {
 			currentState = std::make_unique<T>();
 		}
+
+		void logTileData() const;
 		
 		void addNeighbor(Tile* neighbor);
+	private:
+		std::vector<Tile*> neighbors;
+		glm::ivec2 pos;
 };
 
 

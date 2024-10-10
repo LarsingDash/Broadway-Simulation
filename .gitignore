@@ -35,7 +35,9 @@
 /cmake-build-debug
 /cmake-build-release
 
+/libs/curl/
+/libs/glm/
+/libs/SDL2/
+
 !libs/**/*.a
 !libs/**/*.dll
-
-/libs/glm

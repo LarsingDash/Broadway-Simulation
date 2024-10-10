@@ -12,7 +12,7 @@ public:
     SimulationManager();
     ~SimulationManager();
     void run();
-
+    void interactTileAtMouse();
     static std::unique_ptr<Museum> museum;
 private:
     void processEvents();

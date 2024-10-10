@@ -5,9 +5,12 @@
 #ifndef BROADWAY_SIMULATION_RENDERARTISTSCOMMAND_HPP
 #define BROADWAY_SIMULATION_RENDERARTISTSCOMMAND_HPP
 
-
-class RenderArtistsCommand {
-
+#include <iostream>
+#include "../Command.hpp"
+class RenderArtistsCommand :public Command{
+    void execute() override{
+        std::cout << "RenderArtistsCommand exectued" << std::endl;
+    }
 };
 
 

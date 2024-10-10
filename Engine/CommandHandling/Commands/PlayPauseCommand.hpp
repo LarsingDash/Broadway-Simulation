@@ -5,9 +5,12 @@
 #ifndef BROADWAY_SIMULATION_PLAYPAUSECOMMAND_HPP
 #define BROADWAY_SIMULATION_PLAYPAUSECOMMAND_HPP
 
-
-class PlayPauseCommand {
-
+#include <iostream>
+#include "../Command.hpp"
+class PlayPauseCommand :public Command{
+    void execute() override{
+        std::cout << "PlayPauseCommand exectued" << std::endl;
+    }
 };
 
 

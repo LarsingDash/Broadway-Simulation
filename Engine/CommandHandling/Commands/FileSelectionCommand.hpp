@@ -5,9 +5,12 @@
 #ifndef BROADWAY_SIMULATION_FILESELECTIONCOMMAND_HPP
 #define BROADWAY_SIMULATION_FILESELECTIONCOMMAND_HPP
 
-
-class FileSelectionCommand {
-
+#include <iostream>
+#include "../Command.hpp"
+class FileSelectionCommand :public Command{
+    void execute() override{
+        std::cout << "FileSelectionCommand exectued" << std::endl;
+    }
 };
 
 

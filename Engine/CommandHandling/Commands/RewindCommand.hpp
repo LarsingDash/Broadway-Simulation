@@ -5,9 +5,12 @@
 #ifndef BROADWAY_SIMULATION_REWINDCOMMAND_HPP
 #define BROADWAY_SIMULATION_REWINDCOMMAND_HPP
 
-
-class RewindCommand {
-
+#include <iostream>
+#include "../Command.hpp"
+class RewindCommand :public Command{
+    void execute() override{
+        std::cout << "RewindCommand exectued" << std::endl;
+    }
 };
 
 

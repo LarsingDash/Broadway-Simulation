@@ -5,7 +5,6 @@
 #include "Modules/RenderingModule.hpp"
 #include "Modules/InputModule.hpp"
 #include "Tiles/Museum.hpp"
-
 #include <memory>
 
 class SimulationManager {

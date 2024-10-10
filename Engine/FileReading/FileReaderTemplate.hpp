@@ -5,9 +5,8 @@
 #ifndef BROADWAY_SIMULATION_FILEREADERTEMPLATE_HPP
 #define BROADWAY_SIMULATION_FILEREADERTEMPLATE_HPP
 
-#include <iostream>
 #include "SourceStrategy/ISourceStrategy.hpp"
-#include "TileStrategy/TileStrategy.hpp"
+#include <iostream>
 
 enum FileType {
 	Map,

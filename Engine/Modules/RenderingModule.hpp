@@ -1,8 +1,8 @@
 #ifndef RENDERING_MODULE_HPP
 #define RENDERING_MODULE_HPP
 
-#include <SDL.h>
 #include "../Tiles/Museum.hpp"
+#include <SDL.h>
 
 class RenderingModule {
 public:

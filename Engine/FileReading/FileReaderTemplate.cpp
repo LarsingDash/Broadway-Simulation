@@ -2,15 +2,15 @@
 // Created by larsv on 03/10/2024.
 //
 
-#include <memory>
 #include "FileReaderTemplate.hpp"
 #include "SourceStrategy/WebSourceStrategy.hpp"
 #include "SourceStrategy/FileSourceStrategy.hpp"
-#include "ArtistStrategy/IArtistStrategy.hpp"
 #include "MapStrategy/IMapStrategy.hpp"
 #include "MapStrategy/XmlMapStrategy.hpp"
 #include "MapStrategy/TxtMapStrategy.hpp"
+#include "ArtistStrategy/IArtistStrategy.hpp"
 #include "ArtistStrategy/CsvArtistStrategy.hpp"
+#include <memory>
 
 void FileReaderTemplate::readFileTemplate(const std::string& pathOrURL, SourceType sourceType, FileType fileType) {
 	//Decide Source Strategy

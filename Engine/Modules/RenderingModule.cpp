@@ -1,14 +1,7 @@
 #define STB_IMAGE_IMPLEMENTATION
 
 #include "RenderingModule.hpp"
-#include "../Tiles/TileStates/Red.hpp"
-#include "../Tiles/TileStates/Blue.hpp"
-#include "../Tiles/TileStates/Yellow.hpp"
-#include "../Tiles/TileStates/Grey.hpp"
-#include "../Tiles/TileStates/White.hpp"
 #include <iostream>
-#include <vector>
-#include <memory>
 
 RenderingModule::RenderingModule(SDL_Window* window, Museum* museum) : museum(museum) {
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_PRESENTVSYNC);

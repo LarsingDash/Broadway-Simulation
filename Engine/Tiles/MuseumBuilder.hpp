@@ -6,7 +6,7 @@
 #define BROADWAY_SIMULATION_MUSEUMBUILDER_HPP
 
 #include "../SimulationManager.hpp"
-#include "vec2.hpp"
+#include <vec2.hpp>
 
 class MuseumBuilder {
 	public:

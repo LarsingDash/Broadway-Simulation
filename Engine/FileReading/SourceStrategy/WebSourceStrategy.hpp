@@ -6,7 +6,7 @@
 #define BROADWAY_SIMULATION_WEBSOURCESTRATEGY_HPP
 
 #include "ISourceStrategy.hpp"
-#include "curl/curl.h"
+#include <curl/curl.h>
 
 class WebSourceStrategy : public ISourceStrategy {
 	public:

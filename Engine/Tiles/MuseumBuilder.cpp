@@ -18,7 +18,7 @@ MuseumBuilder::MuseumBuilder(int r, int c) : rows{r}, cols{c}, autoNeighbors(fal
 	}
 }
 
-void MuseumBuilder::withAutoNeighbors() { autoNeighbors = true; }
+void MuseumBuilder::withAutoNeighbors() { autoNeighbors = true; } //todo 2
 
 void MuseumBuilder::addTile(const glm::ivec2& pos, char c) {
 	builderTiles[pos.x][pos.y] = std::make_unique<_builderTile>(_builderTile{c, {}});

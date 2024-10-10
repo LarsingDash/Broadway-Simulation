@@ -1,10 +1,10 @@
 ﻿#ifndef BROADWAY_SIMULATION_TILESTATE_HPP
 #define BROADWAY_SIMULATION_TILESTATE_HPP
 
-#include <iostream>
-#include <vec2.hpp>
 #include "SDL_pixels.h"
 #include "SDL_render.h"
+#include <iostream>
+#include <vec2.hpp>
 
 class TileState {
 	public:

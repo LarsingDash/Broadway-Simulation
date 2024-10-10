@@ -1,9 +1,6 @@
 #ifndef BROADWAY_SIMULATION_MUSEUM_HPP
 #define BROADWAY_SIMULATION_MUSEUM_HPP
 
-#include <vector>
-#include <unordered_map>
-#include <random>
 #include "SDL_render.h"
 #include "Tile.hpp"
 #include "TileStates/White.hpp"
@@ -11,6 +8,9 @@
 #include "TileStates/Grey.hpp"
 #include "TileStates/Red.hpp"
 #include "TileStates/Yellow.hpp"
+#include <vector>
+#include <unordered_map>
+#include <random>
 
 class Museum {
 	public:

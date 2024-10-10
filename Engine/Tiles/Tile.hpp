@@ -5,9 +5,9 @@
 #ifndef BROADWAY_SIMULATION_TILE_HPP
 #define BROADWAY_SIMULATION_TILE_HPP
 
+#include "TileStates/TileState.hpp"
 #include <vector>
 #include <memory>
-#include "TileStates/TileState.hpp"
 
 class Tile {
 	public:

@@ -33,7 +33,7 @@ void SimulationManager::processEvents() {
 				break;
 			case SDL_WINDOWEVENT:
 				if (event.window.event == SDL_WINDOWEVENT_RESIZED)
-					windowModule->handleResize(event.window);
+					WindowModule::handleResize(event.window);
 		}
 
 		if (event.type == SDL_MOUSEBUTTONDOWN) {

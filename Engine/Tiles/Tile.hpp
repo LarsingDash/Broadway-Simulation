@@ -26,7 +26,9 @@ class Tile {
 
         void handleInteraction(bool mouseClick);
 		void addNeighbor(Tile* neighbor);
-	private:
+        const std::vector<Tile*>& getNeighbors() const { return neighbors; }
+
+private:
 		std::vector<Tile*> neighbors;
 		glm::ivec2 pos;
 

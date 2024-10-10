@@ -21,6 +21,7 @@ class Museum {
 		void setNeighbors();
 		[[nodiscard]] int getRows() const;
 		[[nodiscard]] int getCols() const;
+		[[nodiscard]] glm::vec2 getTileSize() const;
 		void setRows(int rows);
 		void setCols(int cols);
 		Tile& getTile(int row, int col);

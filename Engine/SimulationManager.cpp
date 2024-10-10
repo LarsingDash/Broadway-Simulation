@@ -39,9 +39,11 @@ void SimulationManager::processEvents() {
 		if (event.type == SDL_MOUSEBUTTONDOWN) {
 			int x, y;
 			SDL_GetMouseState(&x, &y);
-
-			int tileX = x / 20;
-			int tileY = y / 20;
+			
+			glm::vec2 tileSize = museum->getTileSize();
+			
+			int tileX = static_cast<int>(static_cast<float>(x) / tileSize.x);
+			int tileY = static_cast<int>(static_cast<float>(y) / tileSize.y);
 
 			if (tileX >= 0 && tileX < museum->getCols() && tileY >= 0 && tileY < museum->getRows()) {
 				Tile& clickedTile = museum->getTile(tileX, tileY);

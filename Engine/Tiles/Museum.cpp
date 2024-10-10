@@ -92,6 +92,8 @@ int Museum::getRows() const { return rows; }
 
 int Museum::getCols() const { return cols; }
 
+glm::vec2 Museum::getTileSize() const { return tileSize; }
+
 void Museum::setRows(int row) {
 	rows = row;
 	_recalculateTileSize();

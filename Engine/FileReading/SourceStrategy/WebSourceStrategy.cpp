@@ -5,6 +5,7 @@
 #include "WebSourceStrategy.hpp"
 #include <sstream>
 #include <iostream>
+#include <algorithm>
 
 //Static members
 CURL* WebSourceStrategy::curl = nullptr;
@@ -46,8 +47,10 @@ std::unique_ptr<Source> WebSourceStrategy::fetchSource(const std::string& pathOr
 	//Break output into lines and stream to Source->data
 	std::string line;
 	std::istringstream outputStream(output.str());
-	while (std::getline(outputStream, line))
+	while (std::getline(outputStream, line)){
+		_trim(line);
 		source->data.push_back(line);
+	}
 
 	//Return
 	return source;
@@ -66,18 +69,18 @@ bool WebSourceStrategy::initCurl() {
 	if (!curl) return false;
 
 	//Settings
-	curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curlCallback);	//Callback
-	curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);				//Allowed to follow redirects (on)
-	curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);				//SSL verify peers (off)
-	curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);				//SSL verify hosts (off)
-	
+	curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curlCallback);    //Callback
+	curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);                //Allowed to follow redirects (on)
+	curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);                //SSL verify peers (off)
+	curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);                //SSL verify hosts (off)
+
 	return true;
 }
 
 size_t WebSourceStrategy::curlCallback(void* contents, size_t stride, size_t count, std::stringstream* output) {
 	//Total size = stride width * count of items
 	size_t totalSize = stride * count;
-	
+
 	//Write everything from contents to output stream
 	output->write(static_cast<const char*>(contents), static_cast<std::streamsize>(totalSize));
 	return totalSize;
@@ -90,4 +93,10 @@ void WebSourceStrategy::cleanup() {
 	//Cleanup
 	curl_easy_cleanup(curl);
 	curl_global_cleanup();
+}
+
+void WebSourceStrategy::_trim(std::string& line) {
+	line.erase(std::remove_if(line.begin(), line.end(), [](char c) {
+		return c == '\r' || c == '\n';
+	}), line.end());
 }

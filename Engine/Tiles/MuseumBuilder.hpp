@@ -14,8 +14,10 @@ class MuseumBuilder {
 		void withAutoNeighbors();
 
 		void addTile(const glm::ivec2& pos, char c);
+		void addNeighbor(glm::ivec2 tile, const glm::ivec2& neighbor);
 		void addNeighbors(glm::ivec2 tile, const std::vector<glm::ivec2>& neighbors);
 		void addColor(char c, const std::pair<SDL_Color, float>&& config);
+		bool hasColor(char c);
 
 		void finish() const;
 	private:
@@ -25,7 +27,9 @@ class MuseumBuilder {
 
 			explicit _builderTile(char c) : letter(c), neighbors{} {}
 		};
-		
+
+		static void _checkAndAddNeighbor(Tile& cur, Tile& neighbor);
+
 		std::vector<std::vector<std::unique_ptr<_builderTile>>> builderTiles;
 		std::unordered_map<char, std::pair<SDL_Color, float>> colors;
 

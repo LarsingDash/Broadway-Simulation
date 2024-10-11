@@ -12,7 +12,7 @@ class TxtMapStrategy : public IMapStrategy {
 	public:
 		void parseMap(const std::vector<std::string>& data) override;
 	private:
-		static void _readGridSize(const std::string& line, std::string& rows, std::string& cols);
+		static void _readGridSize(const std::string& line, int& rows, int& cols);
 		static void _readColor(MuseumBuilder& builder, const std::string& line);
 		static void _readTile(MuseumBuilder& builder, const std::string& line, int currentRowI, int cols);
 };

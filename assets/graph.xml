@@ -8,7 +8,7 @@
         <nodeType tag="Y" red="250" green="201" blue="1" weight="1"/>
         <nodeType tag="B" red="34" green="80" blue="149" weight="4"/>
         <nodeType tag="R" red="221" green="1" blue="0" weight="10"/>
-        <nodeType tag="G" red="245" green="245" blue="245" weight="2"/>
+        <nodeType tag="G" red="205" green="205" blue="205" weight="2"/>
     </nodeTypes>
     <nodes>
         <Y x="1" y="0">

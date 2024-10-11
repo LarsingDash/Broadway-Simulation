@@ -11,6 +11,7 @@
 #include "../CommandHandling/Commands/PlayPauseCommand.hpp"
 #include "../CommandHandling/Commands/MouseInteractionCommand.hpp"
 #include "../CommandHandling/Commands/FastForwardCommand.hpp"
+#include "../CommandHandling/Commands/QuitCommand.hpp"
 
 
 class InputModule {

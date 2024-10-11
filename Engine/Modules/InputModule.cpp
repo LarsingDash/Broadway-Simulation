@@ -1,5 +1,4 @@
 #include "InputModule.hpp"
-#include "../FileReading/FileReaderTemplate.hpp"
 #include <iostream>
 
 InputModule::InputModule() {
@@ -9,6 +8,7 @@ InputModule::InputModule() {
     commands[SDL_SCANCODE_A] = std::make_unique<RenderArtistsCommand>();
     commands[SDL_SCANCODE_LEFT] = std::make_unique<RewindCommand>();
     commands[SDL_SCANCODE_RIGHT] = std::make_unique<FastForwardCommand>();
+    commands[SDL_SCANCODE_ESCAPE] = std::make_unique<QuitCommand>();
 }
 
 void InputModule::handleScancode(SDL_Scancode key, bool& shouldQuit) {

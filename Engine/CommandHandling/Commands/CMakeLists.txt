@@ -5,4 +5,5 @@
         PlayPauseCommand.cpp
         RenderArtistsCommand.cpp
         RewindCommand.cpp
+        QuitCommand.cpp
 )

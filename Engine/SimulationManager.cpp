@@ -19,26 +19,27 @@ SimulationManager::~SimulationManager() {
 }
 
 void SimulationManager::processEvents() {
-	SDL_Event event;
-	while (SDL_PollEvent(&event)) {
-		switch (event.type) {
-			default:
-				break;
-			case SDL_QUIT:
-				shouldQuit = true;
-				break;
-			case SDL_KEYDOWN:
-				inputModule->handleScancode(event.key.keysym.scancode, shouldQuit);
-				break;
-			case SDL_WINDOWEVENT:
-				if (event.window.event == SDL_WINDOWEVENT_RESIZED)
-					WindowModule::handleResize(event.window);
-		}
+    SDL_Event event;
+    while (SDL_PollEvent(&event)) {
+        switch (event.type) {
+            default:
+                break;
+            case SDL_QUIT:
+                shouldQuit = true;
+                break;
+            case SDL_KEYDOWN:
+                inputModule->handleScancode(event.key.keysym.scancode, shouldQuit);
+                break;
+            case SDL_WINDOWEVENT:
+                if (event.window.event == SDL_WINDOWEVENT_RESIZED)
+                    WindowModule::handleResize(event.window);
+                break;
+        }
 
-		if (event.type == SDL_MOUSEBUTTONDOWN) {
+        if (event.type == SDL_MOUSEBUTTONDOWN) {
             interactTileAtMouse();
-		}
-	}
+        }
+    }
 }
 void SimulationManager::interactTileAtMouse() {
     int x, y;

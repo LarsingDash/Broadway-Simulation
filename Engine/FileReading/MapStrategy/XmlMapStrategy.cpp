@@ -7,7 +7,7 @@
 
 //Initialize map of actions
 XmlMapStrategy::XmlMapStrategy() : tagActions{
-		{"canvas",   [this](const std::string& line, bool isEnd) {
+		{"canvas",   [&builder = builder](const std::string& line, bool isEnd) {
 			//Create / Finish builder
 			if (!isEnd) {
 				//Read grid size
@@ -20,7 +20,7 @@ XmlMapStrategy::XmlMapStrategy() : tagActions{
 			} else builder->finish();
 
 		}},
-		{"nodeType", [this](const std::string& line, bool isEnd) {
+		{"nodeType", [&builder = builder](const std::string& line, bool isEnd) {
 			//Add color from format: nodeType tag="W" red="255" green="255" blue="255" weight="1"
 			builder->addColor(
 					XmlMapStrategy::_readChar(line, "tag"),
@@ -34,7 +34,8 @@ XmlMapStrategy::XmlMapStrategy() : tagActions{
 					}
 			);
 		}},
-		{"letter",   [this](const std::string& line, bool isEnd) {
+		{"letter",   [&builder = builder, &currentTile = currentTile]
+							 (const std::string& line, bool isEnd) {
 			//Create / Unbind tile
 			if (!isEnd) {
 				//Bind currently working tile for neighbors
@@ -47,7 +48,8 @@ XmlMapStrategy::XmlMapStrategy() : tagActions{
 				builder->addTile(currentTile, line[0]);
 			}
 		}},
-		{"edge",     [this](const std::string& line, bool isEnd) {
+		{"edge",     [&builder = builder, &currentTile = currentTile]
+							 (const std::string& line, bool isEnd) {
 			builder->addNeighbor(
 					currentTile,
 					glm::ivec2{

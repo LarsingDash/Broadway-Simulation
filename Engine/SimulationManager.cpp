@@ -11,7 +11,7 @@ SimulationManager::SimulationManager() : shouldQuit(false) {
 	SimulationManager::museum = std::make_unique<Museum>();
 
 	renderingModule = std::make_unique<RenderingModule>(windowModule->getWindow(), museum.get());
-	inputModule = std::make_unique<InputModule>();
+	inputModule = std::make_unique<InputModule>(shouldQuit);
 }
 
 SimulationManager::~SimulationManager() {
@@ -28,7 +28,7 @@ void SimulationManager::processEvents() {
                 shouldQuit = true;
                 break;
             case SDL_KEYDOWN:
-                inputModule->handleScancode(event.key.keysym.scancode, shouldQuit);
+                inputModule->handleScancode(event.key.keysym.scancode);
                 break;
             case SDL_WINDOWEVENT:
                 if (event.window.event == SDL_WINDOWEVENT_RESIZED)

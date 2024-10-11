@@ -6,8 +6,16 @@
 #include <iostream>
 #include "../Command.hpp"
 class QuitCommand :public Command{
-    void execute() override{
-        std::cout << "QuitCommand exectued" << std::endl;
+private:
+    bool& shouldQuit;
+
+public:
+    QuitCommand(bool& quitFlag) : shouldQuit(quitFlag) {}
+
+
+    void execute() override {
+        std::cout << "QuitCommand executed, setting shouldQuit to true." << std::endl;
+        shouldQuit = true;
     }
 };
 

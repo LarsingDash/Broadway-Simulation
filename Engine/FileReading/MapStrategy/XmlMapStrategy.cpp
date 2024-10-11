@@ -17,15 +17,11 @@ XmlMapStrategy::XmlMapStrategy() : tagActions{
 				//Open builder if size was parsed
 				if (rows == -1 || cols == -1) return;
 				builder = std::make_unique<MuseumBuilder>(rows, cols);
-			} else {
-				builder->addTile(glm::ivec2{0, 0}, 'R');
-				builder->addTile(glm::ivec2{1, 0}, 'B');
-				builder->addTile(glm::ivec2{2, 0}, 'Y');
-				builder->addTile(glm::ivec2{3, 0}, 'G');
-				builder->finish();
-			}
+			} else builder->finish();
+
 		}},
 		{"nodeType", [this](const std::string& line, bool isEnd) {
+			//Add color from format: nodeType tag="W" red="255" green="255" blue="255" weight="1"
 			builder->addColor(
 					XmlMapStrategy::_readChar(line, "tag"),
 					{
@@ -38,10 +34,28 @@ XmlMapStrategy::XmlMapStrategy() : tagActions{
 					}
 			);
 		}},
-		//nodes
-		//letter
-		//edges
-		//edge
+		{"letter",   [this](const std::string& line, bool isEnd) {
+			//Create / Unbind tile
+			if (!isEnd) {
+				//Bind currently working tile for neighbors
+				currentTile = glm::ivec2{
+						XmlMapStrategy::_readInt(line, "x"),
+						XmlMapStrategy::_readInt(line, "y"),
+				};
+
+				//Create tile
+				builder->addTile(currentTile, line[0]);
+			}
+		}},
+		{"edge",     [this](const std::string& line, bool isEnd) {
+			builder->addNeighbor(
+					currentTile,
+					glm::ivec2{
+							XmlMapStrategy::_readInt(line, "x"),
+							XmlMapStrategy::_readInt(line, "y"),
+					}
+			);
+		}},
 } {}
 
 void XmlMapStrategy::parseMap(const std::vector<std::string>& data) {
@@ -79,7 +93,14 @@ void XmlMapStrategy::_readTag(const std::string& line) {
 	try {
 		tagActions.at(tag)(trimmed, isEnd);
 	} catch (const std::out_of_range& e) {
-		//Don't do anything with the error. The tag can be ignored if it's in the actions map
+		//Check for color letter
+		char first = trimmed[0];
+		if (isalpha(first) && trimmed[1] == ' ' && builder->hasColor(first)) {
+			tagActions.at("letter")(trimmed, isEnd);
+		}
+
+		//If also not a known letter: don't do anything with the error.
+		//The tag can be ignored if it's in the actions map
 	}
 }
 

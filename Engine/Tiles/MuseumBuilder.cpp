@@ -24,12 +24,20 @@ void MuseumBuilder::addTile(const glm::ivec2& pos, char c) {
 	builderTiles[pos.y][pos.x] = std::make_unique<_builderTile>(c);
 }
 
+void MuseumBuilder::addNeighbor(glm::ivec2 tile, const glm::ivec2& neighbor) {
+	builderTiles[tile.y][tile.x]->neighbors.push_back(neighbor);
+}
+
 void MuseumBuilder::addNeighbors(glm::ivec2 tile, const std::vector<glm::ivec2>& neighbors) {
 	builderTiles[tile.y][tile.x]->neighbors = neighbors;
 }
 
 void MuseumBuilder::addColor(const char c, const std::pair<SDL_Color, float>&& config) {
 	colors[c] = config;
+}
+
+bool MuseumBuilder::hasColor(char c) {
+	return colors.find(c) != colors.end();
 }
 
 void MuseumBuilder::finish() const {
@@ -72,14 +80,18 @@ void MuseumBuilder::finish() const {
 		}
 	}
 
-	//Auto Neighbors
-	if (autoNeighbors) {
-		for (int y = 0; y < rows; y++) {
-			for (int x = 0; x < cols; x++) {
+	//Neighbors
+	for (int y = 0; y < rows; y++) {
+		for (int x = 0; x < cols; x++) {
+			if (autoNeighbors) {    //Auto
 				if (y > 0) _checkAndAddNeighbor(*tiles[y][x], *tiles[y - 1][x]);
 				if (y < rows - 1) _checkAndAddNeighbor(*tiles[y][x], *tiles[y + 1][x]);
 				if (x > 0) _checkAndAddNeighbor(*tiles[y][x], *tiles[y][x - 1]);
 				if (x < cols - 1) _checkAndAddNeighbor(*tiles[y][x], *tiles[y][x + 1]);
+			} else if (builderTiles[y][x] != nullptr) {    //Manual
+				for (const auto& neighbor: builderTiles[y][x]->neighbors) {
+					_checkAndAddNeighbor(*tiles[y][x], *tiles[neighbor.y][neighbor.x]);
+				}
 			}
 		}
 	}

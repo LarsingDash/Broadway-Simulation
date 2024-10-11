@@ -16,6 +16,7 @@ class XmlMapStrategy : public IMapStrategy {
 	private:
 		const std::unordered_map<std::string, std::function<void(const std::string& line, bool isEnd)>> tagActions;
 		std::unique_ptr<MuseumBuilder> builder;
+		glm::ivec2 currentTile = glm::ivec2 ();
 		
 		void _readTag(const std::string& line);
 		static void _readGridSize(const std::string& line, int& rows, int& cols);

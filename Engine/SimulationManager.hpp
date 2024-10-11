@@ -3,21 +3,28 @@
 
 #include "Modules/WindowModule.hpp"
 #include "Modules/RenderingModule.hpp"
-#include "Modules/InputModule.hpp"
 #include "Tiles/Museum.hpp"
 #include <memory>
 
+class InputModule;
+
 class SimulationManager {
 public:
-    SimulationManager();
-    ~SimulationManager();
+    static SimulationManager& getInstance();
+
     void run();
     void interactTileAtMouse();
     static std::unique_ptr<Museum> museum;
-private:
-    void processEvents();
 
     bool shouldQuit;
+private:
+    SimulationManager();
+    ~SimulationManager();
+
+    SimulationManager(const SimulationManager&) = delete;
+    SimulationManager& operator=(const SimulationManager&) = delete;
+
+    void processEvents();
 
     std::unique_ptr<WindowModule> windowModule;
     std::unique_ptr<RenderingModule> renderingModule;

@@ -3,21 +3,14 @@
 //
 #ifndef BROADWAY_SIMULATION_QUITCOMMAND_HPP
 #define BROADWAY_SIMULATION_QUITCOMMAND_HPP
-#include <iostream>
+
 #include "../Command.hpp"
-class QuitCommand :public Command{
-private:
-    bool& shouldQuit;
+#include "../../SimulationManager.hpp"
 
+class QuitCommand : public Command {
 public:
-    QuitCommand(bool& quitFlag) : shouldQuit(quitFlag) {}
-
-
-    void execute() override {
-        std::cout << "QuitCommand executed, setting shouldQuit to true." << std::endl;
-        shouldQuit = true;
-    }
+    void execute() override;
 };
 
-
 #endif //BROADWAY_SIMULATION_QUITCOMMAND_HPP
+

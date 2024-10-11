@@ -1,21 +1,29 @@
 #include "SimulationManager.hpp"
+#include "Modules/InputModule.hpp"
 #include "FileReading/SourceStrategy/WebSourceStrategy.hpp"
 #include "imgui.h"
 #include "backends/imgui_impl_sdl2.h"
 #include "backends/imgui_impl_sdlrenderer2.h"
 #include <iostream>
+
 std::unique_ptr<Museum> SimulationManager::museum;
 
-SimulationManager::SimulationManager() : shouldQuit(false) {
-	windowModule = std::make_unique<WindowModule>();
-	SimulationManager::museum = std::make_unique<Museum>();
 
-	renderingModule = std::make_unique<RenderingModule>(windowModule->getWindow(), museum.get());
-	inputModule = std::make_unique<InputModule>(shouldQuit);
+SimulationManager& SimulationManager::getInstance() {
+    static SimulationManager instance;
+    return instance;
+}
+
+SimulationManager::SimulationManager() : shouldQuit(false) {
+    windowModule = std::make_unique<WindowModule>();
+    SimulationManager::museum = std::make_unique<Museum>();
+
+    renderingModule = std::make_unique<RenderingModule>(windowModule->getWindow(), museum.get());
+    inputModule = std::make_unique<InputModule>();
 }
 
 SimulationManager::~SimulationManager() {
-	WebSourceStrategy::cleanup();
+    WebSourceStrategy::cleanup();
 }
 
 void SimulationManager::processEvents() {
@@ -41,6 +49,7 @@ void SimulationManager::processEvents() {
         }
     }
 }
+
 void SimulationManager::interactTileAtMouse() {
     int x, y;
     SDL_GetMouseState(&x, &y);
@@ -56,10 +65,11 @@ void SimulationManager::interactTileAtMouse() {
         clickedTile.currentState->handleInteraction(&clickedTile, true);
     }
 }
+
 void SimulationManager::run() {
-	Uint32 prevTicks = SDL_GetTicks();
-	Uint32 fpsInterval = 1000;
-	Uint32 fps = 0, frameCount = 0;
+    Uint32 prevTicks = SDL_GetTicks();
+    Uint32 fpsInterval = 1000;
+    Uint32 fps = 0, frameCount = 0;
 
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -68,7 +78,6 @@ void SimulationManager::run() {
 
     ImGui_ImplSDL2_InitForSDLRenderer(windowModule->getWindow(), renderingModule->getRenderer());
     ImGui_ImplSDLRenderer2_Init(renderingModule->getRenderer());
-
 
     while (!shouldQuit) {
         Uint32 curTicks = SDL_GetTicks();
@@ -86,7 +95,6 @@ void SimulationManager::run() {
         ImGui::End();
 
         renderingModule->clear();
-
         renderingModule->draw();
 
         ImGui::Render();
@@ -101,6 +109,7 @@ void SimulationManager::run() {
             frameCount = 0;
         }
     }
+
     ImGui_ImplSDLRenderer2_Shutdown();
     ImGui_ImplSDL2_Shutdown();
     ImGui::DestroyContext();

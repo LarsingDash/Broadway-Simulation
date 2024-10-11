@@ -18,7 +18,7 @@ class InputModule {
     std::unordered_map<SDL_Scancode, std::unique_ptr<Command>> commands;
 
 public:
-    InputModule(bool& shouldQuit);
+    InputModule();
     void handleScancode(SDL_Scancode key);
 };
 

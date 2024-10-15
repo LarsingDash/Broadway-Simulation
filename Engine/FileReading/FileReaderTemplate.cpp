@@ -5,12 +5,20 @@
 #include "FileReaderTemplate.hpp"
 #include "SourceStrategy/WebSourceStrategy.hpp"
 #include "SourceStrategy/FileSourceStrategy.hpp"
-#include "MapStrategy/IMapStrategy.hpp"
 #include "MapStrategy/XmlMapStrategy.hpp"
 #include "MapStrategy/TxtMapStrategy.hpp"
-#include "ArtistStrategy/IArtistStrategy.hpp"
 #include "ArtistStrategy/CsvArtistStrategy.hpp"
 #include <memory>
+
+std::vector<std::unique_ptr<IParseStrategy>> FileReaderTemplate::strategies;
+
+void FileReaderTemplate::assignStrategies() {
+	if (!strategies.empty()) return;
+
+	strategies.emplace_back(std::make_unique<TxtMapStrategy>());
+	strategies.emplace_back(std::make_unique<XmlMapStrategy>());
+	strategies.emplace_back(std::make_unique<CsvArtistStrategy>());
+}
 
 void FileReaderTemplate::readFileTemplate(const std::string& pathOrURL, SourceType sourceType, FileType fileType) {
 	//Decide Source Strategy
@@ -24,28 +32,21 @@ void FileReaderTemplate::readFileTemplate(const std::string& pathOrURL, SourceTy
 			sourceStrategy = std::make_unique<WebSourceStrategy>();
 			break;
 	}
-	
+
 	//Get Source
-	std::unique_ptr<Source> source = sourceStrategy->fetchSource(pathOrURL);
-	
-	//Execute Map / Artist Strategy to parse Source
-	//Use rfind() as a sort of extension.startsWith()
-	if (fileType == FileType::Map) {
-		//Decide Map Strategy
-		std::unique_ptr<IMapStrategy> mapStrategy = nullptr;
-		if (source->extension.rfind("xml") == 0) mapStrategy = std::make_unique<XmlMapStrategy>();
-		else if (source->extension.rfind("txt") == 0) mapStrategy = std::make_unique<TxtMapStrategy>();
-		
-		//Parse Source to Map
-		if (mapStrategy) mapStrategy->parseMap(source->data);
-		else std::cout << "No Map Strategy found for extension: " << source->extension << std::endl;;
-	} else {
-		//Decide Artist Strategy
-		std::unique_ptr<IArtistStrategy> artistStrategy;
-		if (source->extension.rfind("csv") == 0) artistStrategy = std::make_unique<CsvArtistStrategy>();
-		
-		//Parse Source to Artist
-		if (artistStrategy) artistStrategy->parseArtists(*source);
-		else std::cout << "No Artist Strategy Found" << std::endl;;
+	std::vector<std::string> data;
+	sourceStrategy->fetchSource(pathOrURL, data);
+
+	//Find Strategy that's compatible with the data and excecute it
+	bool foundCompatibleStrategy = false;
+	for (const auto& strategy: FileReaderTemplate::strategies) {
+		if (strategy->checkCompatibility(data)) {
+			strategy->parseStrategy(data);
+			foundCompatibleStrategy = true;
+			break;
+		}
 	}
+
+	if (!foundCompatibleStrategy)
+		std::cerr << "Data was not compatible with any registered Strategy" << std::endl;
 }

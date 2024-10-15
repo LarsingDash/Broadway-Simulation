@@ -2,8 +2,9 @@
 #include "../Modules/WindowModule.hpp"
 
 std::unordered_map<char, std::pair<SDL_Color, float>> Museum::colors;
+glm::vec2 Museum::tileSize;
 
-Museum::Museum() : rows(0), cols(0), tileSize(0) {
+Museum::Museum() : rows(0), cols(0) {
 	//Add default color for blank (white) tiles
 	Museum::colors['W'] = {SDL_Color{255, 255, 255}, 1};
 }
@@ -27,8 +28,6 @@ int Museum::getRows() const { return rows; }
 
 int Museum::getCols() const { return cols; }
 
-glm::vec2 Museum::getTileSize() const { return tileSize; }
-
 void Museum::setRows(int row) {
 	rows = row;
 	_recalculateTileSize();
@@ -43,8 +42,8 @@ Tile& Museum::getTile(int row, int col) { return *grid[col][row]; }
 
 void Museum::setTiles(std::vector<std::vector<std::unique_ptr<Tile>>>&& tiles) { grid = std::move(tiles); }
 
-void Museum::_recalculateTileSize() {
-	tileSize = glm::vec2{
+void Museum::_recalculateTileSize() const {
+	Museum::tileSize = glm::vec2{
 			static_cast<float>(WindowModule::width) / static_cast<float>(cols),
 			static_cast<float>(WindowModule::height) / static_cast<float>(rows),
 	};

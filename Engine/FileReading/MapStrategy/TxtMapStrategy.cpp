@@ -4,8 +4,18 @@
 
 #include "TxtMapStrategy.hpp"
 
-void TxtMapStrategy::parseMap(const std::vector<std::string>& data) {
+bool TxtMapStrategy::checkCompatibility(const std::vector<std::string>& data) {
+	//Check if data starts with "rows="
+	if (data[0].rfind("rows=") != 0) return false;
 
+	//Check color format
+	if (!std::equal(data[1].cbegin(), data[1].cend(), "letter,rgb,weight"))
+		return false;
+	
+	return true;
+}
+
+void TxtMapStrategy::parseStrategy(const std::vector<std::string>& data) {
 	//0		-	rows=x,cols=y
 	//1	
 	//2		-	first letter definition
@@ -21,12 +31,6 @@ void TxtMapStrategy::parseMap(const std::vector<std::string>& data) {
 	//Init builder
 	auto builder = std::make_unique<MuseumBuilder>(rows, cols);
 	builder->withAutoNeighbors();
-
-	//Color format check
-	if (!std::equal(data[1].cbegin(), data[1].cend(), "letter,rgb,weight")) {
-		std::cerr << "Unexpected color formatting" << std::endl;
-		return;
-	}
 
 	//Read colors till blank line is found
 	int blankLineI = 2;

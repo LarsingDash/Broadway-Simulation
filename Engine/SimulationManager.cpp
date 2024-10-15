@@ -1,14 +1,15 @@
 #include "SimulationManager.hpp"
 #include "FileReading/SourceStrategy/WebSourceStrategy.hpp"
-#include <iostream>
 
 std::unique_ptr<Museum> SimulationManager::museum;
+std::unique_ptr<ArtistsManager> SimulationManager::artistsManager;
 
 SimulationManager::SimulationManager() : shouldQuit(false) {
 	windowModule = std::make_unique<WindowModule>();
 	SimulationManager::museum = std::make_unique<Museum>();
+	SimulationManager::artistsManager = std::make_unique<ArtistsManager>();
 
-	renderingModule = std::make_unique<RenderingModule>(windowModule->getWindow(), museum.get());
+	renderingModule = std::make_unique<RenderingModule>(windowModule->getWindow());
 	inputModule = std::make_unique<InputModule>();
 }
 
@@ -31,22 +32,22 @@ void SimulationManager::processEvents() {
 			case SDL_WINDOWEVENT:
 				if (event.window.event == SDL_WINDOWEVENT_RESIZED)
 					WindowModule::handleResize(event.window);
-		}
+				break;
+			case SDL_MOUSEBUTTONDOWN:
+				int x, y;
+				SDL_GetMouseState(&x, &y);
 
-		if (event.type == SDL_MOUSEBUTTONDOWN) {
-			int x, y;
-			SDL_GetMouseState(&x, &y);
-			
-			glm::vec2 tileSize = museum->getTileSize();
-			
-			int tileX = static_cast<int>(static_cast<float>(x) / tileSize.x);
-			int tileY = static_cast<int>(static_cast<float>(y) / tileSize.y);
+				glm::vec2 tileSize = Museum::tileSize;
 
-			if (tileX >= 0 && tileX < museum->getCols() && tileY >= 0 && tileY < museum->getRows()) {
-				Tile& clickedTile = museum->getTile(tileX, tileY);
-				clickedTile.logTileData();
-				clickedTile.currentState->handleInteraction();
-			}
+				int tileX = static_cast<int>(static_cast<float>(x) / tileSize.x);
+				int tileY = static_cast<int>(static_cast<float>(y) / tileSize.y);
+
+				if (tileX >= 0 && tileX < museum->getCols() && tileY >= 0 && tileY < museum->getRows()) {
+					Tile& clickedTile = museum->getTile(tileX, tileY);
+					clickedTile.logTileData();
+					clickedTile.currentState->handleInteraction();
+				}
+				break;
 		}
 	}
 }
@@ -64,7 +65,7 @@ void SimulationManager::run() {
 		processEvents();
 		renderingModule->clear();
 
-//		artistManager->update(static_cast<float>(delta) / 1000.f));
+		SimulationManager::artistsManager->update(static_cast<float>(delta) / 1000.f);
 		renderingModule->draw();
 
 		renderingModule->present();

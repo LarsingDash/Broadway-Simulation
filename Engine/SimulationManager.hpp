@@ -5,6 +5,7 @@
 #include "Modules/RenderingModule.hpp"
 #include "Modules/InputModule.hpp"
 #include "Tiles/Museum.hpp"
+#include "Artists/ArtistsManager.hpp"
 #include <memory>
 
 class SimulationManager {
@@ -14,6 +15,7 @@ public:
     void run();
 
     static std::unique_ptr<Museum> museum;
+    static std::unique_ptr<ArtistsManager> artistsManager;
 private:
     void processEvents();
 

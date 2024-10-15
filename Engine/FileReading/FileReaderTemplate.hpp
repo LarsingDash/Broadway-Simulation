@@ -6,6 +6,7 @@
 #define BROADWAY_SIMULATION_FILEREADERTEMPLATE_HPP
 
 #include "SourceStrategy/ISourceStrategy.hpp"
+#include "IParseStrategy.hpp"
 #include <iostream>
 
 enum FileType {
@@ -21,6 +22,8 @@ enum SourceType {
 class FileReaderTemplate {
 	public:
 		static void readFileTemplate(const std::string& pathOrURL, SourceType sourceType, FileType fileType);
+		static std::vector<std::unique_ptr<IParseStrategy>> strategies;
+		static void assignStrategies();
 };
 
 #endif //BROADWAY_SIMULATION_FILEREADERTEMPLATE_HPP

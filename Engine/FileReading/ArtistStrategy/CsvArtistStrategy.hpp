@@ -5,12 +5,14 @@
 #ifndef BROADWAY_SIMULATION_CSVARTISTSTRATEGY_HPP
 #define BROADWAY_SIMULATION_CSVARTISTSTRATEGY_HPP
 
+#include "../IParseStrategy.hpp"
 
-#include "IArtistStrategy.hpp"
-
-class CsvArtistStrategy : public IArtistStrategy {
+class CsvArtistStrategy : public IParseStrategy {
 	public:
-		void parseArtists(const Source& source) override;
+		bool checkCompatibility(const std::vector<std::string>& data) override;
+		void parseStrategy(const std::vector<std::string>& data) override;
+	private:
+		static void _splitLine(const std::string& line, std::vector<float>& segments);
 };
 
 

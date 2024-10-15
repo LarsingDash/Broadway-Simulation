@@ -11,11 +11,11 @@
 CURL* WebSourceStrategy::curl = nullptr;
 bool WebSourceStrategy::isCurlInit = false;
 
-std::unique_ptr<Source> WebSourceStrategy::fetchSource(const std::string& pathOrURL) {
+void WebSourceStrategy::fetchSource(const std::string& pathOrURL, std::vector<std::string>& data) {
 	//Init curl
 	if (!initCurl()) {
 		std::cerr << "Could not init curl" << std::endl;
-		return nullptr;
+		return;
 	}
 
 	//Prepare for request
@@ -32,16 +32,7 @@ std::unique_ptr<Source> WebSourceStrategy::fetchSource(const std::string& pathOr
 	//Check result
 	if (res != CURLE_OK) {
 		std::cerr << "Result failed with errorCode: " << res << std::endl;
-		return nullptr;
-	}
-
-	//Prepare Source
-	std::unique_ptr<Source> source = std::make_unique<Source>();
-
-	//Get file extension
-	size_t pos = pathOrURL.find_last_of('.');
-	if (pos != std::string::npos) {
-		source->extension = pathOrURL.substr(pos + 1);
+		return;
 	}
 
 	//Break output into lines and stream to Source->data
@@ -49,11 +40,8 @@ std::unique_ptr<Source> WebSourceStrategy::fetchSource(const std::string& pathOr
 	std::istringstream outputStream(output.str());
 	while (std::getline(outputStream, line)){
 		_trim(line);
-		source->data.push_back(line);
+		data.push_back(line);
 	}
-
-	//Return
-	return source;
 }
 
 bool WebSourceStrategy::initCurl() {

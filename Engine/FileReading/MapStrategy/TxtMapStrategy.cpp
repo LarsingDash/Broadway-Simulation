@@ -4,8 +4,11 @@
 
 #include "TxtMapStrategy.hpp"
 
-void TxtMapStrategy::parseMap(const std::vector<std::string>& data) {
+bool TxtMapStrategy::checkCompatibility(const std::vector<std::string>& data) {
+	return false;
+}
 
+void TxtMapStrategy::parseStrategy(const std::vector<std::string>& data) {
 	//0		-	rows=x,cols=y
 	//1	
 	//2		-	first letter definition

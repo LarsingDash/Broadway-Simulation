@@ -4,6 +4,10 @@
 
 #include "CsvArtistStrategy.hpp"
 
-void CsvArtistStrategy::parseArtists(const Source& source) {
+bool CsvArtistStrategy::checkCompatibility(const std::vector<std::string>& data) {
+	return false;
+}
+
+void CsvArtistStrategy::parseStrategy(const std::vector<std::string>& data) {
 	std::cout << "Csv" << std::endl;
 }

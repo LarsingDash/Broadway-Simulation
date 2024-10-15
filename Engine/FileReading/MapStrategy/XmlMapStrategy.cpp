@@ -5,6 +5,10 @@
 #include "XmlMapStrategy.hpp"
 #include <algorithm>
 
+bool XmlMapStrategy::checkCompatibility(const std::vector<std::string>& data) {
+	return false;
+}
+
 //Initialize map of actions
 XmlMapStrategy::XmlMapStrategy() : tagActions{
 		{"canvas",   [&builder = builder](const std::string& line, bool isEnd) {
@@ -60,7 +64,7 @@ XmlMapStrategy::XmlMapStrategy() : tagActions{
 		}},
 } {}
 
-void XmlMapStrategy::parseMap(const std::vector<std::string>& data) {
+void XmlMapStrategy::parseStrategy(const std::vector<std::string>& data) {
 	//Read all lines and decide action based on the tag and current state
 	int lineI = 0;
 	std::string cur;

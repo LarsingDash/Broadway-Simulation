@@ -5,14 +5,14 @@
 #ifndef BROADWAY_SIMULATION_ISOURCESTRATEGY_HPP
 #define BROADWAY_SIMULATION_ISOURCESTRATEGY_HPP
 
-#include "../Source.hpp"
+#include <vector>
 #include <memory>
 #include <fstream>
 
 class ISourceStrategy {
 	public:
 		virtual ~ISourceStrategy() = default;
-		virtual std::unique_ptr<Source> fetchSource(const std::string& pathOrURL) = 0;
+		virtual void fetchSource(const std::string& pathOrURL,  std::vector<std::string>& data) = 0;
 };
 
 #endif //BROADWAY_SIMULATION_ISOURCESTRATEGY_HPP

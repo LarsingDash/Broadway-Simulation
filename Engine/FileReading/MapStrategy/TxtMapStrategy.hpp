@@ -6,11 +6,12 @@
 #define BROADWAY_SIMULATION_TXTMAPSTRATEGY_HPP
 
 
-#include "IMapStrategy.hpp"
+#include "../IParseStrategy.hpp"
 
-class TxtMapStrategy : public IMapStrategy {
+class TxtMapStrategy : public IParseStrategy {
 	public:
-		void parseMap(const std::vector<std::string>& data) override;
+		bool checkCompatibility(const std::vector<std::string>& data) override;
+		void parseStrategy(const std::vector<std::string>& data) override;
 	private:
 		static void _readGridSize(const std::string& line, int& rows, int& cols);
 		static void _readColor(MuseumBuilder& builder, const std::string& line);

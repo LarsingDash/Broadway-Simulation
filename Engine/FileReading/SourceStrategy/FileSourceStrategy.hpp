@@ -9,7 +9,7 @@
 
 class FileSourceStrategy : public ISourceStrategy {
 	public:
-		std::unique_ptr<Source> fetchSource(const std::string& pathOrURL) override;
+		void fetchSource(const std::string& pathOrURL, std::vector<std::string>& data) override;
 	private:
 		static void removeBOM(std::ifstream& file) {
 			//Read first 3 characters of file

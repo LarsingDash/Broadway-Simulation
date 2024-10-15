@@ -11,6 +11,8 @@ class CsvArtistStrategy : public IParseStrategy {
 	public:
 		bool checkCompatibility(const std::vector<std::string>& data) override;
 		void parseStrategy(const std::vector<std::string>& data) override;
+	private:
+		static void _splitLine(const std::string& line, std::vector<float>& segments);
 };
 
 

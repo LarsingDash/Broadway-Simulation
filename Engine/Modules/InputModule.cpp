@@ -14,7 +14,7 @@ void InputModule::handleScancode(SDL_Scancode key, bool& shouldQuit) {
 		case SDL_SCANCODE_O:
 			FileReaderTemplate::assignStrategies();
 			
-//			FileReaderTemplate::readFileTemplate("..\\assets\\grid.txt", SourceType::File, FileType::Map);
+			FileReaderTemplate::readFileTemplate("..\\assets\\grid.txt", SourceType::File, FileType::Map);
 //			FileReaderTemplate::readFileTemplate("https://firebasestorage.googleapis.com/v0/b/dpa-files.appspot.com/o/grid.txt?alt=media", SourceType::Web, FileType::Map);
 
 //			FileReaderTemplate::readFileTemplate("..\\assets\\graph.xml", SourceType::File, FileType::Map);

@@ -9,7 +9,7 @@ SimulationManager::SimulationManager() : shouldQuit(false) {
 	SimulationManager::museum = std::make_unique<Museum>();
 	SimulationManager::artistsManager = std::make_unique<ArtistsManager>();
 
-	renderingModule = std::make_unique<RenderingModule>(windowModule->getWindow(), museum.get());
+	renderingModule = std::make_unique<RenderingModule>(windowModule->getWindow());
 	inputModule = std::make_unique<InputModule>();
 }
 
@@ -37,7 +37,7 @@ void SimulationManager::processEvents() {
 				int x, y;
 				SDL_GetMouseState(&x, &y);
 
-				glm::vec2 tileSize = museum->getTileSize();
+				glm::vec2 tileSize = Museum::tileSize;
 
 				int tileX = static_cast<int>(static_cast<float>(x) / tileSize.x);
 				int tileY = static_cast<int>(static_cast<float>(y) / tileSize.y);
@@ -65,7 +65,7 @@ void SimulationManager::run() {
 		processEvents();
 		renderingModule->clear();
 
-//		artistManager->update(static_cast<float>(delta) / 1000.f));
+		SimulationManager::artistsManager->update(static_cast<float>(delta) / 1000.f);
 		renderingModule->draw();
 
 		renderingModule->present();

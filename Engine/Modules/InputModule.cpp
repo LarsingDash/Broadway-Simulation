@@ -3,6 +3,7 @@
 #include <iostream>
 
 void InputModule::handleScancode(SDL_Scancode key, bool& shouldQuit) {
+	//TODO build a map<SCANCODE, Command> from imgui, so that it is changeable on runtime (including modifier keys)
 	switch (key) {
 		default:
 			break;
@@ -16,6 +17,8 @@ void InputModule::handleScancode(SDL_Scancode key, bool& shouldQuit) {
 
 			FileReaderTemplate::readFileTemplate("..\\assets\\graph.xml", SourceType::File, FileType::Map);
 //			FileReaderTemplate::readFileTemplate("https://firebasestorage.googleapis.com/v0/b/dpa-files.appspot.com/o/graph.xml?alt=media", SourceType::Web, FileType::Map);
+
+			FileReaderTemplate::readFileTemplate("..\\assets\\artists.csv", SourceType::File, FileType::Artist);
 			break;
 	}
 }

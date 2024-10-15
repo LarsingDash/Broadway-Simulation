@@ -1,12 +1,13 @@
 #include "SimulationManager.hpp"
 #include "FileReading/SourceStrategy/WebSourceStrategy.hpp"
-#include <iostream>
 
 std::unique_ptr<Museum> SimulationManager::museum;
+std::unique_ptr<ArtistsManager> SimulationManager::artistsManager;
 
 SimulationManager::SimulationManager() : shouldQuit(false) {
 	windowModule = std::make_unique<WindowModule>();
 	SimulationManager::museum = std::make_unique<Museum>();
+	SimulationManager::artistsManager = std::make_unique<ArtistsManager>();
 
 	renderingModule = std::make_unique<RenderingModule>(windowModule->getWindow(), museum.get());
 	inputModule = std::make_unique<InputModule>();

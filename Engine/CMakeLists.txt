@@ -2,6 +2,7 @@
         SimulationManager.cpp
 )
 
+add_subdirectory(Artists)
 add_subdirectory(FileReading)
 add_subdirectory(Modules)
 add_subdirectory(Tiles)

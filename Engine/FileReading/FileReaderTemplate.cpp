@@ -28,6 +28,8 @@ void FileReaderTemplate::readFileTemplate(const std::string& pathOrURL, SourceTy
 	//Get Source
 	std::unique_ptr<Source> source = sourceStrategy->fetchSource(pathOrURL);
 	
+	//TODO checker for parsers if they can parse, not dependent on extension
+	
 	//Execute Map / Artist Strategy to parse Source
 	//Use rfind() as a sort of extension.startsWith()
 	if (fileType == FileType::Map) {

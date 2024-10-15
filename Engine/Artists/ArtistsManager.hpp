@@ -1,0 +1,14 @@
+﻿//
+// Created by larsv on 11/10/2024.
+//
+
+#ifndef BROADWAY_SIMULATION_ARTISTSMANAGER_HPP
+#define BROADWAY_SIMULATION_ARTISTSMANAGER_HPP
+
+
+class ArtistsManager {
+
+};
+
+
+#endif //BROADWAY_SIMULATION_ARTISTSMANAGER_HPP

@@ -6,7 +6,26 @@
 #include <algorithm>
 
 bool XmlMapStrategy::checkCompatibility(const std::vector<std::string>& data) {
-	return false;
+	//Search for the row that stars with "<canvas
+	int lineI = 0;
+	bool foundCanvas = false;
+	while (lineI < data.size()) {
+		if (data[lineI].find("<canvas") != std::string::npos) {
+			foundCanvas = true;
+			break;
+		}
+		lineI++;
+	}
+	
+	//Return early if canvas wasn't even found
+	if (!foundCanvas) return false;
+	
+	//Try and read canvas size from this row
+	int rows = -1, cols = -1;
+	_readGridSize(data[lineI], rows, cols, true);
+	
+	//Return if this was successfully read
+	return (rows != -1 && cols != -1);
 }
 
 //Initialize map of actions
@@ -110,7 +129,7 @@ void XmlMapStrategy::_readTag(const std::string& line) {
 	}
 }
 
-void XmlMapStrategy::_readGridSize(const std::string& line, int& rows, int& cols) {
+void XmlMapStrategy::_readGridSize(const std::string& line, int& rows, int& cols, bool forCompatibilityCheck) {
 	try {
 		std::string rowsString, colsString;
 
@@ -137,7 +156,7 @@ void XmlMapStrategy::_readGridSize(const std::string& line, int& rows, int& cols
 		rows = std::stoi(rowsString);
 		cols = std::stoi(colsString);
 	} catch (const std::invalid_argument& e) {
-		std::cerr << "Cols - Rows string to int:" << e.what() << std::endl;
+		if (!forCompatibilityCheck) std::cerr << "Cols - Rows string to int:" << e.what() << std::endl;
 		return;
 	}
 }

@@ -20,7 +20,7 @@ class XmlMapStrategy : public IParseStrategy {
 		glm::ivec2 currentTile = glm::ivec2 ();
 		
 		void _readTag(const std::string& line);
-		static void _readGridSize(const std::string& line, int& rows, int& cols);
+		static void _readGridSize(const std::string& line, int& rows, int& cols, bool forCompatibilityCheck = false);
 		
 		static constexpr size_t _readingOffset = sizeof("=\"") - 1;
 		static char _readChar(const std::string& line, const std::string& target);

@@ -20,6 +20,7 @@ class SingletonRandom {
 		int RandomInt(int lower, int upper);
 		float RandomFloat(float lower, float upper);
 
+		[[nodiscard]] std::default_random_engine& getEngine() { return engine; }
 	private:
 		static SingletonRandom instance;
 

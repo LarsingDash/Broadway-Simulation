@@ -14,8 +14,7 @@ class ArtistsManager {
 		void render(SDL_Renderer* renderer) const;
 		void update(float delta);
 		void clearArtists();
-		void addArtist(glm::vec2 tile, glm::vec2 dir);
-		void removeArtist(Artist* cur);
+		void addArtist(glm::ivec2 tile, glm::vec2 dir);
 	private:
 		std::vector<std::unique_ptr<Artist>> artists;
 };

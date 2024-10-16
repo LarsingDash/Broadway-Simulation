@@ -4,11 +4,10 @@
 
 #include "Red.hpp"
 #include "Blue.hpp"
-#include "../../SimulationManager.hpp"
 
 void Red::handleInteraction(Tile& tile, Artist* artist) {
-	if (artist)
-		SimulationManager::getInstance().artistsManager->removeArtist(artist);
+	//Mark artist for deletion, if it wasn't a click action
+	if (artist) artist->markForDeletion();
 
 	tile.setState<Blue>();
 }

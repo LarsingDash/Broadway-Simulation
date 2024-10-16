@@ -7,30 +7,29 @@
 #include <algorithm>
 
 void ArtistsManager::render(SDL_Renderer* renderer) const {
-	for (const auto& artist : artists) 
+	for (const auto& artist: artists)
 		artist->render(renderer);
 }
 
 void ArtistsManager::update(float delta) {
-	for (const auto& artist : artists)
-		artist->update(delta);
+	//Update cycle
+	for (const auto& artist: artists)
+		if (artist) artist->update(delta);
+
+	//Check for deletionMarks
+	auto it = std::remove_if(artists.begin(), artists.end(),
+							 [](const std::unique_ptr<Artist>& cur) {
+								 return cur->isMarkedForDeletion();
+							 });
+
+	//Erase artists marked for deletion 
+	if (it != artists.end()) artists.erase(it, artists.end());
 }
 
 void ArtistsManager::clearArtists() {
 	artists.clear();
 }
 
-void ArtistsManager::addArtist(const glm::vec2 tile, const glm::vec2 dir) {
-	artists.emplace_back(std::make_unique<Artist>(tile * Museum::tileSize, dir));
-}
-
-void ArtistsManager::removeArtist(Artist* artist) {
-	//Find artist with matching memory address
-	auto it = std::remove_if(artists.begin(), artists.end(),
-							 [artist](const std::unique_ptr<Artist>& cur) {
-								 return cur.get() == artist;
-							 });
-	
-	//Remove found artist
-	artists.erase(it, artists.end());	
+void ArtistsManager::addArtist(const glm::ivec2 tile, const glm::vec2 dir) {
+	artists.emplace_back(std::make_unique<Artist>(glm::vec2{tile.x, tile.y} * Museum::tileSize, dir, tile));
 }

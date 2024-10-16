@@ -5,6 +5,6 @@
 #include "Red.hpp"
 #include "Blue.hpp"
 
-void Red::handleInteraction(Tile* tile, bool mouseClick) {
-	tile->setState<Blue>();
+void Red::handleInteraction(Tile& tile, Artist* artist) {
+	tile.setState<Blue>();
 }

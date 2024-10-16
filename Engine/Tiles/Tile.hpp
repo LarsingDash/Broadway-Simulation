@@ -29,11 +29,12 @@ class Tile {
 
 		void addNeighbor(Tile* neighbor);
 
+		[[nodiscard]] const glm::ivec2& getPos() const { return pos; }
 		[[nodiscard]] const std::vector<Tile*>& getNeighbors() const { return neighbors; }
 
 	private:
-		std::vector<Tile*> neighbors;
 		glm::ivec2 pos;
+		std::vector<Tile*> neighbors;
 };
 
 

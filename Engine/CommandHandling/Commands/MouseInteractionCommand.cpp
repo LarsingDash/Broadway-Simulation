@@ -22,6 +22,6 @@ void MouseInteractionCommand::execute() {
 	if (tileX >= 0 && tileX < museum.getCols() && tileY >= 0 && tileY < museum.getRows()) {
 		Tile& clickedTile = museum.getTile(tileX, tileY);
 		clickedTile.logTileData();
-		clickedTile.currentState->handleInteraction(&clickedTile, true);
+		clickedTile.currentState->handleInteraction(clickedTile, nullptr);
 	}
 }

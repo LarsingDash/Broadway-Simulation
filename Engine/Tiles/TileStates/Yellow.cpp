@@ -7,8 +7,8 @@
 
 void Yellow::handleInteraction(Tile* tile, bool mouseClick) {
 	//TODO: Spawn an artist
-	tile->interactionCount++;
-	if (tile->interactionCount == 2) {
+	interactionCount++;
+	if (interactionCount == 2) {
 		tile->setState<Grey>();
 	}
 }

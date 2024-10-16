@@ -11,7 +11,7 @@ class Tile;
 
 class TileState {
 	public:
-		explicit TileState(const char& c);;
+		explicit TileState(const char& c);
 		virtual ~TileState() = default;
 
 		virtual void handleInteraction(Tile* tile, bool mouseClick) = 0;
@@ -20,6 +20,8 @@ class TileState {
 
 		const char letter;
 		const std::pair<SDL_Color, float>& config;
+	protected:
+		int interactionCount;
 };
 
 #endif // BROADWAY_SIMULATION_TILESTATE_HPP

@@ -16,10 +16,9 @@ class Tile {
 	public:
 		std::unique_ptr<TileState> currentState;
 
-		explicit Tile(const glm::ivec2&& pos) : currentState{nullptr}, pos{pos}, interactionCount{} {};
+		explicit Tile(const glm::ivec2&& pos) : currentState{nullptr}, pos{pos} {};
 
-		Tile(int x, int y) : currentState{nullptr}, pos{x, y}, interactionCount{} {};
-		int interactionCount;	//TODO to TileState.hpp maybe?
+		Tile(int x, int y) : currentState{nullptr}, pos{x, y} {};
 
 		template<class T>
 		void setState() {

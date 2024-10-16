@@ -5,7 +5,6 @@
 #ifndef BROADWAY_SIMULATION_TXTMAPSTRATEGY_HPP
 #define BROADWAY_SIMULATION_TXTMAPSTRATEGY_HPP
 
-
 #include "../IParseStrategy.hpp"
 
 class TxtMapStrategy : public IParseStrategy {

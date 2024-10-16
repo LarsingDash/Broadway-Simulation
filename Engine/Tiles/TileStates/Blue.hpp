@@ -6,12 +6,14 @@
 #define BROADWAY_SIMULATION_BLUE_HPP
 
 #include "TileState.hpp"
+
 class Tile;
+
 class Blue : public TileState {
 	public:
-		Blue(): TileState('B') {}
-    void handleInteraction(Tile* tile, bool mouseClick) override;
-};
+		Blue() : TileState('B') {}
 
+		void handleInteraction(Tile* tile, bool mouseClick) override;
+};
 
 #endif //BROADWAY_SIMULATION_BLUE_HPP

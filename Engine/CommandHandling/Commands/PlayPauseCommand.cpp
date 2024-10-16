@@ -3,3 +3,7 @@
 //
 
 #include "PlayPauseCommand.hpp"
+
+void PlayPauseCommand::execute() {
+	std::cout << "PlayPauseCommand executed" << std::endl;
+}

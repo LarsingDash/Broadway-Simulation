@@ -6,12 +6,14 @@
 #define BROADWAY_SIMULATION_GREY_HPP
 
 #include "TileState.hpp"
-class Tile;
-class Grey : public TileState {
-public:
-    Grey() : TileState('G') {}
-    void handleInteraction(Tile* tile, bool mouseClick) override;
-};
 
+class Tile;
+
+class Grey : public TileState {
+	public:
+		Grey() : TileState('G') {}
+
+		void handleInteraction(Tile* tile, bool mouseClick) override;
+};
 
 #endif //BROADWAY_SIMULATION_GREY_HPP

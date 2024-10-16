@@ -19,12 +19,12 @@ class SimulationManager {
 		void run();
 
 		bool shouldQuit;
-		
+
 		std::unique_ptr<Museum> museum;
 		std::unique_ptr<ArtistsManager> artistsManager;
 	private:
 		static SimulationManager instance;
-		
+
 		SimulationManager();
 		~SimulationManager();
 

@@ -14,7 +14,7 @@ class Artist {
 
 		void render(SDL_Renderer* renderer) const;
 		void update(float delta);
-		void log() const;
+		[[maybe_unused]] void log() const;
 	private:
 		glm::vec2 pos;
 		glm::vec2 dir;

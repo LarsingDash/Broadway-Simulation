@@ -7,8 +7,10 @@
 
 #include <iostream>
 #include "../Command.hpp"
-class MouseInteractionCommand :public Command{
-    void execute() override;
+
+class MouseInteractionCommand : public Command {
+	public:
+		void execute() override;
 };
 
 #endif //BROADWAY_SIMULATION_MOUSEINTERACTIONCOMMAND_HPP

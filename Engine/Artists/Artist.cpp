@@ -36,7 +36,7 @@ void Artist::update(float delta) {
 	if (pos.y >= static_cast<float>(WindowModule::height) - size.y - offset.y) dir.y = abs(dir.y) * -1;	//Bottom
 }
 
-void Artist::log() const {
+[[maybe_unused]] void Artist::log() const {
 	std::cout << "------" << std::endl;
 	std::cout << "Pos: (" << pos.x << " | " << pos.y << ")" << std::endl;
 	std::cout << "Dir: (" << dir.x << " | " << dir.y << ")" << std::endl;

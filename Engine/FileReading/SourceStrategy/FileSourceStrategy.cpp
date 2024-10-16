@@ -4,7 +4,6 @@
 
 #include "FileSourceStrategy.hpp"
 #include <iostream>
-#include <filesystem>
 
 void FileSourceStrategy::fetchSource(const std::string& path, std::vector<std::string>& data) {
 	//Open file stream
@@ -13,11 +12,9 @@ void FileSourceStrategy::fetchSource(const std::string& path, std::vector<std::s
 		std::cerr << "Unable to open file" << std::endl;
 		return;
 	}
-	
+
 	//Remove possible BOM
 	removeBOM(file);
-
-	//Create source
 
 	//Read file
 	std::string line;

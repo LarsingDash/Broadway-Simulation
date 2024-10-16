@@ -1,4 +1,5 @@
 #include "WindowModule.hpp"
+#include <SDL.h>
 #include <iostream>
 
 bool WindowModule::recalculateTileSize;
@@ -9,7 +10,7 @@ WindowModule::WindowModule() {
 		std::cerr << "Couldn't init video: " << SDL_GetError() << std::endl;
 		return;
 	}
-	
+
 	width = height = 600;
 
 	window = SDL_CreateWindow("SDLTest", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,

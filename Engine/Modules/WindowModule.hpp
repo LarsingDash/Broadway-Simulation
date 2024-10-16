@@ -1,7 +1,8 @@
 #ifndef WINDOW_MODULE_HPP
 #define WINDOW_MODULE_HPP
 
-#include <SDL.h>
+#include <SDL_video.h>
+#include <SDL_events.h>
 
 class WindowModule {
 	public:
@@ -9,7 +10,7 @@ class WindowModule {
 		~WindowModule();
 		SDL_Window* getWindow();
 		static void handleResize(const SDL_WindowEvent& event);
-		
+
 		static bool recalculateTileSize;
 		static int width, height;
 	private:

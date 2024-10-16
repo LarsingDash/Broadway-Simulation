@@ -6,9 +6,9 @@
 #include "Red.hpp"
 
 void Grey::handleInteraction(Tile* tile, bool mouseClick) {
-    tile->interactionCount++;
+	tile->interactionCount++;
 
-    if (tile->interactionCount >= 3) {
-        tile->setState<Red>();
-    }
+	if (tile->interactionCount >= 3) {
+		tile->setState<Red>();
+	}
 }

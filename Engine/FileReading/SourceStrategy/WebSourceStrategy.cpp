@@ -38,7 +38,7 @@ void WebSourceStrategy::fetchSource(const std::string& pathOrURL, std::vector<st
 	//Break output into lines and stream to Source->data
 	std::string line;
 	std::istringstream outputStream(output.str());
-	while (std::getline(outputStream, line)){
+	while (std::getline(outputStream, line)) {
 		_trim(line);
 		data.push_back(line);
 	}
@@ -53,7 +53,7 @@ bool WebSourceStrategy::initCurl() {
 	curl_global_init(CURL_GLOBAL_DEFAULT);
 	curl = curl_easy_init();
 
-	//Check if init was successfull
+	//Check if init was successful
 	if (!curl) return false;
 
 	//Settings

@@ -3,3 +3,7 @@
 //
 
 #include "FastForwardCommand.hpp"
+
+void FastForwardCommand::execute() {
+	std::cout << "FastForwardCommand executed" << std::endl;
+}

@@ -6,7 +6,6 @@
 #define BROADWAY_SIMULATION_IPARSESTRATEGY_HPP
 
 #include "../Tiles/MuseumBuilder.hpp"
-#include <iostream>
 
 class IParseStrategy {
 	public:

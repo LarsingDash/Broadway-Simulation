@@ -9,29 +9,32 @@
 #include <vector>
 #include <memory>
 #include <glm.hpp>
+
 class TileState;
+
 class Tile {
 	public:
 		std::unique_ptr<TileState> currentState;
 
-		explicit Tile(const glm::ivec2&& pos) : currentState{nullptr}, pos{pos} {};
-		Tile(int x, int y) : currentState{nullptr}, pos{x, y} {};
-        int interactionCount;
+		explicit Tile(const glm::ivec2&& pos) : currentState{nullptr}, pos{pos}, interactionCount{} {};
 
-    template<class T>
+		Tile(int x, int y) : currentState{nullptr}, pos{x, y}, interactionCount{} {};
+		int interactionCount;	//TODO to TileState.hpp maybe?
+
+		template<class T>
 		void setState() {
 			currentState = std::make_unique<T>();
 		}
-        void logTileData() const;
 
-        void handleInteraction(bool mouseClick);
+		void logTileData() const;
+
 		void addNeighbor(Tile* neighbor);
-        const std::vector<Tile*>& getNeighbors() const { return neighbors; }
 
-private:
+		[[nodiscard]] const std::vector<Tile*>& getNeighbors() const { return neighbors; }
+
+	private:
 		std::vector<Tile*> neighbors;
 		glm::ivec2 pos;
-
 };
 
 

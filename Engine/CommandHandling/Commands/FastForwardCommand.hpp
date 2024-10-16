@@ -4,14 +4,13 @@
 
 #ifndef BROADWAY_SIMULATION_FASTFORWARDCOMMAND_HPP
 #define BROADWAY_SIMULATION_FASTFORWARDCOMMAND_HPP
+
 #include <iostream>
-
 #include "../Command.hpp"
-class FastForwardCommand :public Command{
-    void execute() override{
-        std::cout << "FastForwardCommand exectued" << std::endl;
-    }
-};
 
+class FastForwardCommand : public Command {
+	public:
+		void execute() override;
+};
 
 #endif //BROADWAY_SIMULATION_FASTFORWARDCOMMAND_HPP

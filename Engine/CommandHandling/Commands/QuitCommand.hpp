@@ -8,8 +8,8 @@
 #include "../../SimulationManager.hpp"
 
 class QuitCommand : public Command {
-public:
-    void execute() override;
+	public:
+		void execute() override;
 };
 
 #endif //BROADWAY_SIMULATION_QUITCOMMAND_HPP

@@ -37,7 +37,7 @@ void FileReaderTemplate::readFileTemplate(const std::string& pathOrURL, SourceTy
 	std::vector<std::string> data;
 	sourceStrategy->fetchSource(pathOrURL, data);
 
-	//Find Strategy that's compatible with the data and excecute it
+	//Find Strategy that's compatible with the data and execute it
 	bool foundCompatibleStrategy = false;
 	for (const auto& strategy: FileReaderTemplate::strategies) {
 		if (strategy->checkCompatibility(data)) {

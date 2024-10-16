@@ -3,3 +3,7 @@
 //
 
 #include "RenderArtistsCommand.hpp"
+
+void RenderArtistsCommand::execute() {
+	std::cout << "RenderArtistsCommand executed" << std::endl;
+}

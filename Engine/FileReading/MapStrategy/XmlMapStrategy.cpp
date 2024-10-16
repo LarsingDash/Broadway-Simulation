@@ -16,14 +16,14 @@ bool XmlMapStrategy::checkCompatibility(const std::vector<std::string>& data) {
 		}
 		lineI++;
 	}
-	
+
 	//Return early if canvas wasn't even found
 	if (!foundCanvas) return false;
-	
+
 	//Try and read canvas size from this row
 	int rows = -1, cols = -1;
 	_readGridSize(data[lineI], rows, cols, true);
-	
+
 	//Return if this was successfully read
 	return (rows != -1 && cols != -1);
 }

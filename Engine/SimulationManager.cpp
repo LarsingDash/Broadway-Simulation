@@ -1,6 +1,7 @@
 #include "SimulationManager.hpp"
 #include "Modules/InputModule.hpp"
 #include "FileReading/SourceStrategy/WebSourceStrategy.hpp"
+#include <SDL_timer.h>
 
 SimulationManager SimulationManager::instance{};
 
@@ -44,7 +45,6 @@ void SimulationManager::processEvents() {
 }
 
 void SimulationManager::run() {
-	std::cout << "running" << std::endl;
 	//FPS Prep
 	Uint32 prevTicks = SDL_GetTicks();
 	Uint32 fpsInterval = 1000;

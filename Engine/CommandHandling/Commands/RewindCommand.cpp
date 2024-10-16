@@ -3,3 +3,7 @@
 //
 
 #include "RewindCommand.hpp"
+
+void RewindCommand::execute() {
+	std::cout << "RewindCommand executed" << std::endl;
+}

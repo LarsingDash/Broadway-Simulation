@@ -11,7 +11,7 @@ bool TxtMapStrategy::checkCompatibility(const std::vector<std::string>& data) {
 	//Check color format
 	if (!std::equal(data[1].cbegin(), data[1].cend(), "letter,rgb,weight"))
 		return false;
-	
+
 	return true;
 }
 

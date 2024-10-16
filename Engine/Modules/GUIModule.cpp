@@ -1,4 +1,5 @@
 #include "GUIModule.hpp"
+#include "../FileReading/FileReaderTemplate.hpp"
 
 GUIModule::GUIModule(SDL_Window* window, SDL_Renderer* renderer)
         : window(window), renderer(renderer) {
@@ -72,16 +73,19 @@ void GUIModule::render() {
 
         ImGui::SetCursorPosX((ImGui::GetWindowWidth() - 100) * 0.5f);
         if (ImGui::Button("Confirm", ImVec2(100, 0))) {
+            std::cout << "Selected input for map: " << mapInput << std::endl;
+            std::cout << "Selected input for artist: " <<  artistInput << std::endl;
+
             if (mapSourceType == 0) {
-//                FileReaderTemplate::readFileTemplate(mapInput, SourceType::Web, FileType::Map);
+                FileReaderTemplate::readFileTemplate(mapInput, SourceType::Web);
             } else {
-//                FileReaderTemplate::readFileTemplate(mapInput, SourceType::File, FileType::Map);
+                FileReaderTemplate::readFileTemplate(mapInput, SourceType::File);
             }
 
             if (artistSourceType == 0) {
-//                FileReaderTemplate::readFileTemplate(artistInput, SourceType::Web, FileType::Artist);
+                FileReaderTemplate::readFileTemplate(artistInput, SourceType::Web);
             } else {
-//                FileReaderTemplate::readFileTemplate(artistInput, SourceType::File, FileType::Artist);
+                FileReaderTemplate::readFileTemplate(artistInput, SourceType::File);
             }
 
 

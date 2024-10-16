@@ -21,6 +21,7 @@ void FileReaderTemplate::assignStrategies() {
 }
 
 void FileReaderTemplate::readFileTemplate(const std::string& pathOrURL, SourceType sourceType) {
+    assignStrategies();
 	//Decide Source Strategy
 	std::unique_ptr<ISourceStrategy> sourceStrategy;
 	switch (sourceType) {

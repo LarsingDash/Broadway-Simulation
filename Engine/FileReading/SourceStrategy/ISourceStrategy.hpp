@@ -12,7 +12,7 @@
 class ISourceStrategy {
 	public:
 		virtual ~ISourceStrategy() = default;
-		virtual void fetchSource(const std::string& pathOrURL, std::vector<std::string>& data) = 0;
+		virtual bool fetchSource(const std::string& pathOrURL, std::vector<std::string>& data) = 0;
 };
 
 #endif //BROADWAY_SIMULATION_ISOURCESTRATEGY_HPP

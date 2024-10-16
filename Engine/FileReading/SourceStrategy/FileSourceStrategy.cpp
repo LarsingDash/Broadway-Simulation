@@ -5,12 +5,12 @@
 #include "FileSourceStrategy.hpp"
 #include <iostream>
 
-void FileSourceStrategy::fetchSource(const std::string& path, std::vector<std::string>& data) {
+bool FileSourceStrategy::fetchSource(const std::string& path, std::vector<std::string>& data) {
 	//Open file stream
 	std::ifstream file(path);
 	if (!file.is_open()) {
 		std::cerr << "Unable to open file" << std::endl;
-		return;
+		return false;
 	}
 
 	//Remove possible BOM
@@ -20,4 +20,6 @@ void FileSourceStrategy::fetchSource(const std::string& path, std::vector<std::s
 	std::string line;
 	while (std::getline(file, line))
 		data.push_back(line);
+
+	return true;
 }

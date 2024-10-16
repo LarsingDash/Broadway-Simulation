@@ -11,11 +11,11 @@
 CURL* WebSourceStrategy::curl = nullptr;
 bool WebSourceStrategy::isCurlInit = false;
 
-void WebSourceStrategy::fetchSource(const std::string& pathOrURL, std::vector<std::string>& data) {
+bool WebSourceStrategy::fetchSource(const std::string& pathOrURL, std::vector<std::string>& data) {
 	//Init curl
 	if (!initCurl()) {
 		std::cerr << "Could not init curl" << std::endl;
-		return;
+		return false;
 	}
 
 	//Prepare for request
@@ -32,7 +32,7 @@ void WebSourceStrategy::fetchSource(const std::string& pathOrURL, std::vector<st
 	//Check result
 	if (res != CURLE_OK) {
 		std::cerr << "Result failed with errorCode: " << res << std::endl;
-		return;
+		return false;
 	}
 
 	//Break output into lines and stream to Source->data
@@ -42,6 +42,8 @@ void WebSourceStrategy::fetchSource(const std::string& pathOrURL, std::vector<st
 		_trim(line);
 		data.push_back(line);
 	}
+	
+	return true;
 }
 
 bool WebSourceStrategy::initCurl() {

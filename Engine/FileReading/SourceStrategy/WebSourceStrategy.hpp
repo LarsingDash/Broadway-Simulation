@@ -10,7 +10,7 @@
 
 class WebSourceStrategy : public ISourceStrategy {
 	public:
-		void fetchSource(const std::string& pathOrURL, std::vector<std::string>& data) override;
+		bool fetchSource(const std::string& pathOrURL, std::vector<std::string>& data) override;
 		static void cleanup();
 	private:
 		static CURL* curl;

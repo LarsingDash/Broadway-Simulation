@@ -21,6 +21,8 @@ void FileReaderTemplate::assignStrategies() {
 }
 
 void FileReaderTemplate::readFileTemplate(const std::string& pathOrURL, SourceType sourceType) {
+	FileReaderTemplate::assignStrategies();
+	
 	//Decide Source Strategy
 	std::unique_ptr<ISourceStrategy> sourceStrategy;
 	switch (sourceType) {
@@ -33,9 +35,9 @@ void FileReaderTemplate::readFileTemplate(const std::string& pathOrURL, SourceTy
 			break;
 	}
 
-	//Get Source
+	//Get Source: if fetchSource returns false, there's been an error, so return early to avoid reading the nonexistent result
 	std::vector<std::string> data;
-	sourceStrategy->fetchSource(pathOrURL, data);
+	if (!sourceStrategy->fetchSource(pathOrURL, data)) return;
 
 	//Find Strategy that's compatible with the data and execute it
 	bool foundCompatibleStrategy = false;

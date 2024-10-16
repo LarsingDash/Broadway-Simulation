@@ -33,7 +33,7 @@ void GUIModule::render() {
         ImGui::SameLine();
         ImGui::RadioButton("File Source", &mapSourceType, 1);
 
-        static char mapInput[256] = "";
+        static char mapInput[256] = "..\\assets\\grid.txt";
         if (mapSourceType == 0) {
             ImGui::PushItemWidth(-1);
             ImGui::InputText("##MapInput", mapInput, IM_ARRAYSIZE(mapInput));
@@ -51,12 +51,12 @@ void GUIModule::render() {
         ImGui::Separator();
 
         ImGui::Text("Artist");
-        static int artistSourceType = 0;
+        static int artistSourceType = 1;
         ImGui::RadioButton("Web Source##Artist", &artistSourceType, 0);
         ImGui::SameLine();
         ImGui::RadioButton("File Source##Artist", &artistSourceType, 1);
 
-        static char artistInput[256] = "";
+        static char artistInput[256] = "..\\assets\\artists.csv";
         if (artistSourceType == 0) {
             ImGui::PushItemWidth(-1);
             ImGui::InputText("##ArtistInput", artistInput, IM_ARRAYSIZE(artistInput));

@@ -10,7 +10,7 @@ bool CsvArtistStrategy::checkCompatibility(const std::vector<std::string>& data)
 }
 
 void CsvArtistStrategy::parseStrategy(const std::vector<std::string>& data) {
-	ArtistsManager& artistsManager = *SimulationManager::artistsManager;
+	ArtistsManager& artistsManager = *SimulationManager::getInstance().artistsManager;
 
 	artistsManager.clearArtists();
 

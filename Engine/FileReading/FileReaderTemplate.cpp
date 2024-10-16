@@ -20,7 +20,7 @@ void FileReaderTemplate::assignStrategies() {
 	strategies.emplace_back(std::make_unique<CsvArtistStrategy>());
 }
 
-void FileReaderTemplate::readFileTemplate(const std::string& pathOrURL, SourceType sourceType, FileType fileType) {
+void FileReaderTemplate::readFileTemplate(const std::string& pathOrURL, SourceType sourceType) {
 	//Decide Source Strategy
 	std::unique_ptr<ISourceStrategy> sourceStrategy;
 	switch (sourceType) {

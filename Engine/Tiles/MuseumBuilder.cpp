@@ -41,7 +41,7 @@ bool MuseumBuilder::hasColor(char c) {
 }
 
 void MuseumBuilder::finish() const {
-	Museum& museum = *SimulationManager::museum;
+	Museum& museum = *SimulationManager::getInstance().museum;
 
 	//Initialize rows
 	auto tiles = std::vector<std::vector<std::unique_ptr<Tile>>>(rows);

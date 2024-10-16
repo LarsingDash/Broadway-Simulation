@@ -12,11 +12,11 @@ public:
 	void clear();
     void draw();
 	void present();
-    SDL_Renderer *getRenderer() const { return renderer; }
+    [[nodiscard]] SDL_Renderer *getRenderer() const { return renderer; }
 private:
     SDL_Renderer* renderer;
-    Museum* museum;
-    ArtistsManager* artistsManager;
+    Museum& museum;
+    ArtistsManager& artistsManager;
 };
 
 #endif /* RENDERING_MODULE_HPP */

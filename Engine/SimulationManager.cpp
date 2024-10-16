@@ -1,15 +1,14 @@
 #include "SimulationManager.hpp"
 #include "Modules/InputModule.hpp"
 #include "FileReading/SourceStrategy/WebSourceStrategy.hpp"
-#include <iostream>
 
-SimulationManager& SimulationManager::getInstance() {
-	static SimulationManager instance;
-	return instance;
-}
+SimulationManager SimulationManager::instance{};
+
+SimulationManager& SimulationManager::getInstance() { return instance; }
 
 SimulationManager::SimulationManager() : shouldQuit(false) {
 	windowModule = std::make_unique<WindowModule>();
+
 	museum = std::make_unique<Museum>();
 	artistsManager = std::make_unique<ArtistsManager>();
 
@@ -44,7 +43,7 @@ void SimulationManager::processEvents() {
 	}
 }
 
-void SimulationManager::interactTileAtMouse() {
+void SimulationManager::interactTileAtMouse() const {
 	int x, y;
 	SDL_GetMouseState(&x, &y);
 
@@ -52,25 +51,31 @@ void SimulationManager::interactTileAtMouse() {
 
 	int tileX = static_cast<int>(static_cast<float>(x) / tileSize.x);
 	int tileY = static_cast<int>(static_cast<float>(y) / tileSize.y);
-	
-    if (tileX >= 0 && tileX < museum->getCols() && tileY >= 0 && tileY < museum->getRows()) {
-        Tile& clickedTile = museum->getTile(tileX, tileY);
-        clickedTile.logTileData();
-        clickedTile.currentState->handleInteraction(&clickedTile, true);
-    }
+
+	if (tileX >= 0 && tileX < museum->getCols() && tileY >= 0 && tileY < museum->getRows()) {
+		Tile& clickedTile = museum->getTile(tileX, tileY);
+		clickedTile.logTileData();
+		clickedTile.currentState->handleInteraction(&clickedTile, true);
+	}
 }
 
 void SimulationManager::run() {
-    Uint32 prevTicks = SDL_GetTicks();
-    Uint32 fpsInterval = 1000;
-    Uint32 fps = 0, frameCount = 0;
+	std::cout << "running" << std::endl;
+	//FPS Prep
+	Uint32 prevTicks = SDL_GetTicks();
+	Uint32 fpsInterval = 1000;
+	Uint32 fps = 0, frameCount = 0;
 
 	while (!shouldQuit) {
+		//New FPS
 		Uint32 curTicks = SDL_GetTicks();
 		Uint32 delta = curTicks - prevTicks;
 		prevTicks = curTicks;
 
+		//Events
 		processEvents();
+
+		//Cycle
 		renderingModule->clear();
 
 		SimulationManager::artistsManager->update(static_cast<float>(delta) / 1000.f);
@@ -78,10 +83,11 @@ void SimulationManager::run() {
 
 		renderingModule->present();
 
+		//FPS cycle
 		frameCount++;
 		fps += delta;
 		if (fps >= fpsInterval) {
-//            std::cout << "FPS: " << frameCount << std::endl;
+			std::cout << "FPS: " << frameCount << std::endl;
 			fps = 0;
 			frameCount = 0;
 		}

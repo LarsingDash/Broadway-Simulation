@@ -10,27 +10,30 @@
 class InputModule;
 
 class SimulationManager {
-public:
-    static SimulationManager& getInstance();
+	public:
+		static SimulationManager& getInstance();
 
-    void run();
-    void interactTileAtMouse();
-    static std::unique_ptr<Museum> museum;
-    static std::unique_ptr<ArtistsManager> artistsManager;
+		SimulationManager(const SimulationManager&) = delete;
+		SimulationManager& operator=(const SimulationManager&) = delete;
 
-    bool shouldQuit;
-private:
-    SimulationManager();
-    ~SimulationManager();
+		void run();
+		void interactTileAtMouse() const;
 
-    SimulationManager(const SimulationManager&) = delete;
-    SimulationManager& operator=(const SimulationManager&) = delete;
+		bool shouldQuit;
+		
+		std::unique_ptr<Museum> museum;
+		std::unique_ptr<ArtistsManager> artistsManager;
+	private:
+		static SimulationManager instance;
+		
+		SimulationManager();
+		~SimulationManager();
 
-    void processEvents();
+		void processEvents();
 
-    std::unique_ptr<WindowModule> windowModule;
-    std::unique_ptr<RenderingModule> renderingModule;
-    std::unique_ptr<InputModule> inputModule;
+		std::unique_ptr<WindowModule> windowModule;
+		std::unique_ptr<RenderingModule> renderingModule;
+		std::unique_ptr<InputModule> inputModule;
 };
 
 #endif /* SIMULATION_MANAGER_HPP */

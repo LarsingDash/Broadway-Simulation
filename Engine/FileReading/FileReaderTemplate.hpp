@@ -9,11 +9,6 @@
 #include "IParseStrategy.hpp"
 #include <iostream>
 
-enum FileType {
-	Map,
-	Artist,
-};
-
 enum SourceType {
 	File,
 	Web,
@@ -21,7 +16,7 @@ enum SourceType {
 
 class FileReaderTemplate {
 	public:
-		static void readFileTemplate(const std::string& pathOrURL, SourceType sourceType, FileType fileType);
+		static void readFileTemplate(const std::string& pathOrURL, SourceType sourceType);
 		static std::vector<std::unique_ptr<IParseStrategy>> strategies;
 		static void assignStrategies();
 };

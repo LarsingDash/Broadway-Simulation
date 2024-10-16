@@ -1,18 +1,15 @@
-#define STB_IMAGE_IMPLEMENTATION
-
 #include "RenderingModule.hpp"
 #include "../SimulationManager.hpp"
 #include <iostream>
 
-RenderingModule::RenderingModule(SDL_Window* window) {
+RenderingModule::RenderingModule(SDL_Window* window) :
+		museum{*SimulationManager::getInstance().museum},
+		artistsManager{*SimulationManager::getInstance().artistsManager} {
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_PRESENTVSYNC);
 	if (!renderer) {
 		std::cerr << "Couldn't create renderer: " << SDL_GetError() << std::endl;
 		return;
 	}
-	
-	museum = SimulationManager::museum.get();
-	artistsManager = SimulationManager::artistsManager.get();
 }
 
 RenderingModule::~RenderingModule() {
@@ -25,10 +22,8 @@ void RenderingModule::clear() {
 }
 
 void RenderingModule::draw() {
-    clear();
-
-    if (museum) museum->render(renderer);
-    if (artistsManager) artistsManager->render(renderer);
+	museum.render(renderer);
+	artistsManager.render(renderer);
 }
 
 void RenderingModule::present() {

@@ -5,6 +5,7 @@
 #include "Modules/RenderingModule.hpp"
 #include "Tiles/Museum.hpp"
 #include "Artists/ArtistsManager.hpp"
+#include "Modules/GUIModule.hpp"
 #include <memory>
 
 class InputModule;
@@ -17,6 +18,7 @@ class SimulationManager {
 		SimulationManager& operator=(const SimulationManager&) = delete;
 
 		void run();
+        std::unique_ptr<GUIModule> guiModule;
 
 		bool shouldQuit;
 

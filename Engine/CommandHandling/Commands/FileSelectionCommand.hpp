@@ -4,14 +4,12 @@
 
 #ifndef BROADWAY_SIMULATION_FILESELECTIONCOMMAND_HPP
 #define BROADWAY_SIMULATION_FILESELECTIONCOMMAND_HPP
-
-#include "../Command.hpp"
 #include "../../FileReading/FileReaderTemplate.hpp"
 #include <iostream>
-
-class FileSelectionCommand : public Command {
-	public:
-		void execute() override;
+#include "../Command.hpp"
+class FileSelectionCommand :public Command{
+    void execute() override;
 };
+
 
 #endif //BROADWAY_SIMULATION_FILESELECTIONCOMMAND_HPP

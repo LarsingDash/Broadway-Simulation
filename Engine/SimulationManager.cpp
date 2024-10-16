@@ -15,6 +15,8 @@ SimulationManager::SimulationManager() : shouldQuit(false) {
 
 	renderingModule = std::make_unique<RenderingModule>(windowModule->getWindow());
 	inputModule = std::make_unique<InputModule>();
+    guiModule = std::make_unique<GUIModule>(windowModule->getWindow(), renderingModule->getRenderer());
+
 }
 
 SimulationManager::~SimulationManager() {
@@ -24,7 +26,9 @@ SimulationManager::~SimulationManager() {
 void SimulationManager::processEvents() {
 	SDL_Event event;
 	while (SDL_PollEvent(&event)) {
-		switch (event.type) {
+        ImGui_ImplSDL2_ProcessEvent(&event);
+
+        switch (event.type) {
 			default:
 				break;
 			case SDL_QUIT:
@@ -59,11 +63,14 @@ void SimulationManager::run() {
 		//Events
 		processEvents();
 
+        guiModule->beginFrame();
+
 		//Cycle
 		renderingModule->clear();
 
 		SimulationManager::artistsManager->update(static_cast<float>(delta) / 1000.f);
 		renderingModule->draw();
+        guiModule->render();
 
 		renderingModule->present();
 
@@ -76,4 +83,6 @@ void SimulationManager::run() {
 			frameCount = 0;
 		}
 	}
+    guiModule->shutdown();
+
 }

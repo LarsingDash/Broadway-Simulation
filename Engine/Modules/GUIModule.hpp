@@ -22,11 +22,14 @@ public:
     void render();
     void shutdown();
     void toggleFileSelectionWindow();
+    bool getInputFocused(){return ImGui::IsAnyItemActive();};
+    bool isWindowOpen(){return showFileSelectionWindow;};
+
 private:
     SDL_Window* window;
     SDL_Renderer* renderer;
     bool showFileSelectionWindow = false;
-
+    bool isInputFocused;
     void openFileDialog();
 };
 

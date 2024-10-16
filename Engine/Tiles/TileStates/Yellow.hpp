@@ -7,11 +7,11 @@
 
 
 #include "TileState.hpp"
-
+class Tile;
 class Yellow : public TileState {
 	public:
 		Yellow(): TileState('Y') {}
-		void handleInteraction() override;
+    void handleInteraction(Tile* tile, bool mouseClick) override;
 };
 
 

@@ -12,7 +12,7 @@ public:
 	void clear();
     void draw();
 	void present();
-
+    SDL_Renderer *getRenderer() const { return renderer; }
 private:
     SDL_Renderer* renderer;
     Museum* museum;

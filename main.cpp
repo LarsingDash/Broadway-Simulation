@@ -2,7 +2,6 @@
 #include "Engine/SimulationManager.hpp"
 
 int main(int argc, char* argv[]) {
-    SimulationManager engine;
-    engine.run();
+    SimulationManager::getInstance().run();
     return 0;
 }

@@ -1,26 +1,19 @@
 #include "InputModule.hpp"
-#include "../FileReading/FileReaderTemplate.hpp"
 #include <iostream>
 
-void InputModule::handleScancode(SDL_Scancode key, bool& shouldQuit) {
-	//TODO build a map<SCANCODE, Command> from imgui, so that it is changeable on runtime (including modifier keys)
-	switch (key) {
-		default:
-			break;
-		case SDL_SCANCODE_ESCAPE:
-			shouldQuit = true;
-			std::cout << "Escape key pressed!" << std::endl;
-			break;
-		case SDL_SCANCODE_O:
-			FileReaderTemplate::assignStrategies();
-			
-			FileReaderTemplate::readFileTemplate("..\\assets\\grid.txt", SourceType::File, FileType::Map);
-//			FileReaderTemplate::readFileTemplate("https://firebasestorage.googleapis.com/v0/b/dpa-files.appspot.com/o/grid.txt?alt=media", SourceType::Web, FileType::Map);
+InputModule::InputModule() {
+    commands[SDL_SCANCODE_SPACE] = std::make_unique<PlayPauseCommand>();
+    commands[SDL_SCANCODE_RETURN] = std::make_unique<MouseInteractionCommand>();
+    commands[SDL_SCANCODE_O] = std::make_unique<FileSelectionCommand>();
+    commands[SDL_SCANCODE_A] = std::make_unique<RenderArtistsCommand>();
+    commands[SDL_SCANCODE_LEFT] = std::make_unique<RewindCommand>();
+    commands[SDL_SCANCODE_RIGHT] = std::make_unique<FastForwardCommand>();
+    commands[SDL_SCANCODE_ESCAPE] = std::make_unique<QuitCommand>();
+}
 
-//			FileReaderTemplate::readFileTemplate("..\\assets\\graph.xml", SourceType::File, FileType::Map);
-//			FileReaderTemplate::readFileTemplate("https://firebasestorage.googleapis.com/v0/b/dpa-files.appspot.com/o/graph.xml?alt=media", SourceType::Web, FileType::Map);
-
-			FileReaderTemplate::readFileTemplate("..\\assets\\artists.csv", SourceType::File, FileType::Artist);
-			break;
-	}
+void InputModule::handleScancode(SDL_Scancode key) {
+    auto it = commands.find(key);
+    if (it != commands.end()) {
+        it->second->execute();
+    }
 }

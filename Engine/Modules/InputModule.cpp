@@ -1,5 +1,4 @@
 #include "InputModule.hpp"
-#include <iostream>
 
 InputModule::InputModule() {
     commands[SDL_SCANCODE_SPACE] = std::make_unique<PlayPauseCommand>();
@@ -16,4 +15,8 @@ void InputModule::handleScancode(SDL_Scancode key) {
     if (it != commands.end()) {
         it->second->execute();
     }
+}
+
+void InputModule::handleMouseClick() {
+	commands[SDL_SCANCODE_RETURN]->execute();
 }

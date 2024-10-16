@@ -8,10 +8,7 @@
 #include <iostream>
 #include "../Command.hpp"
 class MouseInteractionCommand :public Command{
-    void execute() override{
-        std::cout << "MouseInteractionCommand exectued" << std::endl;
-    }
+    void execute() override;
 };
-
 
 #endif //BROADWAY_SIMULATION_MOUSEINTERACTIONCOMMAND_HPP

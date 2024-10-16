@@ -20,6 +20,7 @@ class InputModule {
 public:
     InputModule();
     void handleScancode(SDL_Scancode key);
+	void handleMouseClick();
 };
 
 #endif /* INPUT_MODULE_HPP */

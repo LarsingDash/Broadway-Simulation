@@ -37,25 +37,9 @@ void SimulationManager::processEvents() {
 					WindowModule::handleResize(event.window);
 				break;
 			case SDL_MOUSEBUTTONDOWN:
-				interactTileAtMouse();
+				inputModule->handleMouseClick();
 				break;
 		}
-	}
-}
-
-void SimulationManager::interactTileAtMouse() const {
-	int x, y;
-	SDL_GetMouseState(&x, &y);
-
-	glm::vec2 tileSize = Museum::tileSize;
-
-	int tileX = static_cast<int>(static_cast<float>(x) / tileSize.x);
-	int tileY = static_cast<int>(static_cast<float>(y) / tileSize.y);
-
-	if (tileX >= 0 && tileX < museum->getCols() && tileY >= 0 && tileY < museum->getRows()) {
-		Tile& clickedTile = museum->getTile(tileX, tileY);
-		clickedTile.logTileData();
-		clickedTile.currentState->handleInteraction(&clickedTile, true);
 	}
 }
 

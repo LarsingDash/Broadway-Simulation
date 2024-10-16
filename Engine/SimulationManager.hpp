@@ -17,7 +17,6 @@ class SimulationManager {
 		SimulationManager& operator=(const SimulationManager&) = delete;
 
 		void run();
-		void interactTileAtMouse() const;
 
 		bool shouldQuit;
 		

@@ -15,6 +15,7 @@ class ArtistsManager {
 		void update(float delta);
 		void clearArtists();
 		void addArtist(glm::vec2 tile, glm::vec2 dir);
+		void removeArtist(Artist* cur);
 	private:
 		std::vector<std::unique_ptr<Artist>> artists;
 };

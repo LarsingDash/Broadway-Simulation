@@ -18,7 +18,7 @@ class SimulationManager {
 		SimulationManager& operator=(const SimulationManager&) = delete;
 
 		void run();
-        std::unique_ptr<GUIModule> guiModule;
+		void toggleRunning();
 
 		bool shouldQuit;
 
@@ -26,12 +26,14 @@ class SimulationManager {
 		std::unique_ptr<ArtistsManager> artistsManager;
 	private:
 		static SimulationManager instance;
+		bool isRunning = true;
 
 		SimulationManager();
 		~SimulationManager();
 
 		void processEvents();
 
+        std::unique_ptr<GUIModule> guiModule;
 		std::unique_ptr<WindowModule> windowModule;
 		std::unique_ptr<RenderingModule> renderingModule;
 		std::unique_ptr<InputModule> inputModule;

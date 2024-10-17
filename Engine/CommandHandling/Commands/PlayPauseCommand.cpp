@@ -3,7 +3,9 @@
 //
 
 #include "PlayPauseCommand.hpp"
+#include "../../SimulationManager.hpp"
 
 void PlayPauseCommand::execute() {
 	std::cout << "PlayPauseCommand executed" << std::endl;
+	SimulationManager::getInstance().toggleRunning();
 }

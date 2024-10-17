@@ -16,11 +16,11 @@ SimulationManager::SimulationManager() : shouldQuit(false) {
     renderingModule = std::make_unique<RenderingModule>(windowModule->getWindow());
     inputModule = std::make_unique<InputModule>();
     guiModule = std::make_unique<GUIModule>(windowModule->getWindow(), renderingModule->getRenderer());
-
 }
 
 SimulationManager::~SimulationManager() {
     WebSourceStrategy::cleanup();
+	guiModule->shutdown();
 }
 
 void SimulationManager::processEvents() {
@@ -70,9 +70,9 @@ void SimulationManager::run() {
         //Cycle
         renderingModule->clear();
 
-        SimulationManager::artistsManager->update(static_cast<float>(delta) / 1000.f);
-        renderingModule->draw();
-        guiModule->render();
+		if (isRunning) SimulationManager::artistsManager->update(static_cast<float>(delta) / 1000.f);
+		renderingModule->draw();
+		guiModule->render();
 
         renderingModule->present();
 
@@ -85,6 +85,6 @@ void SimulationManager::run() {
             frameCount = 0;
         }
     }
-    guiModule->shutdown();
-
 }
+
+void SimulationManager::toggleRunning() { isRunning = !isRunning; }

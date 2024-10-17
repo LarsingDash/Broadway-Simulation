@@ -24,6 +24,7 @@ class SimulationManager {
 
 		std::unique_ptr<Museum> museum;
 		std::unique_ptr<ArtistsManager> artistsManager;
+		std::unique_ptr<GUIModule> guiModule;
 	private:
 		static SimulationManager instance;
 		bool isRunning = true;
@@ -33,7 +34,6 @@ class SimulationManager {
 
 		void processEvents();
 
-        std::unique_ptr<GUIModule> guiModule;
 		std::unique_ptr<WindowModule> windowModule;
 		std::unique_ptr<RenderingModule> renderingModule;
 		std::unique_ptr<InputModule> inputModule;

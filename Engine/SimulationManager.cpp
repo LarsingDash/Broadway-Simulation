@@ -35,7 +35,7 @@ void SimulationManager::processEvents() {
                 shouldQuit = true;
                 break;
             case SDL_KEYDOWN:
-                if(!guiModule->getInputFocused()){
+                if(!GUIModule::getInputFocused()){
                     inputModule->handleScancode(event.key.keysym.scancode);
                 }
                 break;
@@ -64,10 +64,9 @@ void SimulationManager::run() {
 
         //Events
         processEvents();
-
-        guiModule->beginFrame();
-
+		
         //Cycle
+        GUIModule::beginFrame();
         renderingModule->clear();
 
 		if (isRunning) SimulationManager::artistsManager->update(static_cast<float>(delta) / 1000.f);

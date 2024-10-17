@@ -1,4 +1,4 @@
-﻿//
+//
 // Created by larsv on 03/10/2024.
 //
 
@@ -21,8 +21,7 @@ void FileReaderTemplate::assignStrategies() {
 }
 
 void FileReaderTemplate::readFileTemplate(const std::string& pathOrURL, SourceType sourceType) {
-	FileReaderTemplate::assignStrategies();
-	
+    assignStrategies();
 	//Decide Source Strategy
 	std::unique_ptr<ISourceStrategy> sourceStrategy;
 	switch (sourceType) {

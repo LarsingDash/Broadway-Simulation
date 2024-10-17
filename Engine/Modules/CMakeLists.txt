@@ -2,4 +2,5 @@
         InputModule.cpp
         RenderingModule.cpp
         WindowModule.cpp
+        GUIModule.cpp
 )

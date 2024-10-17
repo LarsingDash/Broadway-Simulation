@@ -5,10 +5,10 @@
 #include "Grey.hpp"
 #include "Red.hpp"
 
-void Grey::handleInteraction(Tile* tile, bool mouseClick) {
-	tile->interactionCount++;
+void Grey::handleInteraction(Tile& tile, Artist* artist) {
+	interactionCount++;
 
-	if (tile->interactionCount >= 3) {
-		tile->setState<Red>();
+	if (interactionCount >= 3) {
+		tile.setState<Red>();
 	}
 }

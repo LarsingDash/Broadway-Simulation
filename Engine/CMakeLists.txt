@@ -1,5 +1,6 @@
 ﻿target_sources(${PROJECT_NAME} PRIVATE
         SimulationManager.cpp
+        SingletonRandom.cpp
 )
 
 add_subdirectory(Artists)

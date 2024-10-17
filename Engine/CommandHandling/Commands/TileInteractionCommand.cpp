@@ -2,13 +2,13 @@
 // Created by 11896 on 11/10/2024.
 //
 
-#include "MouseInteractionCommand.hpp"
+#include "TileInteractionCommand.hpp"
 #include "../../Tiles/Museum.hpp"
 #include "../../SimulationManager.hpp"
 #include <SDL_mouse.h>
 #include <vec2.hpp>
 
-void MouseInteractionCommand::execute() {
+void TileInteractionCommand::execute() {
 	Museum& museum = *SimulationManager::getInstance().museum;
 	
 	int x, y;
@@ -22,6 +22,6 @@ void MouseInteractionCommand::execute() {
 	if (tileX >= 0 && tileX < museum.getCols() && tileY >= 0 && tileY < museum.getRows()) {
 		Tile& clickedTile = museum.getTile(tileX, tileY);
 		clickedTile.logTileData();
-		clickedTile.currentState->handleInteraction(&clickedTile, true);
+		clickedTile.currentState->handleInteraction(clickedTile, nullptr);
 	}
 }

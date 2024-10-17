@@ -4,4 +4,4 @@
 
 #include "White.hpp"
 
-void White::handleInteraction(Tile* tile, bool mouseClick) {}
+void White::handleInteraction(Tile& tile, Artist* artist) {}

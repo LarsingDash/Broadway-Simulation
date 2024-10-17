@@ -3,7 +3,9 @@
 //
 
 #include "RenderArtistsCommand.hpp"
+#include "../../SimulationManager.hpp"
 
 void RenderArtistsCommand::execute() {
 	std::cout << "RenderArtistsCommand executed" << std::endl;
+	SimulationManager::getInstance().artistsManager->toggleRendering();
 }

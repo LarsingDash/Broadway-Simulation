@@ -2,7 +2,7 @@
 
 InputModule::InputModule() {
 	commands[SDL_SCANCODE_SPACE] = std::make_unique<PlayPauseCommand>();
-	commands[SDL_SCANCODE_RETURN] = std::make_unique<MouseInteractionCommand>();
+	commands[SDL_SCANCODE_RETURN] = std::make_unique<TileInteractionCommand>();
 	commands[SDL_SCANCODE_O] = std::make_unique<FileSelectionCommand>();
 	commands[SDL_SCANCODE_A] = std::make_unique<RenderArtistsCommand>();
 	commands[SDL_SCANCODE_LEFT] = std::make_unique<RewindCommand>();

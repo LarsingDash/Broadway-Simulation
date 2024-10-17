@@ -20,12 +20,13 @@ class GUIModule {
 		void shutdown();
 		void toggleFileSelectionWindow();
 
-		static bool getInputFocused();
+		[[nodiscard]] bool getFileSelectionFocussed() const;
 		[[nodiscard]] bool isWindowOpen() const;;
 
 	private:
 		SDL_Renderer* renderer;
 		bool showFileSelectionWindow = false;
+		bool fileSelectionWindowFocussed = false;
 
 		void _renderFileSelector();
 		void openFileDialog();

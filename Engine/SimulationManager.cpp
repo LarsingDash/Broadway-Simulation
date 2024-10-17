@@ -35,9 +35,7 @@ void SimulationManager::processEvents() {
                 shouldQuit = true;
                 break;
             case SDL_KEYDOWN:
-                if(!GUIModule::getInputFocused()){
-                    inputModule->handleScancode(event.key.keysym.scancode);
-                }
+                inputModule->handleScancode(event.key.keysym.scancode);
                 break;
             case SDL_WINDOWEVENT:
                 if (event.window.event == SDL_WINDOWEVENT_RESIZED)

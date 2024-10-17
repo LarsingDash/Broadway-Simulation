@@ -24,6 +24,7 @@ void GUIModule::beginFrame() {
 
 void GUIModule::render() {
 	if (showFileSelectionWindow) _renderFileSelector();
+	else fileSelectionWindowFocussed = false;
 
 	ImGui::Render();
 	ImGui_ImplSDLRenderer2_RenderDrawData(ImGui::GetDrawData(), renderer);
@@ -42,7 +43,7 @@ void GUIModule::toggleFileSelectionWindow() {
 	showFileSelectionWindow = !showFileSelectionWindow;
 }
 
-bool GUIModule::getInputFocused() { return ImGui::IsAnyItemActive(); }
+bool GUIModule::getFileSelectionFocussed() const { return fileSelectionWindowFocussed; }
 
 bool GUIModule::isWindowOpen() const { return showFileSelectionWindow; }
 
@@ -50,6 +51,7 @@ void GUIModule::_renderFileSelector() {
 	//Begin
 	ImGui::SetNextWindowSize(ImVec2(400, 185), ImGuiCond_Once);
 	ImGui::Begin("File Selection", nullptr, ImGuiWindowFlags_NoResize);
+	fileSelectionWindowFocussed = ImGui::IsWindowFocused();
 
 	//Museum Header
 	ImGui::Text("Museum/Map");

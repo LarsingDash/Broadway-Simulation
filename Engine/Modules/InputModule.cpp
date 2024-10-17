@@ -11,6 +11,9 @@ InputModule::InputModule() {
 }
 
 void InputModule::handleScancode(SDL_Scancode key) {
+	//Ignore everything but the QuitCommand key when FileSelection is opened
+	if (key != SDL_SCANCODE_ESCAPE && SimulationManager::getInstance().guiModule->getFileSelectionFocussed()) return;
+
 	auto it = commands.find(key);
 	if (it != commands.end()) {
 		it->second->execute();

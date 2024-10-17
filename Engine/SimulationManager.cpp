@@ -62,7 +62,7 @@ void SimulationManager::run() {
 		//Cycle
 		renderingModule->clear();
 
-		SimulationManager::artistsManager->update(static_cast<float>(delta) / 1000.f);
+		if (isRunning) SimulationManager::artistsManager->update(static_cast<float>(delta) / 1000.f);
 		renderingModule->draw();
 
 		renderingModule->present();
@@ -77,3 +77,5 @@ void SimulationManager::run() {
 		}
 	}
 }
+
+void SimulationManager::toggleRunning() { isRunning = !isRunning; }

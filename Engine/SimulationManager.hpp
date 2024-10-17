@@ -17,6 +17,7 @@ class SimulationManager {
 		SimulationManager& operator=(const SimulationManager&) = delete;
 
 		void run();
+		void toggleRunning();
 
 		bool shouldQuit;
 
@@ -24,6 +25,7 @@ class SimulationManager {
 		std::unique_ptr<ArtistsManager> artistsManager;
 	private:
 		static SimulationManager instance;
+		bool isRunning = true;
 
 		SimulationManager();
 		~SimulationManager();

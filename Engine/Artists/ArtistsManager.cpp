@@ -7,6 +7,8 @@
 #include <algorithm>
 
 void ArtistsManager::render(SDL_Renderer* renderer) const {
+	if (!isRenderingActive) return;
+	
 	for (const auto& artist: artists)
 		artist->render(renderer);
 }
@@ -34,3 +36,5 @@ void ArtistsManager::addArtist(const glm::ivec2 tile, const glm::vec2 dir) {
 	if (artists.size() >= 250) return;
 	artists.emplace_back(std::make_unique<Artist>(glm::vec2{tile.x, tile.y} * Museum::tileSize, dir, tile));
 }
+
+void ArtistsManager::toggleRendering() { isRenderingActive = !isRenderingActive; }

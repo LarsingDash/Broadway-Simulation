@@ -15,7 +15,9 @@ class ArtistsManager {
 		void update(float delta);
 		void clearArtists();
 		void addArtist(glm::ivec2 tile, glm::vec2 dir);
+		void toggleRendering();
 	private:
+		bool isRenderingActive = true;
 		std::vector<std::unique_ptr<Artist>> artists;
 };
 

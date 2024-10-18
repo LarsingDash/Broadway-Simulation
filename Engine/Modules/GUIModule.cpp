@@ -1,5 +1,7 @@
 #include "GUIModule.hpp"
 #include "../FileReading/FileReaderTemplate.hpp"
+#include <backends/imgui_impl_sdl2.h>
+#include <backends/imgui_impl_sdlrenderer2.h>
 
 GUIModule::GUIModule(SDL_Window* window, SDL_Renderer* renderer) : renderer(renderer) {
 	IMGUI_CHECKVERSION();
@@ -39,9 +41,7 @@ void GUIModule::shutdown() {
 	}
 }
 
-void GUIModule::toggleFileSelectionWindow() {
-	showFileSelectionWindow = !showFileSelectionWindow;
-}
+void GUIModule::toggleFileSelectionWindow() { showFileSelectionWindow = !showFileSelectionWindow; }
 
 bool GUIModule::getFileSelectionFocussed() const { return fileSelectionWindowFocussed; }
 
@@ -56,7 +56,7 @@ void GUIModule::_renderFileSelector() {
 	//Museum Header
 	ImGui::Text("Museum/Map");
 	static int mapSourceType = 1;
-	
+
 	//Museum RadioButton
 	ImGui::RadioButton("Web Source", &mapSourceType, 0);
 	ImGui::SameLine();
@@ -64,11 +64,11 @@ void GUIModule::_renderFileSelector() {
 
 	//Museum InputField
 	static char mapInput[256] = "..\\assets\\grid.txt";
-	if (mapSourceType == 0) {	//Web
+	if (mapSourceType == 0) {    //Web
 		ImGui::PushItemWidth(-1);
 		ImGui::InputText("##MapInput", mapInput, IM_ARRAYSIZE(mapInput));
 		ImGui::PopItemWidth();
-	} else {	//File
+	} else {    //File
 		ImGui::PushItemWidth(-110);
 		ImGui::InputText("##MapInput", mapInput, IM_ARRAYSIZE(mapInput));
 		ImGui::PopItemWidth();
@@ -83,7 +83,7 @@ void GUIModule::_renderFileSelector() {
 	//Artist Header
 	ImGui::Text("Artist");
 	static int artistSourceType = 1;
-	
+
 	//Artist RadioButton
 	ImGui::RadioButton("Web Source##Artist", &artistSourceType, 0);
 	ImGui::SameLine();
@@ -91,11 +91,11 @@ void GUIModule::_renderFileSelector() {
 
 	//Artist InputField
 	static char artistInput[256] = "..\\assets\\artists.csv";
-	if (artistSourceType == 0) {	//Web
+	if (artistSourceType == 0) {    //Web
 		ImGui::PushItemWidth(-1);
 		ImGui::InputText("##ArtistInput", artistInput, IM_ARRAYSIZE(artistInput));
 		ImGui::PopItemWidth();
-	} else {	//File
+	} else {    //File
 		ImGui::PushItemWidth(-110);
 		ImGui::InputText("##ArtistInput", artistInput, IM_ARRAYSIZE(artistInput));
 		ImGui::PopItemWidth();

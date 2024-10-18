@@ -16,7 +16,7 @@ SimulationManager::SimulationManager() : shouldQuit(false) {
 
     renderingModule = std::make_unique<RenderingModule>(windowModule->getWindow());
     inputModule = std::make_unique<InputModule>();
-    guiModule = std::make_unique<GUIModule>(windowModule->getWindow(), renderingModule->getRenderer());
+    guiModule = std::make_unique<GUIModule>(windowModule->getWindow(), renderingModule->getRenderer(), *inputModule);
 }
 
 SimulationManager::~SimulationManager() {

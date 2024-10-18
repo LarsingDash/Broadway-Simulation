@@ -10,14 +10,14 @@
 #include "../CommandHandling/Commands/InfoCommand.hpp"
 
 InputModule::InputModule() {
-	keys[Commands::PlayPause] = SDL_SCANCODE_SPACE;
-	keys[Commands::TileInteraction] = SDL_SCANCODE_RETURN;
-	keys[Commands::FileSelection] = SDL_SCANCODE_O;
-	keys[Commands::RenderArtists] = SDL_SCANCODE_A;
-	keys[Commands::Rewind] = SDL_SCANCODE_LEFT;
-	keys[Commands::FastForward] = SDL_SCANCODE_RIGHT;
-	keys[Commands::Quit] = SDL_SCANCODE_ESCAPE;
-	keys[Commands::Info] = SDL_SCANCODE_M;
+	keys[Commands::PlayPause] = {SDL_SCANCODE_SPACE, "PlayPause"};
+	keys[Commands::TileInteraction] = {SDL_SCANCODE_RETURN, "TileInteraction"};
+	keys[Commands::FileSelection] = {SDL_SCANCODE_O, "FileSelection"};
+	keys[Commands::RenderArtists] = {SDL_SCANCODE_A, "RenderArtists"};
+	keys[Commands::Rewind] = {SDL_SCANCODE_LEFT, "Rewind"};
+	keys[Commands::FastForward] = {SDL_SCANCODE_RIGHT, "FastForward"};
+	keys[Commands::Quit] = {SDL_SCANCODE_ESCAPE, "Quit"};
+	keys[Commands::Info] = {SDL_SCANCODE_M, "Info"};
 
 	commandBindings[Commands::PlayPause] = std::make_unique<PlayPauseCommand>();
 	commandBindings[Commands::TileInteraction] = std::make_unique<TileInteractionCommand>();
@@ -30,12 +30,14 @@ InputModule::InputModule() {
 }
 
 void InputModule::handleScancode(SDL_Scancode key) {
-	//Ignore everything but the QuitCommand key when FileSelection is focussed
-	if (key != keys[Commands::Quit] && SimulationManager::getInstance().guiModule->getFileSelectionFocussed()) return;
+	//Ignore everything but the QuitCommand key when any window is focussed
+	GUIModule& guiModule = *SimulationManager::getInstance().guiModule;
+	if (GUIModule::isTyping) return;
+	if (key != keys[Commands::Quit].first && (guiModule.getFileSelectionFocussed() || guiModule.getInfoFocussed())) return;
 
 	//Find the command corresponding with the pressed key
 	for (const auto& [command, boundKey]: keys) {
-		if (boundKey == key) {
+		if (boundKey.first == key) {
 			//Call the command
 			commandBindings[command]->execute();
 			break;

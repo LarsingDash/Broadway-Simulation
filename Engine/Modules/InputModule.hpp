@@ -9,10 +9,6 @@
 
 class InputModule {
 	public:
-		InputModule();
-        void handleScancode(SDL_Scancode key);
-		void handleMouseClick();
-	private:
 		enum Commands {
 			PlayPause,
 			TileInteraction,
@@ -23,8 +19,13 @@ class InputModule {
 			Quit,
 			Info,
 		};
-		
-		std::unordered_map<Commands, SDL_Scancode> keys;
+
+		InputModule();
+		void handleScancode(SDL_Scancode key);
+		void handleMouseClick();
+		std::unordered_map<Commands, std::pair<SDL_Scancode, std::string>> keys;
+
+	private:
 		std::unordered_map<Commands, std::unique_ptr<Command>> commandBindings{};
 
 };

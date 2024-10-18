@@ -2,14 +2,21 @@
 #include "../FileReading/FileReaderTemplate.hpp"
 #include <backends/imgui_impl_sdl2.h>
 #include <backends/imgui_impl_sdlrenderer2.h>
+#include <sstream>
 
-GUIModule::GUIModule(SDL_Window* window, SDL_Renderer* renderer) : renderer(renderer) {
+std::unordered_map<InputModule::Commands, std::pair<std::array<char, 64>, bool>> GUIModule::keyInputs;
+bool GUIModule::isTyping = false;
+
+GUIModule::GUIModule(SDL_Window* window, SDL_Renderer* renderer, InputModule& module) :
+		renderer(renderer), inputModule{module} {
+	//ImGUI setup
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	ImGuiIO& io = ImGui::GetIO();
 	(void) io;
 	ImGui::StyleColorsDark();
 
+	//Bind ImGUI with SDL
 	ImGui_ImplSDL2_InitForSDLRenderer(window, renderer);
 	ImGui_ImplSDLRenderer2_Init(renderer);
 }
@@ -46,7 +53,18 @@ void GUIModule::shutdown() {
 
 void GUIModule::enableFileSelectionWindow() { showFileSelectionWindow = true; }
 
-void GUIModule::enableInfoWindow() { showInfoWindow = true; }
+void GUIModule::enableInfoWindow() {
+	showInfoWindow = true;
+
+	//Init keyInputs
+	for (const auto& [command, key]: inputModule.keys) {
+		std::string keyName = SDL_GetScancodeName(key.first);
+		auto keyArray = std::array<char, 64>{};
+
+		strncpy(keyArray.data(), keyName.c_str(), keyArray.size() - 1);
+		GUIModule::keyInputs[command] = {keyArray, true};
+	}
+}
 
 void GUIModule::closeWindows() {
 	showFileSelectionWindow = false;
@@ -148,10 +166,64 @@ void GUIModule::_renderFileSelector() {
 }
 
 void GUIModule::_renderInfo() {
-	ImGui::SetNextWindowSize(ImVec2(400, 185), ImGuiCond_Once);
+	//Begin
+	ImGui::SetNextWindowSize(ImVec2(200, 300), ImGuiCond_Once);
 	ImGui::Begin("Info", nullptr, ImGuiWindowFlags_NoResize);
 	infoWindowFocussed = ImGui::IsWindowFocused();
-	
+
+	//Header
+	ImGui::Text("Command / Key");
+	ImGui::Separator();
+
+	bool isTypingAnywhere = false;
+	for (const auto& [command, key]: inputModule.keys) {
+		//Command
+		ImGui::Text(key.second.c_str());
+		ImGui::SameLine();
+
+		//Get buffer
+		std::pair<std::array<char, 64>, bool> config = GUIModule::keyInputs[command];
+		std::array<char, 64>& buffer = config.first;
+
+		//Prefix label with ## to hide it visually
+		std::stringstream stringStream;
+		stringStream << "##";
+		stringStream << key.second;
+
+		//InputText
+		//	Fill remaining width and color red if invalid
+		ImGui::PushItemWidth(-1);
+		if (!config.second) ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(225, 25, 25, 255));
+
+		//	InputText
+		ImGui::InputText(stringStream.str().c_str(), buffer.data(), buffer.size(),
+						 ImGuiInputTextFlags_CallbackEdit | ImGuiInputTextFlags_CharsUppercase |
+						 ImGuiInputTextFlags_AutoSelectAll, [](ImGuiInputTextCallbackData* data) {
+					//Retrieve command from InputText user_data
+					auto curCommand = *static_cast<InputModule::Commands*>(data->UserData);
+
+					SDL_Scancode scancode = SDL_GetScancodeFromName(data->Buf);
+
+					//Update key
+					if (scancode != SDL_SCANCODE_UNKNOWN) {
+						SimulationManager::getInstance().inputModule->keys[curCommand].first = scancode;
+						GUIModule::keyInputs[curCommand].second = true;
+					}
+						//Mark InputText red
+					else GUIModule::keyInputs[curCommand].second = false;
+
+					return 1;
+				}, (void*) &command);
+		if (ImGui::IsItemActive()) isTypingAnywhere = true;
+
+		//Pop
+		if (!config.second)ImGui::PopStyleColor();
+		ImGui::PopItemWidth();
+	}
+
+	GUIModule::isTyping = isTypingAnywhere;
+
+	//End
 	ImGui::End();
 }
 

@@ -5,11 +5,13 @@
 #ifndef BROADWAY_SIMULATION_GUIMODULE_HPP
 #define BROADWAY_SIMULATION_GUIMODULE_HPP
 
+#include "InputModule.hpp"
 #include <SDL_render.h>
+#include <array>
 
 class GUIModule {
 	public:
-		GUIModule(SDL_Window* window, SDL_Renderer* renderer);
+		GUIModule(SDL_Window* window, SDL_Renderer* renderer, InputModule& inputModule);
 		~GUIModule();
 
 		static void beginFrame();
@@ -23,12 +25,18 @@ class GUIModule {
 		[[nodiscard]] bool getInfoFocussed() const;
 		[[nodiscard]] bool isWindowOpen() const;
 
+		static bool isTyping;
 	private:
 		SDL_Renderer* renderer;
+		InputModule& inputModule;
+		
 		bool showFileSelectionWindow = false;
 		bool showInfoWindow = false;
 		bool fileSelectionWindowFocussed = false;
 		bool infoWindowFocussed = false;
+		
+		//<Command, <InputBuffer, ValidBool>>
+		static std::unordered_map<InputModule::Commands, std::pair<std::array<char, 64>, bool>> keyInputs;
 
 		void _renderFileSelector();
 		void _renderInfo();

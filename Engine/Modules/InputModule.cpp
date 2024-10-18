@@ -21,5 +21,6 @@ void InputModule::handleScancode(SDL_Scancode key) {
 }
 
 void InputModule::handleMouseClick() {
-	commands[SDL_SCANCODE_RETURN]->execute();
+	if (!SimulationManager::getInstance().guiModule->getFileSelectionFocussed())
+		commands[SDL_SCANCODE_RETURN]->execute();
 }

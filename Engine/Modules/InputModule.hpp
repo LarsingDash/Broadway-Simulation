@@ -3,15 +3,8 @@
 
 #include <unordered_map>
 #include <memory>
+#include <SDL_scancode.h>
 #include "../CommandHandling/Command.hpp"
-#include "../CommandHandling/Commands/RewindCommand.hpp"
-#include "../CommandHandling/Commands/RenderArtistsCommand.hpp"
-#include "../CommandHandling/Commands/FileSelectionCommand.hpp"
-#include "../CommandHandling/Commands/PlayPauseCommand.hpp"
-#include "../CommandHandling/Commands/TileInteractionCommand.hpp"
-#include "../CommandHandling/Commands/FastForwardCommand.hpp"
-#include "../CommandHandling/Commands/QuitCommand.hpp"
-
 
 class InputModule {
 		std::unordered_map<SDL_Scancode, std::unique_ptr<Command>> commands;

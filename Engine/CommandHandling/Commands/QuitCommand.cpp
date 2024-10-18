@@ -1,4 +1,5 @@
 #include "QuitCommand.hpp"
+#include "../../SimulationManager.hpp"
 #include <iostream>
 
 void QuitCommand::execute() {

@@ -7,5 +7,6 @@
 
 void FileSelectionCommand::execute() {
     std::cout << "FileSelectionCommand executed" << std::endl;
-    SimulationManager::getInstance().guiModule->enableFileSelectionWindow();
+	GUIModule& guiModule = *SimulationManager::getInstance().guiModule;
+	if (!guiModule.isWindowOpen()) guiModule.enableFileSelectionWindow();
 }

@@ -29,6 +29,7 @@ void GUIModule::render() {
 	else fileSelectionWindowFocussed = false;
 
 	if (showInfoWindow) _renderInfo();
+	else infoWindowFocussed = false;
 
 	ImGui::Render();
 	ImGui_ImplSDLRenderer2_RenderDrawData(ImGui::GetDrawData(), renderer);
@@ -53,6 +54,8 @@ void GUIModule::closeWindows() {
 }
 
 bool GUIModule::getFileSelectionFocussed() const { return fileSelectionWindowFocussed; }
+
+bool GUIModule::getInfoFocussed() const { return infoWindowFocussed; }
 
 bool GUIModule::isWindowOpen() const { return showFileSelectionWindow || showInfoWindow; }
 
@@ -144,7 +147,13 @@ void GUIModule::_renderFileSelector() {
 	ImGui::End();
 }
 
-void GUIModule::_renderInfo() {}
+void GUIModule::_renderInfo() {
+	ImGui::SetNextWindowSize(ImVec2(400, 185), ImGuiCond_Once);
+	ImGui::Begin("Info", nullptr, ImGuiWindowFlags_NoResize);
+	infoWindowFocussed = ImGui::IsWindowFocused();
+	
+	ImGui::End();
+}
 
 void GUIModule::openFileDialog() {
 

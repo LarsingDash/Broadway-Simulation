@@ -20,6 +20,7 @@ class GUIModule {
 		void closeWindows();
 
 		[[nodiscard]] bool getFileSelectionFocussed() const;
+		[[nodiscard]] bool getInfoFocussed() const;
 		[[nodiscard]] bool isWindowOpen() const;
 
 	private:
@@ -27,6 +28,7 @@ class GUIModule {
 		bool showFileSelectionWindow = false;
 		bool showInfoWindow = false;
 		bool fileSelectionWindowFocussed = false;
+		bool infoWindowFocussed = false;
 
 		void _renderFileSelector();
 		void _renderInfo();

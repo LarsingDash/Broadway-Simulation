@@ -15,17 +15,21 @@ class GUIModule {
 		static void beginFrame();
 		void render();
 		void shutdown();
-		void toggleFileSelectionWindow();
+		void enableFileSelectionWindow();
+		void enableInfoWindow();
+		void closeWindows();
 
 		[[nodiscard]] bool getFileSelectionFocussed() const;
-		[[nodiscard]] bool isWindowOpen() const;;
+		[[nodiscard]] bool isWindowOpen() const;
 
 	private:
 		SDL_Renderer* renderer;
 		bool showFileSelectionWindow = false;
+		bool showInfoWindow = false;
 		bool fileSelectionWindowFocussed = false;
 
 		void _renderFileSelector();
+		void _renderInfo();
 		void openFileDialog();
 };
 

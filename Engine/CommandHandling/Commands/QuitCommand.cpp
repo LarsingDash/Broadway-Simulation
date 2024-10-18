@@ -4,7 +4,7 @@
 void QuitCommand::execute() {
 	std::cout << "QuitCommand executed, setting shouldQuit to true." << std::endl;
 	if (SimulationManager::getInstance().guiModule->isWindowOpen())
-		SimulationManager::getInstance().guiModule->toggleFileSelectionWindow();
+		SimulationManager::getInstance().guiModule->closeWindows();
 	else SimulationManager::getInstance().shouldQuit = true;
 
 }

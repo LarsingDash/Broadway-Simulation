@@ -7,7 +7,5 @@
 
 void FileSelectionCommand::execute() {
     std::cout << "FileSelectionCommand executed" << std::endl;
-//    FileReaderTemplate::assignStrategies();
-//    FileReaderTemplate::readFileTemplate("..\\assets\\grid.txt", SourceType::File);
-    SimulationManager::getInstance().guiModule->toggleFileSelectionWindow();
+    SimulationManager::getInstance().guiModule->enableFileSelectionWindow();
 }

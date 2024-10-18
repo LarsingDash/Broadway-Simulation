@@ -28,6 +28,8 @@ void GUIModule::render() {
 	if (showFileSelectionWindow) _renderFileSelector();
 	else fileSelectionWindowFocussed = false;
 
+	if (showInfoWindow) _renderInfo();
+
 	ImGui::Render();
 	ImGui_ImplSDLRenderer2_RenderDrawData(ImGui::GetDrawData(), renderer);
 }
@@ -41,11 +43,18 @@ void GUIModule::shutdown() {
 	}
 }
 
-void GUIModule::toggleFileSelectionWindow() { showFileSelectionWindow = !showFileSelectionWindow; }
+void GUIModule::enableFileSelectionWindow() { showFileSelectionWindow = true; }
+
+void GUIModule::enableInfoWindow() { showInfoWindow = true; }
+
+void GUIModule::closeWindows() {
+	showFileSelectionWindow = false;
+	showInfoWindow = false;
+}
 
 bool GUIModule::getFileSelectionFocussed() const { return fileSelectionWindowFocussed; }
 
-bool GUIModule::isWindowOpen() const { return showFileSelectionWindow; }
+bool GUIModule::isWindowOpen() const { return showFileSelectionWindow || showInfoWindow; }
 
 void GUIModule::_renderFileSelector() {
 	//Begin
@@ -129,11 +138,13 @@ void GUIModule::_renderFileSelector() {
 	if (ImGui::Button("Confirm", ImVec2(100, 0))) onConfirmClick();
 
 	//Enter check (also calls Confirm Lambda)
-	if (ImGui::IsKeyPressed(ImGuiKey_Enter))onConfirmClick();
+	if (fileSelectionWindowFocussed && ImGui::IsKeyPressed(ImGuiKey_Enter))onConfirmClick();
 
 	//End
 	ImGui::End();
 }
+
+void GUIModule::_renderInfo() {}
 
 void GUIModule::openFileDialog() {
 

@@ -3,6 +3,7 @@
 #include <backends/imgui_impl_sdl2.h>
 #include <backends/imgui_impl_sdlrenderer2.h>
 #include <sstream>
+#include <cstring>
 
 std::unordered_map<InputModule::Commands, std::pair<std::array<char, 64>, bool>> GUIModule::keyInputs;
 bool GUIModule::isTyping = false;
@@ -59,6 +60,8 @@ void GUIModule::enableInfoWindow() {
 	//Init keyInputs
 	for (const auto& [command, key]: inputModule.keys) {
 		std::string keyName = SDL_GetScancodeName(key.first);
+		for (char & c : keyName) c = static_cast<char>(toupper(c));
+
 		auto keyArray = std::array<char, 64>{};
 
 		strncpy(keyArray.data(), keyName.c_str(), keyArray.size() - 1);
@@ -209,8 +212,11 @@ void GUIModule::_renderInfo() {
 						SimulationManager::getInstance().inputModule->keys[curCommand].first = scancode;
 						GUIModule::keyInputs[curCommand].second = true;
 					}
-						//Mark InputText red
-					else GUIModule::keyInputs[curCommand].second = false;
+					else GUIModule::keyInputs[curCommand].second = false;	//Mark InputText red
+
+					//Store new text to buffer for next render
+					strncpy(GUIModule::keyInputs[curCommand].first.data(), data->Buf, data->BufSize - 1);
+
 
 					return 1;
 				}, (void*) &command);

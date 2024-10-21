@@ -68,7 +68,7 @@ void SimulationManager::run() {
         GUIModule::beginFrame();
         renderingModule->clear();
 
-		if (isRunning) SimulationManager::artistsManager->update(static_cast<float>(delta) / 1000.f);
+		if (isRunning) SimulationManager::artistsManager->update(*museum, static_cast<float>(delta) / 1000.f);
 		renderingModule->draw();
 		guiModule->render();
 
@@ -78,7 +78,7 @@ void SimulationManager::run() {
         frameCount++;
         fps += delta;
         if (fps >= fpsInterval) {
-//            std::cout << "FPS: " << frameCount <<  std::endl;
+            std::cout << "FPS: " << frameCount <<  std::endl;
             fps = 0;
             frameCount = 0;
         }

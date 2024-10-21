@@ -5,7 +5,7 @@
 RenderingModule::RenderingModule(SDL_Window* window) :
 		museum{*SimulationManager::getInstance().museum},
 		artistsManager{*SimulationManager::getInstance().artistsManager} {
-	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_PRESENTVSYNC);
+	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	if (!renderer) {
 		std::cerr << "Couldn't create renderer: " << SDL_GetError() << std::endl;
 		return;

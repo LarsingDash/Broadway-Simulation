@@ -55,8 +55,7 @@ private:
 
 //    void openFileDialog(std::string &inputBuffer, const std::vector<std::pair<std::wstring, std::wstring>> &filters);
 
-    void openFileDialog(char *inputBuffer, size_t bufferSize,
-                   const std::vector<std::pair<std::wstring, std::wstring>> &filters);
+    void openFileDialog(char *inputBuffer, size_t bufferSize);
 };
 
 #endif //BROADWAY_SIMULATION_GUIMODULE_HPP

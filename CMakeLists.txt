@@ -20,8 +20,9 @@ include_directories("${IMGUI_PATH}")
 
 #Main
 add_executable(${PROJECT_NAME} main.cpp
+        Testing.cpp
         Engine/Modules/FileDialogModule.cpp
-        Engine/Modules/FileDialogModule.hpp)
+)
 
 add_subdirectory(Engine)
 
@@ -40,6 +41,6 @@ target_link_libraries(${PROJECT_NAME}
 
         "${SDL2_PATH}/lib/libSDL2main.a"
         "${SDL2_PATH}/lib/libSDL2.dll.a"
-        
+
         "${CURL_PATH}libcurl.dll.a"
 )

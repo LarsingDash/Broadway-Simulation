@@ -20,7 +20,7 @@ public:
         return instance;
     }
 
-    DialogResult showDialog(const std::vector<std::pair<std::wstring, std::wstring>>& filters);
+    DialogResult showDialog();
 
 private:
     FileDialogModule() = default;

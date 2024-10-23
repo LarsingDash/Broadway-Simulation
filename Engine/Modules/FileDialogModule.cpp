@@ -1,7 +1,7 @@
 #include <vector>
 #include "FileDialogModule.hpp"
 
-FileDialogModule::DialogResult FileDialogModule::showDialog(const std::vector<std::pair<std::wstring, std::wstring>>& filters) {
+FileDialogModule::DialogResult FileDialogModule::showDialog() {
     DialogResult result = {false, ""};
 
 #ifdef _WIN32
@@ -21,14 +21,14 @@ FileDialogModule::DialogResult FileDialogModule::showDialog(const std::vector<st
         pFileDialog->GetOptions(&options);
         pFileDialog->SetOptions(options | FOS_FORCEFILESYSTEM);
 
-        // Prepare filter specs
-        std::vector<COMDLG_FILTERSPEC> fileTypes(filters.size());
-        for (size_t i = 0; i < filters.size(); ++i) {
-            fileTypes[i] = { filters[i].first.c_str(), filters[i].second.c_str() };
-        }
+//        // Prepare filter specs
+//        std::vector<COMDLG_FILTERSPEC> fileTypes(filters.size());
+//        for (size_t i = 0; i < filters.size(); ++i) {
+//            fileTypes[i] = { filters[i].first.c_str(), filters[i].second.c_str() };
+//        }
 
         // Set file types
-        pFileDialog->SetFileTypes(static_cast<UINT>(fileTypes.size()), fileTypes.data());
+//        pFileDialog->SetFileTypes(static_cast<UINT>(fileTypes.size()), fileTypes.data());
 
         // Show the dialog
         hr = pFileDialog->Show(NULL);

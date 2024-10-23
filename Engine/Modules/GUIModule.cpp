@@ -102,10 +102,7 @@ void GUIModule::_renderFileSelector() {
         ImGui::PopItemWidth();
         ImGui::SameLine();
         if (ImGui::Button("Open File##Map", ImVec2(100, 0))) {
-            openFileDialog(mapInput, sizeof(mapInput), {
-                    {L"Map Files", L"*.txt;*.xml"},
-                    {L"All Files", L"*.*"}
-            });
+            openFileDialog(mapInput, sizeof(mapInput));
         }
     }
 
@@ -131,10 +128,7 @@ void GUIModule::_renderFileSelector() {
         ImGui::PopItemWidth();
         ImGui::SameLine();
         if (ImGui::Button("Open File##Artist", ImVec2(100, 0))) {
-            openFileDialog(artistInput, sizeof(artistInput), {
-                    {L"Artist Files", L"*.csv"},
-                    {L"All Files", L"*.*"}
-            });
+            openFileDialog(artistInput, sizeof(artistInput));
         }
     }
 
@@ -242,8 +236,8 @@ void GUIModule::_renderInfo() {
 }
 
 
-void GUIModule::openFileDialog(char inputBuffer[], size_t bufferSize, const std::vector<std::pair<std::wstring, std::wstring>>& filters) {
-    FileDialogModule::DialogResult result = FileDialogModule::getInstance().showDialog(filters);
+void GUIModule::openFileDialog(char *inputBuffer, size_t bufferSize) {
+    FileDialogModule::DialogResult result = FileDialogModule::getInstance().showDialog();
 
     if (result.success) {
         std::cout << "File selected: " << result.filePath << std::endl;

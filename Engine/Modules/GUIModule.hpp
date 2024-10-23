@@ -8,6 +8,13 @@
 #ifdef _WIN32
 #include <windows.h>
 #include <shobjidl.h>
+#include "imgui_internal.h"
+#include <backends/imgui_impl_sdl2.h>
+#include <backends/imgui_impl_sdlrenderer2.h>
+#include <sstream>
+#include <cstring>
+#include <vector>
+
 #endif
 
 class GUIModule {
@@ -39,19 +46,17 @@ private:
     char mapInput[256] = "..\\assets\\grid.txt";
     char artistInput[256] = "..\\assets\\artists.csv";
     std::string selectedFilePath;
-    bool isSelectingMapFile = false;
 
     //<Command, <InputBuffer, ValidBool>>
     static std::unordered_map<InputModule::Commands, std::pair<std::array<char, 64>, bool>> keyInputs;
 
     void _renderFileSelector();
     void _renderInfo();
-    void openFileDialog();
 
-    // Helper function for Windows wide string conversion
-#ifdef _WIN32
-    std::string wstrToStr(const std::wstring& wstr);
-#endif
+//    void openFileDialog(std::string &inputBuffer, const std::vector<std::pair<std::wstring, std::wstring>> &filters);
+
+    void openFileDialog(char *inputBuffer, size_t bufferSize,
+                   const std::vector<std::pair<std::wstring, std::wstring>> &filters);
 };
 
 #endif //BROADWAY_SIMULATION_GUIMODULE_HPP

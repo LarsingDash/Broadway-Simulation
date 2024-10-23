@@ -19,7 +19,9 @@ set(IMGUI_PATH "${CMAKE_MODULE_PATH}/imgui")
 include_directories("${IMGUI_PATH}")
 
 #Main
-add_executable(${PROJECT_NAME} main.cpp)
+add_executable(${PROJECT_NAME} main.cpp
+        Engine/Modules/FileDialogModule.cpp
+        Engine/Modules/FileDialogModule.hpp)
 
 add_subdirectory(Engine)
 

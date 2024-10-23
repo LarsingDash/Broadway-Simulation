@@ -1,24 +1,19 @@
 #include "GUIModule.hpp"
 #include "../FileReading/FileReaderTemplate.hpp"
-#include "imgui_internal.h"
-#include <backends/imgui_impl_sdl2.h>
-#include <backends/imgui_impl_sdlrenderer2.h>
-#include <sstream>
-#include <cstring>
+#include "FileDialogModule.hpp"
+
 
 std::unordered_map<InputModule::Commands, std::pair<std::array<char, 64>, bool>> GUIModule::keyInputs;
 bool GUIModule::isTyping = false;
 
 GUIModule::GUIModule(SDL_Window* window, SDL_Renderer* renderer, InputModule& module) :
 		renderer(renderer), inputModule{module} {
-	//ImGUI setup
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	ImGuiIO& io = ImGui::GetIO();
 	(void) io;
 	ImGui::StyleColorsDark();
 
-	//Bind ImGUI with SDL
 	ImGui_ImplSDL2_InitForSDLRenderer(window, renderer);
 	ImGui_ImplSDLRenderer2_Init(renderer);
 }
@@ -82,66 +77,71 @@ bool GUIModule::getInfoFocussed() const { return infoWindowFocussed; }
 bool GUIModule::isWindowOpen() const { return showFileSelectionWindow || showInfoWindow; }
 
 void GUIModule::_renderFileSelector() {
-	//Begin
-	ImGui::SetNextWindowSize(ImVec2(400, 185), ImGuiCond_Once);
-	ImGui::Begin("File Selection", nullptr, ImGuiWindowFlags_NoResize);
-	fileSelectionWindowFocussed = ImGui::IsWindowFocused();
+    // Begin
+    ImGui::SetNextWindowSize(ImVec2(400, 185), ImGuiCond_Once);
+    ImGui::Begin("File Selection", nullptr, ImGuiWindowFlags_NoResize);
+    fileSelectionWindowFocussed = ImGui::IsWindowFocused();
 
-	//Museum Header
-	ImGui::Text("Museum/Map");
-	static int mapSourceType = 1;
+    // Museum Header
+    ImGui::Text("Museum/Map");
+    static int mapSourceType = 1;
 
-	//Museum RadioButton
-	ImGui::RadioButton("Web Source", &mapSourceType, 0);
-	ImGui::SameLine();
-	ImGui::RadioButton("File Source", &mapSourceType, 1);
+    // Museum RadioButton
+    ImGui::RadioButton("Web Source", &mapSourceType, 0);
+    ImGui::SameLine();
+    ImGui::RadioButton("File Source", &mapSourceType, 1);
 
-	//Museum InputField
-	if (mapSourceType == 0) {    //Web
-		ImGui::PushItemWidth(-1);
-		ImGui::InputText("##MapInput", mapInput, IM_ARRAYSIZE(mapInput));
-		ImGui::PopItemWidth();
-	} else {    //File
-		ImGui::PushItemWidth(-110);
-		ImGui::InputText("##MapInput", mapInput, IM_ARRAYSIZE(mapInput));
-		ImGui::PopItemWidth();
-		ImGui::SameLine();
-		if (ImGui::Button("Open File##Map", ImVec2(100, 0))) {
-			openFileDialog();
-		}
-	}
+    // Museum InputField
+    if (mapSourceType == 0) {    // Web
+        ImGui::PushItemWidth(-1);
+        ImGui::InputText("##MapInput", mapInput, IM_ARRAYSIZE(mapInput));
+        ImGui::PopItemWidth();
+    } else {    // File
+        ImGui::PushItemWidth(-110);
+        ImGui::InputText("##MapInput", mapInput, IM_ARRAYSIZE(mapInput));
+        ImGui::PopItemWidth();
+        ImGui::SameLine();
+        if (ImGui::Button("Open File##Map", ImVec2(100, 0))) {
+            openFileDialog(mapInput, sizeof(mapInput), {
+                    {L"Map Files", L"*.txt"},
+                    {L"All Files", L"*.*"}
+            });
+        }
+    }
 
-	ImGui::Separator();
+    ImGui::Separator();
 
-	//Artist Header
-	ImGui::Text("Artist");
-	static int artistSourceType = 1;
+    // Artist Header
+    ImGui::Text("Artist");
+    static int artistSourceType = 1;
 
-	//Artist RadioButton
-	ImGui::RadioButton("Web Source##Artist", &artistSourceType, 0);
-	ImGui::SameLine();
-	ImGui::RadioButton("File Source##Artist", &artistSourceType, 1);
+    // Artist RadioButton
+    ImGui::RadioButton("Web Source##Artist", &artistSourceType, 0);
+    ImGui::SameLine();
+    ImGui::RadioButton("File Source##Artist", &artistSourceType, 1);
 
-	//Artist InputField
-	if (artistSourceType == 0) {    //Web
-		ImGui::PushItemWidth(-1);
-		ImGui::InputText("##ArtistInput", artistInput, IM_ARRAYSIZE(artistInput));
-		ImGui::PopItemWidth();
-	} else {    //File
-		ImGui::PushItemWidth(-110);
-		ImGui::InputText("##ArtistInput", artistInput, IM_ARRAYSIZE(artistInput));
-		ImGui::PopItemWidth();
-		ImGui::SameLine();
-		if (ImGui::Button("Open File##Artist", ImVec2(100, 0))) {
-			openFileDialog();
-		}
-	}
+    // Artist InputField
+    if (artistSourceType == 0) {    // Web
+        ImGui::PushItemWidth(-1);
+        ImGui::InputText("##ArtistInput", artistInput, IM_ARRAYSIZE(artistInput));
+        ImGui::PopItemWidth();
+    } else {    // File
+        ImGui::PushItemWidth(-110);
+        ImGui::InputText("##ArtistInput", artistInput, IM_ARRAYSIZE(artistInput));
+        ImGui::PopItemWidth();
+        ImGui::SameLine();
+        if (ImGui::Button("Open File##Artist", ImVec2(100, 0))) {
+            openFileDialog(artistInput, sizeof(artistInput), {
+                    {L"Artist Files", L"*.csv"},
+                    {L"All Files", L"*.*"}
+            });
+        }
+    }
 
-	//Confirm Lambda
-	auto onConfirmClick = [&mapSourceType = mapSourceType, &artistSourceType = artistSourceType,
-			&mapInput = mapInput, &artistInput = artistInput]() {
-
-        if (std::strlen(mapInput) > 0){
+    // Confirm Lambda
+    auto onConfirmClick = [&mapSourceType = mapSourceType, &artistSourceType = artistSourceType,
+            &mapInput = mapInput, &artistInput = artistInput]() {
+        if (std::strlen(mapInput) > 0) {
             if (mapSourceType == 0) {
                 FileReaderTemplate::readFileTemplate(mapInput, SourceType::Web);
             } else {
@@ -149,15 +149,14 @@ void GUIModule::_renderFileSelector() {
             }
         }
 
-        if (std::strlen(artistInput) > 0){
+        if (std::strlen(artistInput) > 0) {
             if (artistSourceType == 0) {
                 FileReaderTemplate::readFileTemplate(artistInput, SourceType::Web);
             } else {
                 FileReaderTemplate::readFileTemplate(artistInput, SourceType::File);
             }
         }
-
-	};
+    };
 
     bool canConfirm = (std::strlen(mapInput) > 0) || (std::strlen(artistInput) > 0);
 
@@ -172,9 +171,10 @@ void GUIModule::_renderFileSelector() {
         onConfirmClick();
     }
 
-	//End
-	ImGui::End();
+    // End
+    ImGui::End();
 }
+
 
 void GUIModule::_renderInfo() {
 	//Begin
@@ -241,72 +241,17 @@ void GUIModule::_renderInfo() {
 	ImGui::End();
 }
 
-std::string GUIModule::wstrToStr(const std::wstring& wstr) {
-    if (wstr.empty()) return std::string();
-    int size = WideCharToMultiByte(CP_UTF8, 0, &wstr[0], (int)wstr.size(), nullptr, 0, nullptr, nullptr);
-    std::string result(size, 0);
-    WideCharToMultiByte(CP_UTF8, 0, &wstr[0], (int)wstr.size(), &result[0], size, nullptr, nullptr);
-    return result;
-}
 
-void GUIModule::openFileDialog() {
-    // Initialize COM
-    HRESULT hr = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE);
-    if (FAILED(hr))
-        return;
+void GUIModule::openFileDialog(char inputBuffer[], size_t bufferSize, const std::vector<std::pair<std::wstring, std::wstring>>& filters) {
+    FileDialogModule::DialogResult result = FileDialogModule::getInstance().showDialog(filters);
 
-    // Create FileOpenDialog instance
-    IFileOpenDialog* pFileDialog;
-    hr = CoCreateInstance(CLSID_FileOpenDialog, NULL, CLSCTX_ALL,
-                          IID_IFileOpenDialog, reinterpret_cast<void**>(&pFileDialog));
+    if (result.success) {
+        std::cout << "File selected: " << result.filePath << std::endl;
 
-    if (SUCCEEDED(hr)) {
-        // Set options
-        FILEOPENDIALOGOPTIONS options;
-        pFileDialog->GetOptions(&options);
-        pFileDialog->SetOptions(options | FOS_FORCEFILESYSTEM);
-
-        // Set file types based on which button was clicked
-        isSelectingMapFile = ImGui::GetActiveID() == ImGui::GetID("Open File##Map");
-
-        COMDLG_FILTERSPEC fileTypes[2] = {};
-        if (isSelectingMapFile) {
-            fileTypes[0] = { L"Text Files", L"*.txt" };
-            fileTypes[1] = { L"All Files", L"*.*" };
-        } else {
-            fileTypes[0] = { L"CSV Files", L"*.csv" };
-            fileTypes[1] = { L"All Files", L"*.*" };
-        }
-        pFileDialog->SetFileTypes(2, fileTypes);
-
-        // Show the dialog
-        hr = pFileDialog->Show(NULL);
-
-        if (SUCCEEDED(hr)) {
-            // Get the selected file
-            IShellItem* pItem;
-            hr = pFileDialog->GetResult(&pItem);
-            if (SUCCEEDED(hr)) {
-                PWSTR filePath;
-                hr = pItem->GetDisplayName(SIGDN_FILESYSPATH, &filePath);
-
-                if (SUCCEEDED(hr)) {
-                    // Convert wide string to string and store the path
-                    selectedFilePath = wstrToStr(filePath);
-
-                    // Update the appropriate input field
-                    if (isSelectingMapFile) {
-                        strncpy(mapInput, selectedFilePath.c_str(), IM_ARRAYSIZE(mapInput) - 1);
-                    } else {
-                        strncpy(artistInput, selectedFilePath.c_str(), IM_ARRAYSIZE(artistInput) - 1);
-                    }
-
-                    CoTaskMemFree(filePath);
-                }
-                pItem->Release();
-            }
-        }
-        pFileDialog->Release();
+        // Ensure the buffer is cleared and then copy the file path
+        std::strncpy(inputBuffer, result.filePath.c_str(), bufferSize - 1);
+        inputBuffer[bufferSize - 1] = '\0'; // Ensure null-termination
+    } else {
+        std::cout << "File selection was cancelled or failed." << std::endl;
     }
-    CoUninitialize();
 }

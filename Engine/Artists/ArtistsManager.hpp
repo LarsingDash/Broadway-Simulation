@@ -12,13 +12,11 @@
 
 class ArtistsManager {
 	public:
-		void render(SDL_Renderer* renderer) const;
 		void update(Museum& museum, float delta);
 		void clearArtists();
 		void addArtist(glm::ivec2 tile, glm::vec2 dir);
-		void toggleRendering();
+		[[nodiscard]] const std::vector<std::unique_ptr<Artist>>& getArtists() const;
 	private:
-		bool isRenderingActive = true;
 		std::vector<std::unique_ptr<Artist>> artists;
 };
 

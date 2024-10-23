@@ -4,6 +4,7 @@
 
 #include "TileInteractionCommand.hpp"
 #include "../../Tiles/Museum.hpp"
+#include "../../Modules/RenderingModule.hpp"
 #include "../../SimulationManager.hpp"
 #include <SDL_mouse.h>
 #include <vec2.hpp>
@@ -14,7 +15,7 @@ void TileInteractionCommand::execute() {
 	int x, y;
 	SDL_GetMouseState(&x, &y);
 
-	glm::vec2 tileSize = Museum::tileSize;
+	glm::vec2 tileSize = RenderingModule::tileSize;
 
 	int tileX = static_cast<int>(static_cast<float>(x) / tileSize.x);
 	int tileY = static_cast<int>(static_cast<float>(y) / tileSize.y);

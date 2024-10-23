@@ -3,14 +3,8 @@
 //
 
 #include "ArtistsManager.hpp"
+#include "../Modules/RenderingModule.hpp"
 #include <algorithm>
-
-void ArtistsManager::render(SDL_Renderer* renderer) const {
-	if (!isRenderingActive) return;
-	
-	for (const auto& artist: artists)
-		artist->render(renderer);
-}
 
 void ArtistsManager::update(Museum& museum, float delta) {
 	//Update cycle
@@ -33,7 +27,7 @@ void ArtistsManager::clearArtists() {
 
 void ArtistsManager::addArtist(const glm::ivec2 tile, const glm::vec2 dir) {
 	if (artists.size() >= 250) return;
-	artists.emplace_back(std::make_unique<Artist>(glm::vec2{tile.x, tile.y} * Museum::tileSize, dir, tile));
+	artists.emplace_back(std::make_unique<Artist>(glm::vec2{tile.x, tile.y} * RenderingModule::tileSize, dir, tile));
 }
 
-void ArtistsManager::toggleRendering() { isRenderingActive = !isRenderingActive; }
+const std::vector<std::unique_ptr<Artist>>& ArtistsManager::getArtists() const { return artists; }

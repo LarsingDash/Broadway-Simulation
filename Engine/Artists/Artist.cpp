@@ -6,28 +6,18 @@
 #include "../Modules/WindowModule.hpp"
 #include "../SimulationManager.hpp"
 #include "../Tiles/Museum.hpp"
+#include "../Modules/RenderingModule.hpp"
+
+glm::vec2 Artist::offset{};
+glm::vec2 Artist::size{};
 
 Artist::Artist(glm::vec2 pos, glm::vec2 dir, glm::ivec2 startingTile) :
 		pos{pos}, dir{dir},
 		lastTile{startingTile}, markedForDeletion{false} {
-	const glm::vec2& tileSize = Museum::tileSize;
-
-	offset = tileSize / 6.f;
-	size = tileSize / 3.f * 2.f;
-}
-
-void Artist::render(SDL_Renderer* renderer) const {
-	SDL_FRect tileRect = {pos.x + offset.x,
-						  pos.y + offset.y,
-						  size.x,
-						  size.y};
-
-	SDL_SetRenderDrawColor(renderer, 25, 25, 25, 255);
-	SDL_RenderFillRectF(renderer, &tileRect);
 }
 
 void Artist::update(Museum& museum, float delta) {
-	const glm::vec2& tileSize = Museum::tileSize;
+	const glm::vec2& tileSize = RenderingModule::tileSize;
 
 	//Update Position
 	pos.x += (dir.x * tileSize.x) * delta;

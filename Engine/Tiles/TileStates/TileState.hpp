@@ -16,9 +16,7 @@ class TileState {
 		virtual ~TileState() = default;
 
 		virtual void handleInteraction(Tile& tile, Artist* artist) = 0;
-
-		void render(SDL_Renderer* renderer, float x, float y, glm::vec2 tileSize) const;
-
+		
 		const char letter;
 		const std::pair<SDL_Color, float>& config;
 	protected:

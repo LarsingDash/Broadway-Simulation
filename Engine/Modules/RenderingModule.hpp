@@ -11,10 +11,14 @@ class RenderingModule {
 		void clear();
 		void draw();
 		void present();
+		[[nodiscard]] SDL_Renderer* getRenderer() const { return renderer; }
 
-		[[maybe_unused]] [[nodiscard]] SDL_Renderer* getRenderer() const { return renderer; }
-
+		void toggleRendering();
+		void recalculateTileSize() const;
+		static glm::vec2 tileSize;
 	private:
+		bool isRenderingActive = true;
+		
 		SDL_Renderer* renderer;
 		Museum& museum;
 		ArtistsManager& artistsManager;

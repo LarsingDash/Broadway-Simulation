@@ -26,6 +26,8 @@ class SimulationManager {
 		std::unique_ptr<ArtistsManager> artistsManager;
 		std::unique_ptr<GUIModule> guiModule;
 		std::unique_ptr<InputModule> inputModule;
+		std::unique_ptr<WindowModule> windowModule;
+		std::unique_ptr<RenderingModule> renderingModule;
 	private:
 		static SimulationManager instance;
 		bool isRunning = true;
@@ -34,9 +36,6 @@ class SimulationManager {
 		~SimulationManager();
 
 		void processEvents();
-
-		std::unique_ptr<WindowModule> windowModule;
-		std::unique_ptr<RenderingModule> renderingModule;
 };
 
 #endif /* SIMULATION_MANAGER_HPP */

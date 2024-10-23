@@ -7,5 +7,5 @@
 
 void RenderArtistsCommand::execute() {
 	std::cout << "RenderArtistsCommand executed" << std::endl;
-	SimulationManager::getInstance().artistsManager->toggleRendering();
+	SimulationManager::getInstance().renderingModule->toggleRendering();
 }

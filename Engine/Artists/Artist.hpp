@@ -11,25 +11,35 @@ class Museum;
 #include <vec2.hpp>
 
 class Artist {
-	public:
-		Artist(glm::vec2 pos, glm::vec2 dir, glm::ivec2 startingTile);
+public:
+    Artist(glm::vec2 pos, glm::vec2 dir, glm::ivec2 startingTile);
 
-		void render(SDL_Renderer* renderer) const;
-		void update(Museum& museum, float delta);
+    void render(SDL_Renderer *renderer) const;
 
-		void markForDeletion();
-		[[nodiscard]] bool isMarkedForDeletion() const;
-		
-		[[maybe_unused]] void log() const;
-	private:
-		glm::vec2 pos;
-		glm::vec2 dir;
+    void update(Museum &museum, float delta);
 
-		glm::vec2 offset{};
-		glm::vec2 size{};
+    void markForDeletion();
 
-		bool markedForDeletion;
-		glm::ivec2 lastTile;
+    [[nodiscard]] bool isMarkedForDeletion() const;
+    [[maybe_unused]] void log() const;
+
+    [[nodiscard]] const glm::vec2 &getPosition() const { return pos; }
+    [[nodiscard]] const glm::vec2 &getDirection() const { return dir; }
+    [[nodiscard]] const glm::vec2 &getOffset() const { return offset; }
+    [[nodiscard]] const glm::vec2 &getSize() const { return size; }
+    [[nodiscard]] const glm::ivec2 &getLastTile() const { return lastTile; }
+
+    void setPosition(const glm::vec2& newPos) { pos = newPos; }
+
+private:
+    glm::vec2 pos;
+    glm::vec2 dir;
+
+    glm::vec2 offset{};
+    glm::vec2 size{};
+
+    bool markedForDeletion;
+    glm::ivec2 lastTile;
 };
 
 

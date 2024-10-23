@@ -141,28 +141,37 @@ void GUIModule::_renderFileSelector() {
 	//Confirm Lambda
 	auto onConfirmClick = [&mapSourceType = mapSourceType, &artistSourceType = artistSourceType,
 			&mapInput = mapInput, &artistInput = artistInput]() {
-		std::cout << "Selected input for map: " << mapInput << std::endl;
-		std::cout << "Selected input for artist: " << artistInput << std::endl;
 
-		if (mapSourceType == 0) {
-			FileReaderTemplate::readFileTemplate(mapInput, SourceType::Web);
-		} else {
-			FileReaderTemplate::readFileTemplate(mapInput, SourceType::File);
-		}
+        if (std::strlen(mapInput) > 0){
+            if (mapSourceType == 0) {
+                FileReaderTemplate::readFileTemplate(mapInput, SourceType::Web);
+            } else {
+                FileReaderTemplate::readFileTemplate(mapInput, SourceType::File);
+            }
+        }
 
-		if (artistSourceType == 0) {
-			FileReaderTemplate::readFileTemplate(artistInput, SourceType::Web);
-		} else {
-			FileReaderTemplate::readFileTemplate(artistInput, SourceType::File);
-		}
+        if (std::strlen(artistInput) > 0){
+            if (artistSourceType == 0) {
+                FileReaderTemplate::readFileTemplate(artistInput, SourceType::Web);
+            } else {
+                FileReaderTemplate::readFileTemplate(artistInput, SourceType::File);
+            }
+        }
+
 	};
 
-	//Confirm Button
-	ImGui::SetCursorPosX((ImGui::GetWindowWidth() - 100) * 0.5f);
-	if (ImGui::Button("Confirm", ImVec2(100, 0))) onConfirmClick();
+    bool canConfirm = (std::strlen(mapInput) > 0) || (std::strlen(artistInput) > 0);
 
-	//Enter check (also calls Confirm Lambda)
-	if (fileSelectionWindowFocussed && ImGui::IsKeyPressed(ImGuiKey_Enter))onConfirmClick();
+    ImGui::SetCursorPosX((ImGui::GetWindowWidth() - 100) * 0.5f);
+    ImGui::BeginDisabled(!canConfirm);
+    if (ImGui::Button("Confirm", ImVec2(100, 0))) {
+        onConfirmClick();
+    }
+    ImGui::EndDisabled();
+
+    if (fileSelectionWindowFocussed && ImGui::IsKeyPressed(ImGuiKey_Enter) && canConfirm) {
+        onConfirmClick();
+    }
 
 	//End
 	ImGui::End();

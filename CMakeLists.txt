@@ -19,11 +19,7 @@ set(IMGUI_PATH "${CMAKE_MODULE_PATH}/imgui")
 include_directories("${IMGUI_PATH}")
 
 #Main
-add_executable(${PROJECT_NAME} main.cpp
-        Engine/Memento/Memento.cpp
-        Engine/Memento/Memento.hpp
-        Engine/Memento/Caretaker.cpp
-        Engine/Memento/Caretaker.hpp)
+add_executable(${PROJECT_NAME} main.cpp)
 
 add_subdirectory(Engine)
 

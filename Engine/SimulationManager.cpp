@@ -159,9 +159,9 @@ void SimulationManager::redo() {
     }
 }
 
-void SimulationManager::restoreState(Memento *memento) {
-    MuseumBuilder builder(memento->tileStates.size(), memento->tileStates[0].size());
-
+void SimulationManager::restoreState(Memento *memento) const {
+    MuseumBuilder builder(static_cast<int>(memento->tileStates.size()),   static_cast<int>(memento->tileStates[0].size()));
+    builder.withAutoNeighbors();
     for (const auto& row : memento->tileStates) {
         for (const auto& state : row) {
             if (!builder.hasColor(state.letter)) {

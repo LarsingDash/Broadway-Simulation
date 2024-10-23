@@ -43,7 +43,7 @@ private:
     unsigned int framesSinceLastSave;
     unsigned int framesPerSave;
     bool autoSaveEnabled;
-    void restoreState(Memento *memento);
+    void restoreState(Memento *memento) const;
 
     SimulationManager();
     ~SimulationManager();

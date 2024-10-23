@@ -18,14 +18,17 @@ class SimulationManager {
 		SimulationManager& operator=(const SimulationManager&) = delete;
 
 		void run();
-        std::unique_ptr<GUIModule> guiModule;
+		void toggleRunning();
 
 		bool shouldQuit;
 
 		std::unique_ptr<Museum> museum;
 		std::unique_ptr<ArtistsManager> artistsManager;
+		std::unique_ptr<GUIModule> guiModule;
+		std::unique_ptr<InputModule> inputModule;
 	private:
 		static SimulationManager instance;
+		bool isRunning = true;
 
 		SimulationManager();
 		~SimulationManager();
@@ -34,7 +37,6 @@ class SimulationManager {
 
 		std::unique_ptr<WindowModule> windowModule;
 		std::unique_ptr<RenderingModule> renderingModule;
-		std::unique_ptr<InputModule> inputModule;
 };
 
 #endif /* SIMULATION_MANAGER_HPP */

@@ -3,7 +3,6 @@
 //
 
 #include "ArtistsManager.hpp"
-#include "../Tiles/Museum.hpp"
 #include <algorithm>
 
 void ArtistsManager::render(SDL_Renderer* renderer) const {
@@ -13,10 +12,10 @@ void ArtistsManager::render(SDL_Renderer* renderer) const {
 		artist->render(renderer);
 }
 
-void ArtistsManager::update(float delta) {
+void ArtistsManager::update(Museum& museum, float delta) {
 	//Update cycle
 	for (const auto& artist: artists)
-		if (artist) artist->update(delta);
+		if (artist) artist->update(museum, delta);
 
 	//Check for deletionMarks
 	auto it = std::remove_if(artists.begin(), artists.end(),

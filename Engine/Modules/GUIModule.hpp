@@ -5,32 +5,42 @@
 #ifndef BROADWAY_SIMULATION_GUIMODULE_HPP
 #define BROADWAY_SIMULATION_GUIMODULE_HPP
 
-#include "backends/imgui_impl_sdl2.h"
-
-#include "backends/imgui_impl_sdlrenderer2.h"
-#include "imgui.h"
-#include "SDL_render.h"
-
-
+#include "InputModule.hpp"
+#include <SDL_render.h>
+#include <array>
 
 class GUIModule {
-public:
-    GUIModule(SDL_Window* window, SDL_Renderer* renderer);
-    ~GUIModule();
+	public:
+		GUIModule(SDL_Window* window, SDL_Renderer* renderer, InputModule& inputModule);
+		~GUIModule();
 
-    void beginFrame();
-    void render();
-    void shutdown();
-    void toggleFileSelectionWindow();
-    bool getInputFocused(){return ImGui::IsAnyItemActive();};
-    bool isWindowOpen(){return showFileSelectionWindow;};
+		static void beginFrame();
+		void render();
+		void shutdown();
+		void enableFileSelectionWindow();
+		void enableInfoWindow();
+		void closeWindows();
 
-private:
-    SDL_Window* window;
-    SDL_Renderer* renderer;
-    bool showFileSelectionWindow = false;
-    bool isInputFocused;
-    void openFileDialog();
+		[[nodiscard]] bool getFileSelectionFocussed() const;
+		[[nodiscard]] bool getInfoFocussed() const;
+		[[nodiscard]] bool isWindowOpen() const;
+
+		static bool isTyping;
+	private:
+		SDL_Renderer* renderer;
+		InputModule& inputModule;
+		
+		bool showFileSelectionWindow = false;
+		bool showInfoWindow = false;
+		bool fileSelectionWindowFocussed = false;
+		bool infoWindowFocussed = false;
+		
+		//<Command, <InputBuffer, ValidBool>>
+		static std::unordered_map<InputModule::Commands, std::pair<std::array<char, 64>, bool>> keyInputs;
+
+		void _renderFileSelector();
+		void _renderInfo();
+		void openFileDialog();
 };
 
 

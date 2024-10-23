@@ -6,13 +6,14 @@
 #define BROADWAY_SIMULATION_ARTISTSMANAGER_HPP
 
 #include "Artist.hpp"
+#include "../Tiles/Museum.hpp"
 #include <vector>
 #include <memory>
 
 class ArtistsManager {
 	public:
 		void render(SDL_Renderer* renderer) const;
-		void update(float delta);
+		void update(Museum& museum, float delta);
 		void clearArtists();
 		void addArtist(glm::ivec2 tile, glm::vec2 dir);
 		void toggleRendering();

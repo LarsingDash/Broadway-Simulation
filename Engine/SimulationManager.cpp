@@ -2,6 +2,7 @@
 #include "Modules/InputModule.hpp"
 #include "FileReading/SourceStrategy/WebSourceStrategy.hpp"
 #include <SDL_timer.h>
+#include <backends/imgui_impl_sdl2.h>
 
 SimulationManager SimulationManager::instance{};
 
@@ -15,12 +16,12 @@ SimulationManager::SimulationManager() : shouldQuit(false) {
 
     renderingModule = std::make_unique<RenderingModule>(windowModule->getWindow());
     inputModule = std::make_unique<InputModule>();
-    guiModule = std::make_unique<GUIModule>(windowModule->getWindow(), renderingModule->getRenderer());
-
+    guiModule = std::make_unique<GUIModule>(windowModule->getWindow(), renderingModule->getRenderer(), *inputModule);
 }
 
 SimulationManager::~SimulationManager() {
     WebSourceStrategy::cleanup();
+	guiModule->shutdown();
 }
 
 void SimulationManager::processEvents() {
@@ -35,9 +36,7 @@ void SimulationManager::processEvents() {
                 shouldQuit = true;
                 break;
             case SDL_KEYDOWN:
-                if(!guiModule->getInputFocused()){
-                    inputModule->handleScancode(event.key.keysym.scancode);
-                }
+                inputModule->handleScancode(event.key.keysym.scancode);
                 break;
             case SDL_WINDOWEVENT:
                 if (event.window.event == SDL_WINDOWEVENT_RESIZED)
@@ -64,15 +63,14 @@ void SimulationManager::run() {
 
         //Events
         processEvents();
-
-        guiModule->beginFrame();
-
+		
         //Cycle
+        GUIModule::beginFrame();
         renderingModule->clear();
 
-        SimulationManager::artistsManager->update(static_cast<float>(delta) / 1000.f);
-        renderingModule->draw();
-        guiModule->render();
+		if (isRunning) SimulationManager::artistsManager->update(*museum, static_cast<float>(delta) / 1000.f);
+		renderingModule->draw();
+		guiModule->render();
 
         renderingModule->present();
 
@@ -85,6 +83,6 @@ void SimulationManager::run() {
             frameCount = 0;
         }
     }
-    guiModule->shutdown();
-
 }
+
+void SimulationManager::toggleRunning() { isRunning = !isRunning; }

@@ -103,7 +103,7 @@ void GUIModule::_renderFileSelector() {
         ImGui::SameLine();
         if (ImGui::Button("Open File##Map", ImVec2(100, 0))) {
             openFileDialog(mapInput, sizeof(mapInput), {
-                    {L"Map Files", L"*.txt"},
+                    {L"Map Files", L"*.txt;*.xml"},
                     {L"All Files", L"*.*"}
             });
         }

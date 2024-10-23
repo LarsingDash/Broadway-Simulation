@@ -1,0 +1,8 @@
+﻿rows=3,cols=3
+letter,rgb,weight
+R,[221,1,0],10
+G,[205,205,205],2
+
+_RG
+_GR
+GRG

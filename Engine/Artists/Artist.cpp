@@ -17,7 +17,6 @@ Artist::Artist(glm::vec2 pos, glm::vec2 dir, glm::ivec2 startingTile) :
 }
 
 void Artist::render(SDL_Renderer* renderer) const {
-
 	SDL_FRect tileRect = {pos.x + offset.x,
 						  pos.y + offset.y,
 						  size.x,

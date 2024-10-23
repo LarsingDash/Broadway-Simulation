@@ -7,6 +7,7 @@
 #include "Artists/ArtistsManager.hpp"
 #include "Modules/GUIModule.hpp"
 #include "Memento/Caretaker.hpp"
+#include "Memento/MementoManager.hpp"
 #include <memory>
 
 class InputModule;
@@ -19,18 +20,15 @@ public:
 
     SimulationManager &operator=(const SimulationManager &) = delete;
 
-    void saveState();
-    void undo();
-    void redo();
+    void saveState() const;
+    void undo() const;
+    void redo() const;
     void run();
-    void setFramesPerSave(unsigned int frames) { framesPerSave = frames; }
-    unsigned int getFramesPerSave() const { return framesPerSave; }
-    void toggleAutoSave() { autoSaveEnabled = !autoSaveEnabled; }
-    bool isAutoSaveEnabled() const { return autoSaveEnabled; }
-    static const size_t MAX_SAVED_STATES = 100;
+
     void toggleRunning();
     bool shouldQuit;
 
+    std::unique_ptr<MementoManager> mementoManager;
     std::unique_ptr<Museum> museum;
     std::unique_ptr<ArtistsManager> artistsManager;
     std::unique_ptr<GUIModule> guiModule;
@@ -43,7 +41,6 @@ private:
     unsigned int framesSinceLastSave;
     unsigned int framesPerSave;
     bool autoSaveEnabled;
-    void restoreState(Memento *memento) const;
 
     SimulationManager();
     ~SimulationManager();

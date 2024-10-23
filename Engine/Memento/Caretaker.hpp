@@ -14,13 +14,10 @@ public:
     CareTaker();
 
     size_t getStateCount() const;
-
     void removeOldestState();
-
     void addMemento(std::unique_ptr<Memento> memento);
 
     Memento* undo();
-
     Memento* redo();
 };
 

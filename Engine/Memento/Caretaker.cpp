@@ -2,6 +2,7 @@
 // Created by 11896 on 22/10/2024.
 //
 
+#include <iostream>
 #include "CareTaker.hpp"
 
 CareTaker::CareTaker() : currentIndex(0) {}
@@ -28,16 +29,19 @@ void CareTaker::addMemento(std::unique_ptr<Memento> memento) {
 
 Memento* CareTaker::undo() {
     if (currentIndex > 0) {
+        std::cout << "Undoing" << std::endl;
         currentIndex--;
-        return mementos[currentIndex - 1].get();
+        return mementos[currentIndex].get();
     }
+    std::cout << "Cannot undo" << std::endl;
     return nullptr;
 }
 
 Memento* CareTaker::redo() {
     if (currentIndex < mementos.size()) {
-        currentIndex++;
-        return mementos[currentIndex - 1].get();
+        std::cout << "Redoing" << std::endl;
+        return mementos[currentIndex++].get();
     }
+    std::cout << "Cannot redo" << std::endl;
     return nullptr;
 }

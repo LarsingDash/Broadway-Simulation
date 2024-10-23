@@ -1,4 +1,4 @@
-﻿//
+//
 // Created by larsv on 11/10/2024.
 //
 
@@ -11,13 +11,24 @@
 #include <memory>
 
 class ArtistsManager {
-	public:
-		void update(Museum& museum, float delta);
-		void clearArtists();
-		void addArtist(glm::ivec2 tile, glm::vec2 dir);
-		[[nodiscard]] const std::vector<std::unique_ptr<Artist>>& getArtists() const;
-	private:
-		std::vector<std::unique_ptr<Artist>> artists;
+public:
+    void render(SDL_Renderer *renderer) const;
+
+    void update(Museum &museum, float delta);
+
+    void clearArtists();
+
+    void addArtist(glm::ivec2 tile, glm::vec2 dir);
+
+    const std::vector<std::unique_ptr<Artist>> &getArtists() const;
+
+
+    void toggleRendering();
+
+private:
+    bool isRenderingActive = true;
+    std::vector<std::unique_ptr<Artist>> artists;
+
 };
 
 

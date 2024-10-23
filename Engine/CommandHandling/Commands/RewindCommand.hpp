@@ -7,6 +7,7 @@
 
 #include "../Command.hpp"
 #include <iostream>
+#include "../../SimulationManager.hpp"
 
 class RewindCommand : public Command {
 	public:

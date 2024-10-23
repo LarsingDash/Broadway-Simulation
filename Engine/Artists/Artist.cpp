@@ -34,7 +34,7 @@ void Artist::update(Museum& museum, float delta) {
 			static_cast<int>((pos.x + offset.x + size.x / 2.f) / tileSize.x),
 			static_cast<int>((pos.y + offset.y + size.y / 2.f) / tileSize.y)
 	};
-
+//    std::cout << "TilePos: " << tilePos.x << " | " << tilePos.y << std::endl;
 	if (tilePos.x < 0 || tilePos.x >= museum.getCols() || tilePos.y < 0 || tilePos.y >= museum.getRows()) return;
 
 	//If artist has moved to a new tile, call that tile's interaction

@@ -4,6 +4,7 @@
 
 #ifndef BROADWAY_SIMULATION_FASTFORWARDCOMMAND_HPP
 #define BROADWAY_SIMULATION_FASTFORWARDCOMMAND_HPP
+#include "../../SimulationManager.hpp"
 
 #include <iostream>
 #include "../Command.hpp"

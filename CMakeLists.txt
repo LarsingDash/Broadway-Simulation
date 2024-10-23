@@ -1,4 +1,4 @@
-﻿cmake_minimum_required(VERSION 3.28.1)
+cmake_minimum_required(VERSION 3.28.1)
 project(Broadway_Simulation)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -19,7 +19,9 @@ set(IMGUI_PATH "${CMAKE_MODULE_PATH}/imgui")
 include_directories("${IMGUI_PATH}")
 
 #Main
-add_executable(${PROJECT_NAME} main.cpp Testing.cpp)
+add_executable(${PROJECT_NAME} main.cpp
+        Engine/Modules/FileDialogModule.cpp
+        Engine/Modules/FileDialogModule.hpp)
 
 add_subdirectory(Engine)
 

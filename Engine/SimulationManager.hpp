@@ -6,36 +6,49 @@
 #include "Tiles/Museum.hpp"
 #include "Artists/ArtistsManager.hpp"
 #include "Modules/GUIModule.hpp"
+#include "Memento/Caretaker.hpp"
+#include "Memento/MementoManager.hpp"
 #include <memory>
 
 class InputModule;
 
 class SimulationManager {
-	public:
-		static SimulationManager& getInstance();
-
-		SimulationManager(const SimulationManager&) = delete;
-		SimulationManager& operator=(const SimulationManager&) = delete;
-
-		void run();
-		void toggleRunning();
-
-		bool shouldQuit;
-
+public:
+    static SimulationManager &getInstance();
+    SimulationManager(const SimulationManager &) = delete;
+    SimulationManager &operator=(const SimulationManager &) = delete;
+    void saveState() const;
+    void undo() const;
+    void redo() const;
+    void run();
 		std::unique_ptr<Museum> museum;
 		std::unique_ptr<ArtistsManager> artistsManager;
 		std::unique_ptr<GUIModule> guiModule;
 		std::unique_ptr<InputModule> inputModule;
-		std::unique_ptr<WindowModule> windowModule;
-		std::unique_ptr<RenderingModule> renderingModule;
-	private:
+    std::unique_ptr<RenderingModule> renderingModule;
+    void toggleRunning();
+    bool shouldQuit;
+
+private:
 		static SimulationManager instance;
-		bool isRunning = true;
+		bool isRunning = false;
 
-		SimulationManager();
-		~SimulationManager();
+    std::unique_ptr<MementoManager> mementoManager;
 
-		void processEvents();
+private:
+
+
+    std::unique_ptr<CareTaker> careTaker;
+    unsigned int framesSinceLastSave;
+    unsigned int framesPerSave;
+    bool autoSaveEnabled;
+
+    SimulationManager();
+    ~SimulationManager();
+
+    void processEvents();
+    std::unique_ptr<WindowModule> windowModule;
+
 };
 
 #endif /* SIMULATION_MANAGER_HPP */

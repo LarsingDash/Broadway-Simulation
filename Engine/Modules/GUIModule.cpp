@@ -1,5 +1,6 @@
 #include "GUIModule.hpp"
 #include "../FileReading/FileReaderTemplate.hpp"
+#include "imgui_internal.h"
 #include <backends/imgui_impl_sdl2.h>
 #include <backends/imgui_impl_sdlrenderer2.h>
 #include <sstream>
@@ -96,7 +97,6 @@ void GUIModule::_renderFileSelector() {
 	ImGui::RadioButton("File Source", &mapSourceType, 1);
 
 	//Museum InputField
-	static char mapInput[256] = "..\\assets\\grid.txt";
 	if (mapSourceType == 0) {    //Web
 		ImGui::PushItemWidth(-1);
 		ImGui::InputText("##MapInput", mapInput, IM_ARRAYSIZE(mapInput));
@@ -123,7 +123,6 @@ void GUIModule::_renderFileSelector() {
 	ImGui::RadioButton("File Source##Artist", &artistSourceType, 1);
 
 	//Artist InputField
-	static char artistInput[256] = "..\\assets\\artists.csv";
 	if (artistSourceType == 0) {    //Web
 		ImGui::PushItemWidth(-1);
 		ImGui::InputText("##ArtistInput", artistInput, IM_ARRAYSIZE(artistInput));
@@ -242,6 +241,72 @@ void GUIModule::_renderInfo() {
 	ImGui::End();
 }
 
-void GUIModule::openFileDialog() {
+std::string GUIModule::wstrToStr(const std::wstring& wstr) {
+    if (wstr.empty()) return std::string();
+    int size = WideCharToMultiByte(CP_UTF8, 0, &wstr[0], (int)wstr.size(), nullptr, 0, nullptr, nullptr);
+    std::string result(size, 0);
+    WideCharToMultiByte(CP_UTF8, 0, &wstr[0], (int)wstr.size(), &result[0], size, nullptr, nullptr);
+    return result;
+}
 
+void GUIModule::openFileDialog() {
+    // Initialize COM
+    HRESULT hr = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE);
+    if (FAILED(hr))
+        return;
+
+    // Create FileOpenDialog instance
+    IFileOpenDialog* pFileDialog;
+    hr = CoCreateInstance(CLSID_FileOpenDialog, NULL, CLSCTX_ALL,
+                          IID_IFileOpenDialog, reinterpret_cast<void**>(&pFileDialog));
+
+    if (SUCCEEDED(hr)) {
+        // Set options
+        FILEOPENDIALOGOPTIONS options;
+        pFileDialog->GetOptions(&options);
+        pFileDialog->SetOptions(options | FOS_FORCEFILESYSTEM);
+
+        // Set file types based on which button was clicked
+        isSelectingMapFile = ImGui::GetActiveID() == ImGui::GetID("Open File##Map");
+
+        COMDLG_FILTERSPEC fileTypes[2] = {};
+        if (isSelectingMapFile) {
+            fileTypes[0] = { L"Text Files", L"*.txt" };
+            fileTypes[1] = { L"All Files", L"*.*" };
+        } else {
+            fileTypes[0] = { L"CSV Files", L"*.csv" };
+            fileTypes[1] = { L"All Files", L"*.*" };
+        }
+        pFileDialog->SetFileTypes(2, fileTypes);
+
+        // Show the dialog
+        hr = pFileDialog->Show(NULL);
+
+        if (SUCCEEDED(hr)) {
+            // Get the selected file
+            IShellItem* pItem;
+            hr = pFileDialog->GetResult(&pItem);
+            if (SUCCEEDED(hr)) {
+                PWSTR filePath;
+                hr = pItem->GetDisplayName(SIGDN_FILESYSPATH, &filePath);
+
+                if (SUCCEEDED(hr)) {
+                    // Convert wide string to string and store the path
+                    selectedFilePath = wstrToStr(filePath);
+
+                    // Update the appropriate input field
+                    if (isSelectingMapFile) {
+                        strncpy(mapInput, selectedFilePath.c_str(), IM_ARRAYSIZE(mapInput) - 1);
+                    } else {
+                        strncpy(artistInput, selectedFilePath.c_str(), IM_ARRAYSIZE(artistInput) - 1);
+                    }
+
+                    CoTaskMemFree(filePath);
+                }
+                pItem->Release();
+            }
+        }
+        pFileDialog->Release();
+    }
+    CoUninitialize();
 }

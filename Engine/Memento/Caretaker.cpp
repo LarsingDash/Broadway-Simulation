@@ -29,7 +29,7 @@ void CareTaker::addMemento(std::unique_ptr<Memento> memento) {
 
 Memento* CareTaker::undo() {
     if (currentIndex > 0) {
-        std::cout << "Undoing" << std::endl;
+        std::cout << "Undoing, Current index = " << currentIndex << " Mementos size: " << mementos.size() << std::endl;
         currentIndex--;
         return mementos[currentIndex].get();
     }

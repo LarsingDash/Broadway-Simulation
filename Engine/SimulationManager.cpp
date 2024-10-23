@@ -78,6 +78,7 @@ void SimulationManager::run() {
         renderingModule->clear();
 
         if (isRunning){
+            std::cout  << "Running" << std::endl;
             SimulationManager::artistsManager->update(*museum, static_cast<float>(delta) / 1000.f);
             if (autoSaveEnabled) {
                 framesSinceLastSave++;
@@ -104,7 +105,11 @@ void SimulationManager::run() {
 }
 
 
-void SimulationManager::toggleRunning() { isRunning = !isRunning; }
+void SimulationManager::toggleRunning() {
+    if(!artistsManager->getArtists().empty()){
+        isRunning = !isRunning;
+    }
+}
 
 
 void SimulationManager::saveState() const {

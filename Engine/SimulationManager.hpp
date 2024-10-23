@@ -35,7 +35,7 @@ public:
     std::unique_ptr<InputModule> inputModule;
 private:
     static SimulationManager instance;
-    bool isRunning = true;
+    bool isRunning = false;
 
     std::unique_ptr<CareTaker> careTaker;
     unsigned int framesSinceLastSave;

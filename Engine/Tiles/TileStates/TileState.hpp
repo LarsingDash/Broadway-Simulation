@@ -21,8 +21,7 @@ class TileState {
 
 		const char letter;
 		const std::pair<SDL_Color, float>& config;
-	protected:
-		int interactionCount;
+    int interactionCount;
 };
 
 #endif // BROADWAY_SIMULATION_TILESTATE_HPP

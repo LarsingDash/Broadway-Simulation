@@ -6,4 +6,6 @@
 
 void FastForwardCommand::execute() {
 	std::cout << "FastForwardCommand executed" << std::endl;
+    SimulationManager::getInstance().redo();
+
 }

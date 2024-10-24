@@ -139,7 +139,9 @@ void GUIModule::_renderFileSelector() {
 	}
 
 	//Confirm Lambda
-	auto onConfirmClick = [&artistsManager = artistsManager, &mapSourceType = mapSourceType, &artistSourceType = artistSourceType,
+	auto onConfirmClick = [
+			&artistsManager = artistsManager, &pathModule = pathfindingModule,
+			&mapSourceType = mapSourceType, &artistSourceType = artistSourceType,
 			&mapInput = mapInput, &artistInput = artistInput]() {
 		if (std::strlen(mapInput) > 0) {
 			if (mapSourceType == 0) {
@@ -147,6 +149,8 @@ void GUIModule::_renderFileSelector() {
 			} else {
 				FileReaderTemplate::readFileTemplate(mapInput, SourceType::File);
 			}
+
+			pathModule.reset();
 		}
 
 		if (std::strlen(artistInput) > 0) {

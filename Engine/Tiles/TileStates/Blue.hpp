@@ -12,8 +12,6 @@ class Tile;
 class Blue : public TileState {
 	public:
 		Blue() : TileState('B') {}
-
-		void handleInteraction(Tile& tile, Artist* artist) override;
 };
 
 #endif //BROADWAY_SIMULATION_BLUE_HPP

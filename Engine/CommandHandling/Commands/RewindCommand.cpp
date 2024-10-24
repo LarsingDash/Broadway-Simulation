@@ -6,5 +6,4 @@
 
 void RewindCommand::execute() {
 	std::cout << "RewindCommand executed" << std::endl;
-    SimulationManager::getInstance().undo();
 }

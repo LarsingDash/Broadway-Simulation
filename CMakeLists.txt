@@ -20,7 +20,6 @@ include_directories("${IMGUI_PATH}")
 
 #Main
 add_executable(${PROJECT_NAME} main.cpp
-        Testing.cpp
         Engine/Modules/FileDialogModule.cpp
 )
 

@@ -4,14 +4,12 @@
 #include "../CommandHandling/Commands/RenderArtistsCommand.hpp"
 #include "../CommandHandling/Commands/FileSelectionCommand.hpp"
 #include "../CommandHandling/Commands/PlayPauseCommand.hpp"
-#include "../CommandHandling/Commands/TileInteractionCommand.hpp"
 #include "../CommandHandling/Commands/FastForwardCommand.hpp"
 #include "../CommandHandling/Commands/QuitCommand.hpp"
 #include "../CommandHandling/Commands/InfoCommand.hpp"
 
 InputModule::InputModule() {
 	keys[Commands::PlayPause] = {SDL_SCANCODE_SPACE, "PlayPause"};
-	keys[Commands::TileInteraction] = {SDL_SCANCODE_RETURN, "TileInteraction"};
 	keys[Commands::FileSelection] = {SDL_SCANCODE_O, "FileSelection"};
 	keys[Commands::RenderArtists] = {SDL_SCANCODE_A, "RenderArtists"};
 	keys[Commands::Rewind] = {SDL_SCANCODE_LEFT, "Rewind"};
@@ -20,7 +18,6 @@ InputModule::InputModule() {
 	keys[Commands::Info] = {SDL_SCANCODE_M, "Info"};
 
 	commandBindings[Commands::PlayPause] = std::make_unique<PlayPauseCommand>();
-	commandBindings[Commands::TileInteraction] = std::make_unique<TileInteractionCommand>();
 	commandBindings[Commands::FileSelection] = std::make_unique<FileSelectionCommand>();
 	commandBindings[Commands::RenderArtists] = std::make_unique<RenderArtistsCommand>();
 	commandBindings[Commands::Rewind] = std::make_unique<RewindCommand>();
@@ -48,6 +45,4 @@ void InputModule::handleScancode(SDL_Scancode key) {
 void InputModule::handleMouseClick() {
 	//Call TileInteraction on mouse click, unless absorbed by a window
 	GUIModule& guiModule = *SimulationManager::getInstance().guiModule;
-	if (!(guiModule.getFileSelectionFocussed() || guiModule.getInfoFocussed()))
-		commandBindings[Commands::TileInteraction]->execute();
 }

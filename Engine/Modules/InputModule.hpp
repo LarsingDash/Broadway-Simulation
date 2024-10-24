@@ -11,7 +11,6 @@ class InputModule {
 	public:
 		enum Commands {
 			PlayPause,
-			TileInteraction,
 			FileSelection,
 			RenderArtists,
 			Rewind,

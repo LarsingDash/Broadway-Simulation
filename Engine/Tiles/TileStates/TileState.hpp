@@ -14,8 +14,6 @@ class TileState {
 	public:
 		explicit TileState(const char& c);
 		virtual ~TileState() = default;
-
-		virtual void handleInteraction(Tile& tile, Artist* artist) = 0;
 		
 		const char letter;
 		const std::pair<SDL_Color, float>& config;

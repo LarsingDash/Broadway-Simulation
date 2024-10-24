@@ -69,6 +69,8 @@ void InputModule::handleMouseClick(bool isLeft) {
 	//If within bounds: set start or end
 	if (tileX >= 0 && tileX < museum.getCols() && tileY >= 0 && tileY < museum.getRows()) {
 		Tile& clickedTile = museum.getTile(tileX, tileY);
+		//Not allowed to use white as path
+		if (clickedTile.currentState->letter == 'W') return;
 		clickedTile.logTileData();
 
 		if (isLeft) pathfindingModule.setStart(&clickedTile);

@@ -19,7 +19,9 @@ class CollisionModule {
 		enum CollisionType {
 			Naive,
 			Quadtree,
+			Count, //ALWAYS KEEP LAST
 		};
+		static const char* CollisionTypeItems[];
 		
 		void setCollisionType(CollisionType collisionType);
 		void toggleCollisionInfo();

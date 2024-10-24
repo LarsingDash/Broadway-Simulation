@@ -10,8 +10,10 @@
 std::unordered_map<InputModule::Commands, std::pair<std::array<char, 64>, bool>> GUIModule::keyInputs;
 bool GUIModule::isTyping = false;
 
-GUIModule::GUIModule(SDL_Window* window, SDL_Renderer* renderer, InputModule& module) :
-		renderer(renderer), inputModule{module} {
+GUIModule::GUIModule(SDL_Window* window, SDL_Renderer* renderer, InputModule& mInput, ArtistsManager& mArtist,
+					 CollisionModule& mCollision, PathfindingModule& mPathfinding) :
+		renderer(renderer), inputModule{mInput}, artistsManager{mArtist},
+		collisionModule{mCollision}, pathfindingModule{mPathfinding} {
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	ImGuiIO& io = ImGui::GetIO();
@@ -137,7 +139,7 @@ void GUIModule::_renderFileSelector() {
 	}
 
 	//Confirm Lambda
-	auto onConfirmClick = [&mapSourceType = mapSourceType, &artistSourceType = artistSourceType,
+	auto onConfirmClick = [&artistsManager = artistsManager, &mapSourceType = mapSourceType, &artistSourceType = artistSourceType,
 			&mapInput = mapInput, &artistInput = artistInput]() {
 		if (std::strlen(mapInput) > 0) {
 			if (mapSourceType == 0) {
@@ -153,7 +155,7 @@ void GUIModule::_renderFileSelector() {
 			} else {
 				FileReaderTemplate::readFileTemplate(artistInput, SourceType::File);
 			}
-		}
+		} else artistsManager.clearArtists();
 	};
 
 	//Confirm Button
@@ -174,10 +176,9 @@ void GUIModule::_renderFileSelector() {
 	ImGui::End();
 }
 
-
 void GUIModule::_renderInfo() {
 	//Begin
-	ImGui::SetNextWindowSize(ImVec2(200, 300), ImGuiCond_Once);
+	ImGui::SetNextWindowSize(ImVec2(275, 350), ImGuiCond_Once);
 	ImGui::Begin("Info", nullptr, ImGuiWindowFlags_NoResize);
 	infoWindowFocussed = ImGui::IsWindowFocused();
 
@@ -235,10 +236,29 @@ void GUIModule::_renderInfo() {
 
 	GUIModule::isTyping = isTypingAnywhere;
 
+	ImGui::Spacing();
+	ImGui::Spacing();
+	ImGui::Spacing();
+	
+	//Header
+	ImGui::Text("Strategies");
+	ImGui::Separator();
+
+	//Collision
+	if (ImGui::Combo("Collision", &collisionItem, CollisionModule::CollisionTypeItems,
+					 CollisionModule::CollisionType::Count)) {
+		collisionModule.setCollisionType(static_cast<CollisionModule::CollisionType>(collisionItem));
+	}
+
+	//Pathfinding
+	if (ImGui::Combo("Pathfinding", &pathfindingItem, PathfindingModule::PathfindingTypeItems,
+					 PathfindingModule::PathfindingType::Count)) {
+		pathfindingModule.setPathfindingType(static_cast<PathfindingModule::PathfindingType>(pathfindingItem));
+	}
+
 	//End
 	ImGui::End();
 }
-
 
 void GUIModule::openFileDialog(char* inputBuffer, const size_t& bufferSize) {
 	FileDialogModule::DialogResult result = FileDialogModule::getInstance().showDialog();

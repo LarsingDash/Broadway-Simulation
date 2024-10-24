@@ -49,6 +49,10 @@ void InputModule::handleScancode(SDL_Scancode key) {
 }
 
 void InputModule::handleMouseClick(bool isLeft) {
+	//Early return if one of the windows are focussed
+	GUIModule& guiModule = *SimulationManager::getInstance().guiModule;
+	if (guiModule.getFileSelectionFocussed() || guiModule.getInfoFocussed()) return;
+	
 	//Change start or end on mouseclick
 	PathfindingModule& pathfindingModule = *SimulationManager::getInstance().pathfindingModule;
 	Museum& museum = *SimulationManager::getInstance().museum;

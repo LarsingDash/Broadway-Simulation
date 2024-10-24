@@ -18,7 +18,9 @@ class PathfindingModule {
 		enum PathfindingType {
 			BreathFirstSearch,
 			Dijkstra,
+			Count, //ALWAYS KEEP LAST
 		};
+		static const char* PathfindingTypeItems[];
 		
 		void setPathfindingType(PathfindingType type);
 		void toggleRenderPath();

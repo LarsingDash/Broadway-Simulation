@@ -4,6 +4,11 @@
 
 #include "CollisionModule.hpp"
 
+const char* CollisionModule::CollisionTypeItems[] = {
+		"Naive",
+		"Quadtree",
+};
+
 CollisionModule::CollisionModule(ArtistsManager& artistsManager, PathfindingModule& pathfindingModule,
 								 RenderingModule& renderingModule) : artistsManager{artistsManager},
 																	 pathfindingModule{pathfindingModule},

@@ -4,6 +4,11 @@
 
 #include "PathfindingModule.hpp"
 
+const char* PathfindingModule::PathfindingTypeItems[] = {
+			"BreathFirstSearch",
+			"Dijkstra",
+};
+
 PathfindingModule::PathfindingModule(Museum& mus) : museum{mus} {}
 
 void PathfindingModule::setStart(Tile* s) {
@@ -36,7 +41,6 @@ void PathfindingModule::_recalculatePath() {
 	if (target) std::cout << target->getPos().x << " - " << target->getPos().y;
 	else std::cout << "NULL";
 	std::cout << std::endl;
-	
 
 	switch (pathfindingType) {
 		default:

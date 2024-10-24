@@ -16,10 +16,13 @@ SimulationManager::SimulationManager() : shouldQuit(false) {
 
 	renderingModule = std::make_unique<RenderingModule>(windowModule->getWindow());
 	inputModule = std::make_unique<InputModule>();
-	guiModule = std::make_unique<GUIModule>(windowModule->getWindow(), renderingModule->getRenderer(), *inputModule);
-	
+
 	pathfindingModule = std::make_unique<PathfindingModule>(*museum);
 	collisionModule = std::make_unique<CollisionModule>(*artistsManager, *pathfindingModule, *renderingModule);
+
+	guiModule = std::make_unique<GUIModule>(windowModule->getWindow(), renderingModule->getRenderer(),
+											*inputModule, *artistsManager,
+											*collisionModule, *pathfindingModule);
 }
 
 SimulationManager::~SimulationManager() {
@@ -95,7 +98,5 @@ void SimulationManager::run() {
 }
 
 void SimulationManager::toggleRunning() {
-	if (!artistsManager->getArtists().empty()) {
-		isRunning = !isRunning;
-	}
+	isRunning = !isRunning && !artistsManager->getArtists().empty();
 }

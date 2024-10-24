@@ -2,11 +2,16 @@
 #define BROADWAY_SIMULATION_GUIMODULE_HPP
 
 #include "InputModule.hpp"
+#include "CollisionModule.hpp"
+#include "PathfindingModule.hpp"
 #include <SDL_render.h>
 
 class GUIModule {
 	public:
-		GUIModule(SDL_Window* window, SDL_Renderer* renderer, InputModule& inputModule);
+		GUIModule(SDL_Window* window, SDL_Renderer* renderer, 
+				  InputModule& inputModule, ArtistsManager& artistsManager,
+				  CollisionModule& collisionModule,
+				  PathfindingModule& pathfindingModule);
 		~GUIModule();
 
 		static void beginFrame();
@@ -24,6 +29,9 @@ class GUIModule {
 	private:
 		SDL_Renderer* renderer;
 		InputModule& inputModule;
+		ArtistsManager& artistsManager;
+		CollisionModule& collisionModule;
+		PathfindingModule& pathfindingModule;
 
 		bool showFileSelectionWindow = false;
 		bool showInfoWindow = false;
@@ -33,6 +41,9 @@ class GUIModule {
 		char mapInput[256] = "..\\assets\\grid.txt";
 		char artistInput[256] = "..\\assets\\artists.csv";
 		std::string selectedFilePath;
+
+		int collisionItem = 1;
+		int pathfindingItem = 0;
 
 		//<Command, <InputBuffer, ValidBool>>
 		static std::unordered_map<InputModule::Commands, std::pair<std::array<char, 64>, bool>> keyInputs;

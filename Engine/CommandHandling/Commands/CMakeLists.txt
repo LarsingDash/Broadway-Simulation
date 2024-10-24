@@ -1,9 +1,11 @@
 ﻿target_sources(${PROJECT_NAME} PRIVATE
-        FastForwardCommand.cpp
+        CollideWithPathCommand.cpp
         FileSelectionCommand.cpp
         InfoCommand.cpp
         PlayPauseCommand.cpp
-        RenderArtistsCommand.cpp
-        RewindCommand.cpp
         QuitCommand.cpp
+        RenderArtistsCommand.cpp
+        RenderCollisionInfoCommand.cpp
+        RenderPathCommand.cpp
+        RenderVisitedCommand.cpp
 )

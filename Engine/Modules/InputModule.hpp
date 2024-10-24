@@ -12,9 +12,11 @@ class InputModule {
 		enum Commands {
 			PlayPause,
 			FileSelection,
+			RenderCollisionInfo,
 			RenderArtists,
-			Rewind,
-			FastForward,
+			CollideWithPath,
+			RenderPath,
+			RenderVisited,
 			Quit,
 			Info,
 		};

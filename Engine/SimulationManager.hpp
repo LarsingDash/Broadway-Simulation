@@ -29,7 +29,7 @@ class SimulationManager {
 	private:
 		static SimulationManager instance;
 		bool isRunning = false;
-	private:
+
 		SimulationManager();
 		~SimulationManager();
 

@@ -24,11 +24,11 @@ void MuseumBuilder::addTile(const glm::ivec2& pos, char c) {
 	builderTiles[pos.y][pos.x] = std::make_unique<_builderTile>(c);
 }
 
-void MuseumBuilder::addNeighbor(glm::ivec2 tile, const glm::ivec2& neighbor) {
+[[maybe_unused]] void MuseumBuilder::addNeighbor(glm::ivec2 tile, const glm::ivec2& neighbor) {
 	builderTiles[tile.y][tile.x]->neighbors.push_back(neighbor);
 }
 
-void MuseumBuilder::addNeighbors(glm::ivec2 tile, const std::vector<glm::ivec2>& neighbors) {
+[[maybe_unused]] void MuseumBuilder::addNeighbors(glm::ivec2 tile, const std::vector<glm::ivec2>& neighbors) {
 	builderTiles[tile.y][tile.x]->neighbors = neighbors;
 }
 

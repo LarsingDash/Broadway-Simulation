@@ -60,24 +60,41 @@ void RenderingModule::draw() {
 	}
 
 	//Path
-	if (!pathfindingModule->getRenderPath()) return;
-	for (const auto& tile: pathfindingModule->path) {
-		const glm::vec2& pos = tile->getPos();
-		SDL_FRect tileRect = {(static_cast<float>(pos.x) / static_cast<float>(museum->getCols())) *
-							  static_cast<float>(WindowModule::width) + Artist::offset.x,
-							  (static_cast<float>(pos.y) / static_cast<float>(museum->getRows())) *
-							  static_cast<float>(WindowModule::height) + Artist::offset.y,
-							  Artist::size.x,
-							  Artist::size.y};
-		
-		_darkGrey();
-		SDL_RenderFillRectF(renderer, &tileRect);
+	if (pathfindingModule->getRenderPath()) {
+		for (const auto& tile: pathfindingModule->path) {
+			const glm::vec2& pos = tile->getPos();
+			SDL_FRect tileRect = {(pos.x / static_cast<float>(museum->getCols())) *
+								  static_cast<float>(WindowModule::width) + Artist::offset.x,
+								  (pos.y / static_cast<float>(museum->getRows())) *
+								  static_cast<float>(WindowModule::height) + Artist::offset.y,
+								  Artist::size.x,
+								  Artist::size.y};
+
+			_darkGrey();
+			SDL_RenderFillRectF(renderer, &tileRect);
+		}
+	}
+
+	//Visited
+	if (pathfindingModule->getRenderVisited()) {
+		for (const auto& tile: pathfindingModule->visited) {
+			const glm::vec2& pos = tile->getPos();
+			SDL_FRect tileRect = {(pos.x / static_cast<float>(museum->getCols())) *
+								  static_cast<float>(WindowModule::width),
+								  (pos.y / static_cast<float>(museum->getRows())) *
+								  static_cast<float>(WindowModule::height),
+								  tileSize.x,
+								  tileSize.y};
+
+			_darkGrey();
+			SDL_RenderDrawRectF(renderer, &tileRect);
+		}
 	}
 }
 
 void RenderingModule::drawRectangle(const SDL_Rect& rect, bool isRed) {
 	isRed ? _red() : _darkGrey();
-	
+
 	SDL_RenderDrawRect(renderer, &rect);
 }
 

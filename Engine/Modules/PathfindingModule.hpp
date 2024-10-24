@@ -6,6 +6,7 @@
 #define BROADWAY_SIMULATION_PATHFINDINGMODULE_HPP
 
 #include "../Tiles/Museum.hpp"
+#include <unordered_set>
 
 class PathfindingModule {
 	public:
@@ -24,10 +25,12 @@ class PathfindingModule {
 		
 		void setPathfindingType(PathfindingType type);
 		void toggleRenderPath();
-		[[nodiscard]] bool getRenderPath() const;
 		void toggleRenderVisited();
+		[[nodiscard]] bool getRenderPath() const;
+		[[nodiscard]] bool getRenderVisited() const;
 		
 		std::vector<Tile*> path {};
+		std::unordered_set<Tile*> visited {};
 	private:
 		void _recalculatePath();
 		void _breathFirstSearch();

@@ -31,8 +31,9 @@ void PathfindingModule::reset() {
 
 void PathfindingModule::setPathfindingType(PathfindingModule::PathfindingType type) { pathfindingType = type; }
 void PathfindingModule::toggleRenderPath() { renderPath = !renderPath; }
-bool PathfindingModule::getRenderPath() const { return renderPath; }
 void PathfindingModule::toggleRenderVisited() { renderVisited = !renderVisited; }
+bool PathfindingModule::getRenderPath() const { return renderPath; }
+bool PathfindingModule::getRenderVisited() const { return renderVisited; }
 
 void PathfindingModule::_recalculatePath() {
 	std::cout << "ReCalc path: ";
@@ -44,6 +45,7 @@ void PathfindingModule::_recalculatePath() {
 	std::cout << std::endl;
 
 	path.clear();
+	visited.clear();
 	switch (pathfindingType) {
 		default:
 		case BreathFirstSearch:
@@ -63,6 +65,13 @@ void PathfindingModule::_breathFirstSearch() {
 	path.push_back(&museum.getTile(start->getPos().x, start->getPos().y + 4));
 	path.push_back(&museum.getTile(start->getPos().x, start->getPos().y + 5));
 	path.push_back(&museum.getTile(start->getPos().x, start->getPos().y + 6));
+
+	visited.insert(&museum.getTile(start->getPos().x, start->getPos().y + 1));
+	visited.insert(&museum.getTile(start->getPos().x, start->getPos().y + 2));
+	visited.insert(&museum.getTile(start->getPos().x, start->getPos().y + 3));
+	visited.insert(&museum.getTile(start->getPos().x, start->getPos().y + 4));
+	visited.insert(&museum.getTile(start->getPos().x, start->getPos().y + 5));
+	visited.insert(&museum.getTile(start->getPos().x, start->getPos().y + 6));
 }
 
 void PathfindingModule::_dijkstra() {

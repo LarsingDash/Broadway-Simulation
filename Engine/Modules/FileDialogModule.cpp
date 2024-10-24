@@ -1,68 +1,60 @@
-#include <vector>
 #include "FileDialogModule.hpp"
+#include <shobjidl.h>
 
 FileDialogModule::DialogResult FileDialogModule::showDialog() {
-    DialogResult result = {false, ""};
+	DialogResult finalResult = {false, ""};
 
-#ifdef _WIN32
-    // Initialize COM
-    HRESULT hr = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE);
-    if (FAILED(hr))
-        return result;
+	//Initialize the COM library
+	HRESULT dialogResult = CoInitializeEx(nullptr, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE);
+	if (FAILED(dialogResult)) return finalResult;
 
-    // Create FileOpenDialog instance
-    IFileOpenDialog* pFileDialog;
-    hr = CoCreateInstance(CLSID_FileOpenDialog, NULL, CLSCTX_ALL,
-                          IID_IFileOpenDialog, reinterpret_cast<void**>(&pFileDialog));
+	//Create FileOpenDialog instance
+	IFileOpenDialog* fileDialog;
+	dialogResult = CoCreateInstance(CLSID_FileOpenDialog, nullptr, CLSCTX_ALL,
+									IID_IFileOpenDialog, reinterpret_cast<void**>(&fileDialog));
 
-    if (SUCCEEDED(hr)) {
-        // Set options
-        FILEOPENDIALOGOPTIONS options;
-        pFileDialog->GetOptions(&options);
-        pFileDialog->SetOptions(options | FOS_FORCEFILESYSTEM);
+	//Check if Dialog window was successfully instantiated
+	if (SUCCEEDED(dialogResult)) {
+		//Set dialog options
+		FILEOPENDIALOGOPTIONS options;
+		fileDialog->GetOptions(&options);
+		fileDialog->SetOptions(options | FOS_FORCEFILESYSTEM);	//Enforce return value is a file system item
 
-//        // Prepare filter specs
-//        std::vector<COMDLG_FILTERSPEC> fileTypes(filters.size());
-//        for (size_t i = 0; i < filters.size(); ++i) {
-//            fileTypes[i] = { filters[i].first.c_str(), filters[i].second.c_str() };
-//        }
+		//Show dialog window
+		dialogResult = fileDialog->Show(nullptr);
 
-        // Set file types
-//        pFileDialog->SetFileTypes(static_cast<UINT>(fileTypes.size()), fileTypes.data());
+		//Check if Dialog window was successfully shown
+		if (SUCCEEDED(dialogResult)) {
+			//Get the result of the Dialog
+			IShellItem* shellItem;
+			dialogResult = fileDialog->GetResult(&shellItem);
+			
+			//Check if the result was successful
+			if (SUCCEEDED(dialogResult)) {
+				//Get filePath from the completed dialog
+				PWSTR filePath;
+				dialogResult = shellItem->GetDisplayName(SIGDN_FILESYSPATH, &filePath);
 
-        // Show the dialog
-        hr = pFileDialog->Show(NULL);
+				//Store filePath in final result
+				if (SUCCEEDED(dialogResult)) {
+					finalResult.success = true;
+					finalResult.filePath = WStrToStr(filePath);
+					CoTaskMemFree(filePath);
+				}
+				shellItem->Release();
+			}
+		}
+		fileDialog->Release();
+	}
+	CoUninitialize();
 
-        if (SUCCEEDED(hr)) {
-            // Get the selected file
-            IShellItem* pItem;
-            hr = pFileDialog->GetResult(&pItem);
-            if (SUCCEEDED(hr)) {
-                PWSTR filePath;
-                hr = pItem->GetDisplayName(SIGDN_FILESYSPATH, &filePath);
-
-                if (SUCCEEDED(hr)) {
-                    result.success = true;
-                    result.filePath = wstrToStr(filePath);
-                    CoTaskMemFree(filePath);
-                }
-                pItem->Release();
-            }
-        }
-        pFileDialog->Release();
-    }
-    CoUninitialize();
-#endif
-
-    return result;
+	return finalResult;
 }
 
-#ifdef _WIN32
-std::string FileDialogModule::wstrToStr(const std::wstring& wstr) {
-    if (wstr.empty()) return std::string();
-    int size = WideCharToMultiByte(CP_UTF8, 0, &wstr[0], (int)wstr.size(), nullptr, 0, nullptr, nullptr);
-    std::string result(size, 0);
-    WideCharToMultiByte(CP_UTF8, 0, &wstr[0], (int)wstr.size(), &result[0], size, nullptr, nullptr);
-    return result;
+std::string FileDialogModule::WStrToStr(const std::wstring& wstring) {
+	if (wstring.empty()) return {};
+	int size = WideCharToMultiByte(CP_UTF8, 0, &wstring[0], (int) wstring.size(), nullptr, 0, nullptr, nullptr);
+	std::string result(size, 0);
+	WideCharToMultiByte(CP_UTF8, 0, &wstring[0], (int) wstring.size(), &result[0], size, nullptr, nullptr);
+	return result;
 }
-#endif

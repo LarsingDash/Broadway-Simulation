@@ -1,7 +1,11 @@
 #include "GUIModule.hpp"
 #include "../FileReading/FileReaderTemplate.hpp"
 #include "FileDialogModule.hpp"
-
+#include <backends/imgui_impl_sdl2.h>
+#include <backends/imgui_impl_sdlrenderer2.h>
+#include <array>
+#include <cstring>
+#include <sstream>
 
 std::unordered_map<InputModule::Commands, std::pair<std::array<char, 64>, bool>> GUIModule::keyInputs;
 bool GUIModule::isTyping = false;
@@ -56,7 +60,7 @@ void GUIModule::enableInfoWindow() {
 	//Init keyInputs
 	for (const auto& [command, key]: inputModule.keys) {
 		std::string keyName = SDL_GetScancodeName(key.first);
-		for (char & c : keyName) c = static_cast<char>(toupper(c));
+		for (char& c: keyName) c = static_cast<char>(toupper(c));
 
 		auto keyArray = std::array<char, 64>{};
 
@@ -77,96 +81,97 @@ bool GUIModule::getInfoFocussed() const { return infoWindowFocussed; }
 bool GUIModule::isWindowOpen() const { return showFileSelectionWindow || showInfoWindow; }
 
 void GUIModule::_renderFileSelector() {
-    // Begin
-    ImGui::SetNextWindowSize(ImVec2(400, 185), ImGuiCond_Once);
-    ImGui::Begin("File Selection", nullptr, ImGuiWindowFlags_NoResize);
-    fileSelectionWindowFocussed = ImGui::IsWindowFocused();
+	//Begin
+	ImGui::SetNextWindowSize(ImVec2(400, 185), ImGuiCond_Once);
+	ImGui::Begin("File Selection", nullptr, ImGuiWindowFlags_NoResize);
+	fileSelectionWindowFocussed = ImGui::IsWindowFocused();
 
-    // Museum Header
-    ImGui::Text("Museum/Map");
-    static int mapSourceType = 1;
+	//Museum Header
+	ImGui::Text("Museum/Map");
+	static int mapSourceType = 1;
 
-    // Museum RadioButton
-    ImGui::RadioButton("Web Source", &mapSourceType, 0);
-    ImGui::SameLine();
-    ImGui::RadioButton("File Source", &mapSourceType, 1);
+	//Museum RadioButton
+	ImGui::RadioButton("Web Source", &mapSourceType, 0);
+	ImGui::SameLine();
+	ImGui::RadioButton("File Source", &mapSourceType, 1);
 
-    // Museum InputField
-    if (mapSourceType == 0) {    // Web
-        ImGui::PushItemWidth(-1);
-        ImGui::InputText("##MapInput", mapInput, IM_ARRAYSIZE(mapInput));
-        ImGui::PopItemWidth();
-    } else {    // File
-        ImGui::PushItemWidth(-110);
-        ImGui::InputText("##MapInput", mapInput, IM_ARRAYSIZE(mapInput));
-        ImGui::PopItemWidth();
-        ImGui::SameLine();
-        if (ImGui::Button("Open File##Map", ImVec2(100, 0))) {
-            openFileDialog(mapInput, sizeof(mapInput));
-        }
-    }
+	//Museum InputField
+	if (mapSourceType == 0) {    //Web
+		ImGui::PushItemWidth(-1);
+		ImGui::InputText("##MapInput", mapInput, IM_ARRAYSIZE(mapInput));
+		ImGui::PopItemWidth();
+	} else {    //File
+		ImGui::PushItemWidth(-110);
+		ImGui::InputText("##MapInput", mapInput, IM_ARRAYSIZE(mapInput));
+		ImGui::PopItemWidth();
+		ImGui::SameLine();
+		if (ImGui::Button("Open File##Map", ImVec2(100, 0))) {
+			openFileDialog(mapInput, sizeof(mapInput));
+		}
+	}
 
-    ImGui::Separator();
+	ImGui::Separator();
 
-    // Artist Header
-    ImGui::Text("Artist");
-    static int artistSourceType = 1;
+	//Artist Header
+	ImGui::Text("Artist");
+	static int artistSourceType = 1;
 
-    // Artist RadioButton
-    ImGui::RadioButton("Web Source##Artist", &artistSourceType, 0);
-    ImGui::SameLine();
-    ImGui::RadioButton("File Source##Artist", &artistSourceType, 1);
+	//Artist RadioButton
+	ImGui::RadioButton("Web Source##Artist", &artistSourceType, 0);
+	ImGui::SameLine();
+	ImGui::RadioButton("File Source##Artist", &artistSourceType, 1);
 
-    // Artist InputField
-    if (artistSourceType == 0) {    // Web
-        ImGui::PushItemWidth(-1);
-        ImGui::InputText("##ArtistInput", artistInput, IM_ARRAYSIZE(artistInput));
-        ImGui::PopItemWidth();
-    } else {    // File
-        ImGui::PushItemWidth(-110);
-        ImGui::InputText("##ArtistInput", artistInput, IM_ARRAYSIZE(artistInput));
-        ImGui::PopItemWidth();
-        ImGui::SameLine();
-        if (ImGui::Button("Open File##Artist", ImVec2(100, 0))) {
-            openFileDialog(artistInput, sizeof(artistInput));
-        }
-    }
+	//Artist InputField
+	if (artistSourceType == 0) {    //Web
+		ImGui::PushItemWidth(-1);
+		ImGui::InputText("##ArtistInput", artistInput, IM_ARRAYSIZE(artistInput));
+		ImGui::PopItemWidth();
+	} else {    //File
+		ImGui::PushItemWidth(-110);
+		ImGui::InputText("##ArtistInput", artistInput, IM_ARRAYSIZE(artistInput));
+		ImGui::PopItemWidth();
+		ImGui::SameLine();
+		if (ImGui::Button("Open File##Artist", ImVec2(100, 0))) {
+			openFileDialog(artistInput, sizeof(artistInput));
+		}
+	}
 
-    // Confirm Lambda
-    auto onConfirmClick = [&mapSourceType = mapSourceType, &artistSourceType = artistSourceType,
-            &mapInput = mapInput, &artistInput = artistInput]() {
-        if (std::strlen(mapInput) > 0) {
-            if (mapSourceType == 0) {
-                FileReaderTemplate::readFileTemplate(mapInput, SourceType::Web);
-            } else {
-                FileReaderTemplate::readFileTemplate(mapInput, SourceType::File);
-            }
-        }
+	//Confirm Lambda
+	auto onConfirmClick = [&mapSourceType = mapSourceType, &artistSourceType = artistSourceType,
+			&mapInput = mapInput, &artistInput = artistInput]() {
+		if (std::strlen(mapInput) > 0) {
+			if (mapSourceType == 0) {
+				FileReaderTemplate::readFileTemplate(mapInput, SourceType::Web);
+			} else {
+				FileReaderTemplate::readFileTemplate(mapInput, SourceType::File);
+			}
+		}
 
-        if (std::strlen(artistInput) > 0) {
-            if (artistSourceType == 0) {
-                FileReaderTemplate::readFileTemplate(artistInput, SourceType::Web);
-            } else {
-                FileReaderTemplate::readFileTemplate(artistInput, SourceType::File);
-            }
-        }
-    };
+		if (std::strlen(artistInput) > 0) {
+			if (artistSourceType == 0) {
+				FileReaderTemplate::readFileTemplate(artistInput, SourceType::Web);
+			} else {
+				FileReaderTemplate::readFileTemplate(artistInput, SourceType::File);
+			}
+		}
+	};
 
-    bool canConfirm = (std::strlen(mapInput) > 0) || (std::strlen(artistInput) > 0);
+	//Confirm Button
+	bool canConfirm = (std::strlen(mapInput) > 0) || (std::strlen(artistInput) > 0);
 
-    ImGui::SetCursorPosX((ImGui::GetWindowWidth() - 100) * 0.5f);
-    ImGui::BeginDisabled(!canConfirm);
-    if (ImGui::Button("Confirm", ImVec2(100, 0))) {
-        onConfirmClick();
-    }
-    ImGui::EndDisabled();
+	ImGui::SetCursorPosX((ImGui::GetWindowWidth() - 100) * 0.5f);
+	ImGui::BeginDisabled(!canConfirm);
+	if (ImGui::Button("Confirm", ImVec2(100, 0))) {
+		onConfirmClick();
+	}
+	ImGui::EndDisabled();
 
-    if (fileSelectionWindowFocussed && ImGui::IsKeyPressed(ImGuiKey_Enter) && canConfirm) {
-        onConfirmClick();
-    }
+	//Enter shortcut for the confirm button
+	if (fileSelectionWindowFocussed && ImGui::IsKeyPressed(ImGuiKey_Enter) && canConfirm)
+		onConfirmClick();
 
-    // End
-    ImGui::End();
+	//End
+	ImGui::End();
 }
 
 
@@ -213,8 +218,7 @@ void GUIModule::_renderInfo() {
 					if (scancode != SDL_SCANCODE_UNKNOWN) {
 						SimulationManager::getInstance().inputModule->keys[curCommand].first = scancode;
 						GUIModule::keyInputs[curCommand].second = true;
-					}
-					else GUIModule::keyInputs[curCommand].second = false;	//Mark InputText red
+					} else GUIModule::keyInputs[curCommand].second = false;    //Mark InputText red
 
 					//Store new text to buffer for next render
 					strncpy(GUIModule::keyInputs[curCommand].first.data(), data->Buf, data->BufSize - 1);
@@ -236,16 +240,17 @@ void GUIModule::_renderInfo() {
 }
 
 
-void GUIModule::openFileDialog(char *inputBuffer, size_t bufferSize) {
-    FileDialogModule::DialogResult result = FileDialogModule::getInstance().showDialog();
+void GUIModule::openFileDialog(char* inputBuffer, const size_t& bufferSize) {
+	FileDialogModule::DialogResult result = FileDialogModule::getInstance().showDialog();
 
-    if (result.success) {
-        std::cout << "File selected: " << result.filePath << std::endl;
+	//Check if result was successful
+	if (result.success) {
+		std::cout << "File selected: " << result.filePath << std::endl;
 
-        // Ensure the buffer is cleared and then copy the file path
-        std::strncpy(inputBuffer, result.filePath.c_str(), bufferSize - 1);
-        inputBuffer[bufferSize - 1] = '\0'; // Ensure null-termination
-    } else {
-        std::cout << "File selection was cancelled or failed." << std::endl;
-    }
+		//Copy chosen file path to buffer
+		std::strncpy(inputBuffer, result.filePath.c_str(), bufferSize - 1);
+		inputBuffer[bufferSize - 1] = '\0'; //Null-termination
+	} else {
+		std::cerr << "File selection was cancelled or failed." << std::endl;
+	}
 }

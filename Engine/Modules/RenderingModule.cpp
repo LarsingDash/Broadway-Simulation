@@ -75,6 +75,12 @@ void RenderingModule::draw() {
 	}
 }
 
+void RenderingModule::drawRectangle(const SDL_Rect& rect, bool isRed) {
+	isRed ? _red() : _darkGrey();
+	
+	SDL_RenderDrawRect(renderer, &rect);
+}
+
 void RenderingModule::present() {
 	SDL_RenderPresent(renderer);
 }

@@ -3,6 +3,7 @@
 //
 
 #include "CollisionModule.hpp"
+#include "WindowModule.hpp"
 
 const char* CollisionModule::CollisionTypeItems[] = {
 		"Naive",
@@ -13,6 +14,19 @@ CollisionModule::CollisionModule(ArtistsManager& artistsManager, PathfindingModu
 								 RenderingModule& renderingModule) : artistsManager{artistsManager},
 																	 pathfindingModule{pathfindingModule},
 																	 renderingModule{renderingModule} {}
+
+void CollisionModule::renderInfo() {
+	if (!renderCollisionInfo) return;
+
+	switch (collisionType) {
+		default:
+		case Naive:
+			break;
+		case Quadtree:
+			_quadtreeCollisionInfo();
+			break;
+	}
+}
 
 void CollisionModule::update() {
 	switch (collisionType) {
@@ -36,4 +50,12 @@ void CollisionModule::_naiveCollision() {
 
 void CollisionModule::_quadtreeCollision() {
 
+}
+
+void CollisionModule::_quadtreeCollisionInfo() {
+	int width = WindowModule::width;
+	int height = WindowModule::height;
+	renderingModule.drawRectangle({0, 0, width, height}, true);
+	renderingModule.drawRectangle({0, 0, width / 2, height / 2}, true);
+	renderingModule.drawRectangle({width / 2, 0, width / 2, height / 2}, true);
 }

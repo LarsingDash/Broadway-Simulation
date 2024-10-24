@@ -83,6 +83,7 @@ void SimulationManager::run() {
 		}
 
 		renderingModule->draw();
+		collisionModule->renderInfo();
 		guiModule->render();
 
 		renderingModule->present();

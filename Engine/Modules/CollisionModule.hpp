@@ -15,6 +15,7 @@ class CollisionModule {
 						RenderingModule& renderingModule);
 
 		void update();
+		void renderInfo();
 
 		enum CollisionType {
 			Naive,
@@ -30,6 +31,7 @@ class CollisionModule {
 	private:
 		void _naiveCollision();
 		void _quadtreeCollision();
+		void _quadtreeCollisionInfo();
 		
 		CollisionType collisionType{CollisionType::Quadtree};
 		bool renderCollisionInfo{false};

@@ -7,12 +7,14 @@
 PathfindingModule::PathfindingModule(Museum& mus) : museum{mus} {}
 
 void PathfindingModule::setStart(Tile* s) {
-	start = s;
+	if (start != s)	start = s;
+	else start = nullptr;
 	_recalculatePath();
 }
 
 void PathfindingModule::setTarget(Tile* t) {
-	target = t;
+	if (target != t)	target = t;
+	else target = nullptr;
 	_recalculatePath();
 }
 
@@ -27,6 +29,15 @@ void PathfindingModule::toggleRenderPath() { renderPath = !renderPath; }
 void PathfindingModule::toggleRenderVisited() { renderVisited = !renderVisited; }
 
 void PathfindingModule::_recalculatePath() {
+	std::cout << "ReCalc path: ";
+	if (start) std::cout << start->getPos().x << " - " << start->getPos().y;
+	else std::cout << "NULL";
+	std::cout << " to ";
+	if (target) std::cout << target->getPos().x << " - " << target->getPos().y;
+	else std::cout << "NULL";
+	std::cout << std::endl;
+	
+
 	switch (pathfindingType) {
 		default:
 		case BreathFirstSearch:

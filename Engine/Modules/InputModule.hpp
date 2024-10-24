@@ -23,7 +23,7 @@ class InputModule {
 
 		InputModule();
 		void handleScancode(SDL_Scancode key);
-		void handleMouseClick();
+		static void handleMouseClick(bool isLeft);
 		std::unordered_map<Commands, std::pair<SDL_Scancode, std::string>> keys;
 
 	private:

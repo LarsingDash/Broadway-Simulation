@@ -48,7 +48,26 @@ void InputModule::handleScancode(SDL_Scancode key) {
 	}
 }
 
-void InputModule::handleMouseClick() {
-	//Call TileInteraction on mouse click, unless absorbed by a window
-	GUIModule& guiModule = *SimulationManager::getInstance().guiModule;
+void InputModule::handleMouseClick(bool isLeft) {
+	//Change start or end on mouseclick
+	PathfindingModule& pathfindingModule = *SimulationManager::getInstance().pathfindingModule;
+	Museum& museum = *SimulationManager::getInstance().museum;
+
+	//Get x and y from cursor
+	int x, y;
+	SDL_GetMouseState(&x, &y);
+
+	//Cast that to tile on museum
+	glm::vec2 tileSize = RenderingModule::tileSize;
+	int tileX = static_cast<int>(static_cast<float>(x) / tileSize.x);
+	int tileY = static_cast<int>(static_cast<float>(y) / tileSize.y);
+
+	//If within bounds: set start or end
+	if (tileX >= 0 && tileX < museum.getCols() && tileY >= 0 && tileY < museum.getRows()) {
+		Tile& clickedTile = museum.getTile(tileX, tileY);
+		clickedTile.logTileData();
+
+		if (isLeft) pathfindingModule.setStart(&clickedTile);
+		else pathfindingModule.setTarget(&clickedTile);
+	}
 }

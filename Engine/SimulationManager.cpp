@@ -46,7 +46,8 @@ void SimulationManager::processEvents() {
 					WindowModule::handleResize(event.window);
 				break;
 			case SDL_MOUSEBUTTONDOWN:
-				inputModule->handleMouseClick();
+				//1 = left, 2 = middle, 3 = right
+				InputModule::handleMouseClick(static_cast<int>(event.button.button) == 1);
 				break;
 
 		}

@@ -5,7 +5,7 @@
 #include "PathfindingModule.hpp"
 
 const char* PathfindingModule::PathfindingTypeItems[] = {
-		"BreathFirstSearch",
+		"BreadthFirstSearch",
 		"Dijkstra",
 };
 
@@ -50,8 +50,8 @@ void PathfindingModule::_recalculatePath() {
 	if (!start || !target) return;
 	switch (pathfindingType) {
 		default:
-		case BreathFirstSearch:
-			_breathFirstSearch();
+		case BreadthFirstSearch:
+			_breadthFirstSearch();
 			break;
 		case Dijkstra:
 			_dijkstra();
@@ -59,7 +59,7 @@ void PathfindingModule::_recalculatePath() {
 	}
 }
 
-void PathfindingModule::_breathFirstSearch() {
+void PathfindingModule::_breadthFirstSearch() {
 	path.push_back(&museum.getTile(start->getPos().x, start->getPos().y + 1));
 	path.push_back(&museum.getTile(start->getPos().x, start->getPos().y + 2));
 	path.push_back(&museum.getTile(start->getPos().x, start->getPos().y + 3));

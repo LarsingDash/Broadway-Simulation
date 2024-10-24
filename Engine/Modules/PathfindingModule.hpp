@@ -17,7 +17,7 @@ class PathfindingModule {
 		void reset();
 
 		enum PathfindingType {
-			BreathFirstSearch,
+			BreadthFirstSearch,
 			Dijkstra,
 			Count, //ALWAYS KEEP LAST
 		};
@@ -36,7 +36,7 @@ class PathfindingModule {
 		Tile* target{nullptr};
 	private:
 		void _recalculatePath();
-		void _breathFirstSearch();
+		void _breadthFirstSearch();
 		void _dijkstra();
 		
 		Museum& museum;
@@ -44,7 +44,7 @@ class PathfindingModule {
 		bool renderPath{true};
 		bool renderVisited{false};
 		
-		PathfindingType pathfindingType {PathfindingType::BreathFirstSearch};
+		PathfindingType pathfindingType {PathfindingType::BreadthFirstSearch};
 };
 
 

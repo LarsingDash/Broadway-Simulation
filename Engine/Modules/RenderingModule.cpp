@@ -4,10 +4,7 @@
 
 glm::vec2 RenderingModule::tileSize;
 
-RenderingModule::RenderingModule(SDL_Window* window) :
-		museum{*SimulationManager::getInstance().museum},
-		artistsManager{*SimulationManager::getInstance().artistsManager},
-		pathfindingModule{*SimulationManager::getInstance().pathfindingModule} {
+RenderingModule::RenderingModule(SDL_Window* window) {
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	if (!renderer) {
 		std::cerr << "Couldn't create renderer: " << SDL_GetError() << std::endl;
@@ -19,6 +16,12 @@ RenderingModule::~RenderingModule() {
 	SDL_DestroyRenderer(renderer);
 }
 
+void RenderingModule::init(Museum* mus, ArtistsManager* artM, PathfindingModule* path) {
+	museum = mus;
+	artistsManager = artM;
+	pathfindingModule = path;
+}
+
 void RenderingModule::clear() {
 	_darkGrey();
 	SDL_RenderClear(renderer);
@@ -28,9 +31,9 @@ void RenderingModule::draw() {
 	if (WindowModule::recalculateTileSize) recalculateTileSize();
 
 	//Museum
-	for (int y = 0; y < museum.getRows(); ++y) {
-		for (int x = 0; x < museum.getCols(); ++x) {
-			TileState& state = *museum.getTile(x, y).currentState;
+	for (int y = 0; y < museum->getRows(); ++y) {
+		for (int x = 0; x < museum->getCols(); ++x) {
+			TileState& state = *museum->getTile(x, y).currentState;
 
 			SDL_FRect tileRect = {
 					static_cast<float>(x) * tileSize.x, static_cast<float>(y) * tileSize.y,
@@ -45,7 +48,7 @@ void RenderingModule::draw() {
 
 	//Artists
 	if (isRenderingActive) {
-		for (const auto& artist: artistsManager.getArtists()) {
+		for (const auto& artist: artistsManager->getArtists()) {
 			SDL_FRect artistRect = {artist->pos.x + Artist::offset.x,
 									artist->pos.y + Artist::offset.y,
 									Artist::size.x,
@@ -57,12 +60,12 @@ void RenderingModule::draw() {
 	}
 
 	//Path
-	if (!pathfindingModule.getRenderPath()) return;
-	for (const auto& tile: pathfindingModule.path) {
+	if (!pathfindingModule->getRenderPath()) return;
+	for (const auto& tile: pathfindingModule->path) {
 		const glm::vec2& pos = tile->getPos();
-		SDL_FRect tileRect = {(static_cast<float>(pos.x) / static_cast<float>(museum.getCols())) *
+		SDL_FRect tileRect = {(static_cast<float>(pos.x) / static_cast<float>(museum->getCols())) *
 							  static_cast<float>(WindowModule::width) + Artist::offset.x,
-							  (static_cast<float>(pos.y) / static_cast<float>(museum.getRows())) *
+							  (static_cast<float>(pos.y) / static_cast<float>(museum->getRows())) *
 							  static_cast<float>(WindowModule::height) + Artist::offset.y,
 							  Artist::size.x,
 							  Artist::size.y};
@@ -80,13 +83,13 @@ void RenderingModule::toggleRendering() { isRenderingActive = !isRenderingActive
 
 void RenderingModule::recalculateTileSize() const {
 	//Remove scaling
-	for (const auto& artist: artistsManager.getArtists())
+	for (const auto& artist: artistsManager->getArtists())
 		artist->pos /= tileSize;
 
 	//Recalculate scaling
 	tileSize = glm::vec2{
-			static_cast<float>(WindowModule::width) / static_cast<float>(museum.getCols()),
-			static_cast<float>(WindowModule::height) / static_cast<float>(museum.getRows()),
+			static_cast<float>(WindowModule::width) / static_cast<float>(museum->getCols()),
+			static_cast<float>(WindowModule::height) / static_cast<float>(museum->getRows()),
 	};
 	WindowModule::recalculateTileSize = false;
 
@@ -94,7 +97,7 @@ void RenderingModule::recalculateTileSize() const {
 	Artist::size = tileSize / 2.f;
 
 	//Reapply scaling
-	for (const auto& artist: artistsManager.getArtists())
+	for (const auto& artist: artistsManager->getArtists())
 		artist->pos *= tileSize;
 }
 

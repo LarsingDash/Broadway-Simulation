@@ -9,8 +9,10 @@ class RenderingModule {
 	public:
 		explicit RenderingModule(SDL_Window* window);
 		~RenderingModule();
+		void init(Museum* mus,ArtistsManager* artM, PathfindingModule* path);
 		void clear();
 		void draw();
+		void drawRectangle(const SDL_Rect& rect, bool isRed);
 		void present();
 		[[nodiscard]] SDL_Renderer* getRenderer() const { return renderer; }
 
@@ -24,9 +26,9 @@ class RenderingModule {
 		void _darkGrey();
 		
 		SDL_Renderer* renderer;
-		Museum& museum;
-		ArtistsManager& artistsManager;
-		PathfindingModule& pathfindingModule;
+		Museum* museum{nullptr};
+		ArtistsManager* artistsManager{nullptr};
+		PathfindingModule* pathfindingModule{nullptr};
 };
 
 #endif /* RENDERING_MODULE_HPP */

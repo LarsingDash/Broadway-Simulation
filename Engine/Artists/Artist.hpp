@@ -13,9 +13,7 @@ class Museum;
 class Artist {
 public:
     Artist(glm::vec2 pos, glm::vec2 dir, glm::ivec2 startingTile);
-
-    void render(SDL_Renderer *renderer) const;
-
+	
     void update(Museum &museum, float delta);
 
     void markForDeletion();
@@ -25,8 +23,6 @@ public:
 
     [[nodiscard]] const glm::vec2 &getPosition() const { return pos; }
     [[nodiscard]] const glm::vec2 &getDirection() const { return dir; }
-    [[nodiscard]] const glm::vec2 &getOffset() const { return offset; }
-    [[nodiscard]] const glm::vec2 &getSize() const { return size; }
     [[nodiscard]] const glm::ivec2 &getLastTile() const { return lastTile; }
 
     void setPosition(const glm::vec2& newPos) { pos = newPos; }
@@ -36,7 +32,6 @@ public:
     glm::vec2 pos;
 private:
     glm::vec2 dir;
-
 
     bool markedForDeletion;
     glm::ivec2 lastTile;

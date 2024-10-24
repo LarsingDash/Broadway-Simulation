@@ -5,7 +5,7 @@
 #include "MementoManager.hpp"
 #include "../Tiles/MuseumBuilder.hpp"
 
-MementoManager::MementoManager(Museum* museum, ArtistsManager* artistsManager)
+MementoManager::MementoManager(Museum& museum, ArtistsManager& artistsManager)
         : museum(museum),
           artistsManager(artistsManager),
           careTaker(std::make_unique<CareTaker>()) {
@@ -16,14 +16,14 @@ void MementoManager::saveState() {
     if (!careTaker) return;
 
     std::vector<std::vector<Memento::TileState>> tileStates;
-    tileStates.reserve(museum->getRows());
+    tileStates.reserve(museum.getRows());
 
-    for (int y = 0; y < museum->getRows(); ++y) {
+    for (int y = 0; y < museum.getRows(); ++y) {
         std::vector<Memento::TileState> row;
-        row.reserve(museum->getCols());
+        row.reserve(museum.getCols());
 
-        for (int x = 0; x < museum->getCols(); ++x) {
-            const Tile& tile = museum->getTile(x, y);
+        for (int x = 0; x < museum.getCols(); ++x) {
+            const Tile& tile = museum.getTile(x, y);
             Memento::TileState state{
                     tile.currentState->letter,
                     tile.getPos(),
@@ -37,7 +37,7 @@ void MementoManager::saveState() {
     }
 
     std::vector<Memento::ArtistState> artistStates;
-    for (const auto& artist : artistsManager->getArtists()) {
+    for (const auto& artist : artistsManager.getArtists()) {
         Memento::ArtistState state{
                 artist->getPosition(),
                 artist->getDirection(),
@@ -87,10 +87,10 @@ void MementoManager::restoreState(Memento *memento) const {
 
     builder.finish();
 
-    artistsManager->clearArtists();
+    artistsManager.clearArtists();
     for (const auto &state: memento->artistStates) {
-        artistsManager->addArtist(glm::ivec2(state.lastTile), state.direction);
-        auto &artist = artistsManager->getArtists().back();
+        artistsManager.addArtist(glm::ivec2(state.lastTile), state.direction);
+        auto &artist = artistsManager.getArtists().back();
         artist->setPosition(state.position);
         if (state.markedForDeletion) {
             artist->markForDeletion();

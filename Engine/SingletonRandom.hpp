@@ -17,8 +17,8 @@ class SingletonRandom {
 		SingletonRandom& operator=(const SingletonRandom&) = delete;
 		SingletonRandom& operator=(SingletonRandom&&) = delete;
 		
-		int RandomInt(int lower, int upper);
-		float RandomFloat(float lower, float upper);
+		[[maybe_unused]] int RandomInt(int lower, int upper);
+		[[maybe_unused]] float RandomFloat(float lower, float upper);
 
 		[[nodiscard]] std::default_random_engine& getEngine() { return engine; }
 	private:

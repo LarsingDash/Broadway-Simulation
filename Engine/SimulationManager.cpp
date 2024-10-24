@@ -23,7 +23,7 @@ SimulationManager::SimulationManager() : shouldQuit(false),
     inputModule = std::make_unique<InputModule>();
     guiModule = std::make_unique<GUIModule>(windowModule->getWindow(), renderingModule->getRenderer(), *inputModule);
     careTaker = std::make_unique<CareTaker>();
-    mementoManager = std::make_unique<MementoManager>(museum.get(), artistsManager.get());
+    mementoManager = std::make_unique<MementoManager>(*museum, *artistsManager);
 
 }
 

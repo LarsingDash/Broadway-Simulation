@@ -87,6 +87,13 @@ void MementoManager::restoreState(Memento *memento) const {
 
     builder.finish();
 
+    for (int y = 0; y < museum.getRows(); ++y) {
+        for (int x = 0; x < museum.getCols(); ++x) {
+            TileState& state = *museum.getTile(x, y).currentState;
+            state.interactionCount = memento->tileStates[y][x].interactionCount;
+        }
+    }
+
     artistsManager.clearArtists();
     for (const auto &state: memento->artistStates) {
         artistsManager.addArtist(glm::ivec2(state.lastTile), state.direction);

@@ -3,4 +3,6 @@
         RenderingModule.cpp
         WindowModule.cpp
         GUIModule.cpp
+        CollisionModule.cpp
+        PathfindingModule.cpp
 )

@@ -10,7 +10,7 @@ glm::vec2 Artist::offset{};
 glm::vec2 Artist::size{};
 
 Artist::Artist(glm::vec2 pos, glm::vec2 dir) :
-		pos{pos}, dir{dir} {}
+		pos{pos}, dir{dir}, isColliding{false} {}
 
 void Artist::update(float delta) {
 	const glm::vec2& tileSize = RenderingModule::tileSize;

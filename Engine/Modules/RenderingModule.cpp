@@ -44,14 +44,16 @@ void RenderingModule::draw() {
 
 	//Artists
 	if (!isRenderingActive) return;
-	
+
 	for (const auto& artist: artistsManager.getArtists()) {
 		SDL_FRect tileRect = {artist->pos.x + Artist::offset.x,
 							  artist->pos.y + Artist::offset.y,
 							  Artist::size.x,
 							  Artist::size.y};
 
-		SDL_SetRenderDrawColor(renderer, 25, 25, 25, 255);
+		if (artist->isColliding) SDL_SetRenderDrawColor(renderer, 225, 0, 0, 255);
+		else SDL_SetRenderDrawColor(renderer, 25, 25, 25, 255);
+		
 		SDL_RenderFillRectF(renderer, &tileRect);
 	}
 }
@@ -66,7 +68,7 @@ void RenderingModule::recalculateTileSize() const {
 	//Remove scaling
 	for (const auto& artist: artistsManager.getArtists())
 		artist->pos /= tileSize;
-	
+
 	//Recalculate scaling
 	tileSize = glm::vec2{
 			static_cast<float>(WindowModule::width) / static_cast<float>(museum.getCols()),

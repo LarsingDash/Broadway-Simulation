@@ -3,9 +3,11 @@
 
 #include "Modules/WindowModule.hpp"
 #include "Modules/RenderingModule.hpp"
+#include "Modules/GUIModule.hpp"
+#include "Modules/CollisionModule.hpp"
+#include "Modules/PathfindingModule.hpp"
 #include "Tiles/Museum.hpp"
 #include "Artists/ArtistsManager.hpp"
-#include "Modules/GUIModule.hpp"
 #include <memory>
 
 class InputModule;
@@ -23,6 +25,8 @@ class SimulationManager {
 		std::unique_ptr<GUIModule> guiModule;
 		std::unique_ptr<InputModule> inputModule;
 		std::unique_ptr<RenderingModule> renderingModule;
+		std::unique_ptr<CollisionModule> collisionModule;
+		std::unique_ptr<PathfindingModule> pathfindingModule;
 
 		void toggleRunning();
 		bool shouldQuit;
@@ -34,6 +38,7 @@ class SimulationManager {
 		~SimulationManager();
 
 		void processEvents();
+		
 		std::unique_ptr<WindowModule> windowModule;
 };
 

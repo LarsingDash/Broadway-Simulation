@@ -26,6 +26,7 @@ public:
     static glm::vec2 size;
 
     glm::vec2 pos;
+	bool isColliding;
 private:
     glm::vec2 dir;
 };

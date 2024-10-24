@@ -3,6 +3,7 @@
 
 #include "../Tiles/Museum.hpp"
 #include "../Artists/ArtistsManager.hpp"
+#include "PathfindingModule.hpp"
 
 class RenderingModule {
 	public:
@@ -19,9 +20,13 @@ class RenderingModule {
 	private:
 		bool isRenderingActive = true;
 		
+		void _red();
+		void _darkGrey();
+		
 		SDL_Renderer* renderer;
 		Museum& museum;
 		ArtistsManager& artistsManager;
+		PathfindingModule& pathfindingModule;
 };
 
 #endif /* RENDERING_MODULE_HPP */

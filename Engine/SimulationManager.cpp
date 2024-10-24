@@ -14,12 +14,12 @@ SimulationManager::SimulationManager() : shouldQuit(false) {
 	museum = std::make_unique<Museum>();
 	artistsManager = std::make_unique<ArtistsManager>();
 
-	renderingModule = std::make_unique<RenderingModule>(windowModule->getWindow());
 	inputModule = std::make_unique<InputModule>();
 
 	pathfindingModule = std::make_unique<PathfindingModule>(*museum);
 	collisionModule = std::make_unique<CollisionModule>(*artistsManager, *pathfindingModule, *renderingModule);
 
+	renderingModule = std::make_unique<RenderingModule>(windowModule->getWindow());
 	guiModule = std::make_unique<GUIModule>(windowModule->getWindow(), renderingModule->getRenderer(),
 											*inputModule, *artistsManager,
 											*collisionModule, *pathfindingModule);

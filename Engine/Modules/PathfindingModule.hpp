@@ -24,9 +24,10 @@ class PathfindingModule {
 		
 		void setPathfindingType(PathfindingType type);
 		void toggleRenderPath();
+		[[nodiscard]] bool getRenderPath() const;
 		void toggleRenderVisited();
 		
-		std::vector<Tile*> path;
+		std::vector<Tile*> path {};
 	private:
 		void _recalculatePath();
 		void _breathFirstSearch();
@@ -34,7 +35,7 @@ class PathfindingModule {
 		
 		Museum& museum;
 		
-		bool renderPath{false};
+		bool renderPath{true};
 		bool renderVisited{false};
 		
 		PathfindingType pathfindingType {PathfindingType::BreathFirstSearch};

@@ -6,7 +6,8 @@ glm::vec2 RenderingModule::tileSize;
 
 RenderingModule::RenderingModule(SDL_Window* window) :
 		museum{*SimulationManager::getInstance().museum},
-		artistsManager{*SimulationManager::getInstance().artistsManager} {
+		artistsManager{*SimulationManager::getInstance().artistsManager},
+		pathfindingModule{*SimulationManager::getInstance().pathfindingModule} {
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	if (!renderer) {
 		std::cerr << "Couldn't create renderer: " << SDL_GetError() << std::endl;
@@ -19,7 +20,7 @@ RenderingModule::~RenderingModule() {
 }
 
 void RenderingModule::clear() {
-	SDL_SetRenderDrawColor(renderer, 25, 25, 25, SDL_ALPHA_OPAQUE);
+	_darkGrey();
 	SDL_RenderClear(renderer);
 }
 
@@ -43,17 +44,30 @@ void RenderingModule::draw() {
 	}
 
 	//Artists
-	if (!isRenderingActive) return;
+	if (isRenderingActive) {
+		for (const auto& artist: artistsManager.getArtists()) {
+			SDL_FRect artistRect = {artist->pos.x + Artist::offset.x,
+									artist->pos.y + Artist::offset.y,
+									Artist::size.x,
+									Artist::size.y};
 
-	for (const auto& artist: artistsManager.getArtists()) {
-		SDL_FRect tileRect = {artist->pos.x + Artist::offset.x,
-							  artist->pos.y + Artist::offset.y,
+			artist->isColliding ? _red() : _darkGrey();
+			SDL_RenderFillRectF(renderer, &artistRect);
+		}
+	}
+
+	//Path
+	if (!pathfindingModule.getRenderPath()) return;
+	for (const auto& tile: pathfindingModule.path) {
+		const glm::vec2& pos = tile->getPos();
+		SDL_FRect tileRect = {(static_cast<float>(pos.x) / static_cast<float>(museum.getCols())) *
+							  static_cast<float>(WindowModule::width) + Artist::offset.x,
+							  (static_cast<float>(pos.y) / static_cast<float>(museum.getRows())) *
+							  static_cast<float>(WindowModule::height) + Artist::offset.y,
 							  Artist::size.x,
 							  Artist::size.y};
-
-		if (artist->isColliding) SDL_SetRenderDrawColor(renderer, 225, 0, 0, 255);
-		else SDL_SetRenderDrawColor(renderer, 25, 25, 25, 255);
 		
+		_darkGrey();
 		SDL_RenderFillRectF(renderer, &tileRect);
 	}
 }
@@ -76,10 +90,13 @@ void RenderingModule::recalculateTileSize() const {
 	};
 	WindowModule::recalculateTileSize = false;
 
-	Artist::offset = tileSize / 6.f;
-	Artist::size = tileSize / 3.f * 2.f;
+	Artist::offset = tileSize / 4.f;
+	Artist::size = tileSize / 2.f;
 
 	//Reapply scaling
 	for (const auto& artist: artistsManager.getArtists())
 		artist->pos *= tileSize;
 }
+
+void RenderingModule::_red() { SDL_SetRenderDrawColor(renderer, 225, 0, 0, 255); }
+void RenderingModule::_darkGrey() { SDL_SetRenderDrawColor(renderer, 25, 25, 25, 255); }

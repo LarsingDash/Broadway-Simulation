@@ -5,20 +5,20 @@
 #include "PathfindingModule.hpp"
 
 const char* PathfindingModule::PathfindingTypeItems[] = {
-			"BreathFirstSearch",
-			"Dijkstra",
+		"BreathFirstSearch",
+		"Dijkstra",
 };
 
 PathfindingModule::PathfindingModule(Museum& mus) : museum{mus} {}
 
 void PathfindingModule::setStart(Tile* s) {
-	if (start != s)	start = s;
+	if (start != s) start = s;
 	else start = nullptr;
 	_recalculatePath();
 }
 
 void PathfindingModule::setTarget(Tile* t) {
-	if (target != t)	target = t;
+	if (target != t) target = t;
 	else target = nullptr;
 	_recalculatePath();
 }
@@ -31,6 +31,7 @@ void PathfindingModule::reset() {
 
 void PathfindingModule::setPathfindingType(PathfindingModule::PathfindingType type) { pathfindingType = type; }
 void PathfindingModule::toggleRenderPath() { renderPath = !renderPath; }
+bool PathfindingModule::getRenderPath() const { return renderPath; }
 void PathfindingModule::toggleRenderVisited() { renderVisited = !renderVisited; }
 
 void PathfindingModule::_recalculatePath() {
@@ -42,6 +43,7 @@ void PathfindingModule::_recalculatePath() {
 	else std::cout << "NULL";
 	std::cout << std::endl;
 
+	path.clear();
 	switch (pathfindingType) {
 		default:
 		case BreathFirstSearch:
@@ -54,7 +56,13 @@ void PathfindingModule::_recalculatePath() {
 }
 
 void PathfindingModule::_breathFirstSearch() {
-
+	if (!start) return;
+	path.push_back(&museum.getTile(start->getPos().x, start->getPos().y + 1));
+	path.push_back(&museum.getTile(start->getPos().x, start->getPos().y + 2));
+	path.push_back(&museum.getTile(start->getPos().x, start->getPos().y + 3));
+	path.push_back(&museum.getTile(start->getPos().x, start->getPos().y + 4));
+	path.push_back(&museum.getTile(start->getPos().x, start->getPos().y + 5));
+	path.push_back(&museum.getTile(start->getPos().x, start->getPos().y + 6));
 }
 
 void PathfindingModule::_dijkstra() {

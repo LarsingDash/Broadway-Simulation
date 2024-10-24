@@ -30,7 +30,7 @@ int Testing::RunTests() {
 	}
 
 	//Return 0 indicating no tests failed
-	std::cout << "All tests succeeded!" << std::endl;
+	std::cout << "All " << tests.size() << " tests succeeded!" << std::endl;
 	return 0;
 }
 

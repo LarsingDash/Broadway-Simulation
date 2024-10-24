@@ -46,6 +46,8 @@ void PathfindingModule::_recalculatePath() {
 
 	path.clear();
 	visited.clear();
+
+	if (!start || !target) return;
 	switch (pathfindingType) {
 		default:
 		case BreathFirstSearch:
@@ -58,7 +60,6 @@ void PathfindingModule::_recalculatePath() {
 }
 
 void PathfindingModule::_breathFirstSearch() {
-	if (!start) return;
 	path.push_back(&museum.getTile(start->getPos().x, start->getPos().y + 1));
 	path.push_back(&museum.getTile(start->getPos().x, start->getPos().y + 2));
 	path.push_back(&museum.getTile(start->getPos().x, start->getPos().y + 3));

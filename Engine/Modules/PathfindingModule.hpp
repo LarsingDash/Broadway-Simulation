@@ -31,6 +31,9 @@ class PathfindingModule {
 		
 		std::vector<Tile*> path {};
 		std::unordered_set<Tile*> visited {};
+		
+		Tile* start{nullptr};
+		Tile* target{nullptr};
 	private:
 		void _recalculatePath();
 		void _breathFirstSearch();
@@ -42,9 +45,6 @@ class PathfindingModule {
 		bool renderVisited{false};
 		
 		PathfindingType pathfindingType {PathfindingType::BreathFirstSearch};
-		
-		Tile* start{nullptr};
-		Tile* target{nullptr};
 };
 
 

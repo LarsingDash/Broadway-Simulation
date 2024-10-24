@@ -23,6 +23,7 @@ class RenderingModule {
 		bool isRenderingActive = true;
 		
 		void _red();
+		void _white();
 		void _darkGrey();
 		
 		SDL_Renderer* renderer;

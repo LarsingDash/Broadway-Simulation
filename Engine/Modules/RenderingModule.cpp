@@ -61,7 +61,7 @@ void RenderingModule::draw() {
 
 	//Path
 	if (pathfindingModule->getRenderPath()) {
-		for (const auto& tile: pathfindingModule->path) {
+		auto renderPathTile = [&renderer = renderer, &museum = museum](const auto& tile) {
 			const glm::vec2& pos = tile->getPos();
 			SDL_FRect tileRect = {(pos.x / static_cast<float>(museum->getCols())) *
 								  static_cast<float>(WindowModule::width) + Artist::offset.x,
@@ -70,9 +70,14 @@ void RenderingModule::draw() {
 								  Artist::size.x,
 								  Artist::size.y};
 
-			_darkGrey();
 			SDL_RenderFillRectF(renderer, &tileRect);
-		}
+		};
+
+		_white();
+		if (pathfindingModule->start) renderPathTile(pathfindingModule->start);
+		_darkGrey();
+		for (const auto& tile: pathfindingModule->path) renderPathTile(tile);
+		if (pathfindingModule->target) renderPathTile(pathfindingModule->target);
 	}
 
 	//Visited
@@ -125,4 +130,5 @@ void RenderingModule::recalculateTileSize() const {
 }
 
 void RenderingModule::_red() { SDL_SetRenderDrawColor(renderer, 225, 0, 0, 255); }
+void RenderingModule::_white() { SDL_SetRenderDrawColor(renderer, 240, 240, 240, 255); }
 void RenderingModule::_darkGrey() { SDL_SetRenderDrawColor(renderer, 25, 25, 25, 255); }

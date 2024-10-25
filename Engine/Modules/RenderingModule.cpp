@@ -61,23 +61,27 @@ void RenderingModule::draw() {
 
 	//Path
 	if (pathfindingModule->getRenderPath()) {
-		auto renderPathTile = [&renderer = renderer, &museum = museum](const auto& tile) {
-			const glm::vec2& pos = tile->getPos();
-			SDL_FRect tileRect = {(pos.x / static_cast<float>(museum->getCols())) *
-								  static_cast<float>(WindowModule::width) + Artist::offset.x,
-								  (pos.y / static_cast<float>(museum->getRows())) *
-								  static_cast<float>(WindowModule::height) + Artist::offset.y,
-								  Artist::size.x,
-								  Artist::size.y};
+		//Lambda for drawing the path tiles
+		auto renderPathTile =
+				[&renderer = renderer, &museum = museum]
+						(const auto& pos) {
+					SDL_FRect tileRect = {(pos.x / static_cast<float>(museum->getCols())) *
+										  static_cast<float>(WindowModule::width) + Artist::offset.x,
+										  (pos.y / static_cast<float>(museum->getRows())) *
+										  static_cast<float>(WindowModule::height) + Artist::offset.y,
+										  Artist::size.x,
+										  Artist::size.y};
 
-			SDL_RenderFillRectF(renderer, &tileRect);
-		};
+					SDL_RenderFillRectF(renderer, &tileRect);
+				};
 
+		//Start
 		_white();
-		if (pathfindingModule->start) renderPathTile(pathfindingModule->start);
+		if (pathfindingModule->start) renderPathTile(pathfindingModule->start->getPos());
+
+		//Path (which includes Target)
 		_darkGrey();
-		for (const auto& tile: pathfindingModule->path) renderPathTile(tile);
-		if (pathfindingModule->target) renderPathTile(pathfindingModule->target);
+		for (const auto& tile: pathfindingModule->path) renderPathTile(tile->getPos());
 	}
 
 	//Visited

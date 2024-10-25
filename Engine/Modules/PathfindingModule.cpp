@@ -67,10 +67,15 @@ void PathfindingModule::_recalculatePath() {
 }
 
 void PathfindingModule::_breadthFirstSearch() {
-	//Initialize the queue and add the start (also to the visited set)
+	//Init the queue for looping through neighbors in a fifo manner, this will cause Breadth-First
 	std::queue<Tile*> queue{};
+	//Init the map for reconstructing the path afterward
+	std::unordered_map<Tile*, Tile*> lookup;
+	
+	//Add the start to the queue and visited
 	queue.push(start);
 	visited.insert(start);
+	lookup[start] = nullptr;
 
 	//Extra condition for early return if the path is found
 	bool targetFound = false;
@@ -86,6 +91,9 @@ void PathfindingModule::_breadthFirstSearch() {
 			
 			//Try and add the neighbor to the tile, the return.second indicates if it was actually added 
 			if (visited.insert(*neighbor).second) {
+				//Add new neighbor to the lookup table
+				lookup[*neighbor] = current;
+				
 				//Check if neighbor was the target, break search if so
 				if (*neighbor == target) {
 					targetFound = true;
@@ -99,6 +107,16 @@ void PathfindingModule::_breadthFirstSearch() {
 
 		//Remove tile that was just processed
 		queue.pop();
+	}
+	
+	//Check if target was found, cancel if not
+	if (lookup.find(target) == lookup.cend()) return;
+	
+	//Go through the lookup table to retrace the steps, reconstructing the path
+	Tile* current = target;
+	while (current != nullptr && current != start) {
+		path.push_back(current);
+		current = lookup[current];
 	}
 }
 

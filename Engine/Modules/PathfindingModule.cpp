@@ -3,6 +3,7 @@
 //
 
 #include "PathfindingModule.hpp"
+#include <queue>
 
 const char* PathfindingModule::PathfindingTypeItems[] = {
 		"BreadthFirstSearch",
@@ -29,13 +30,17 @@ void PathfindingModule::reset() {
 	path.clear();
 }
 
-void PathfindingModule::setPathfindingType(PathfindingModule::PathfindingType type) { pathfindingType = type; }
+void PathfindingModule::setPathfindingType(PathfindingModule::PathfindingType type) {
+	pathfindingType = type;
+	_recalculatePath();
+}
 void PathfindingModule::toggleRenderPath() { renderPath = !renderPath; }
 void PathfindingModule::toggleRenderVisited() { renderVisited = !renderVisited; }
 bool PathfindingModule::getRenderPath() const { return renderPath; }
 bool PathfindingModule::getRenderVisited() const { return renderVisited; }
 
 void PathfindingModule::_recalculatePath() {
+	//Debug log
 	std::cout << "ReCalc path: ";
 	if (start) std::cout << start->getPos().x << " - " << start->getPos().y;
 	else std::cout << "NULL";
@@ -44,10 +49,12 @@ void PathfindingModule::_recalculatePath() {
 	else std::cout << "NULL";
 	std::cout << std::endl;
 
+	//Clear lists
 	path.clear();
 	visited.clear();
 
-	if (!start || !target) return;
+	//Don't pathfind if there's no start, target or if the start and target are the same 
+	if (!start || !target || (start == target)) return;
 	switch (pathfindingType) {
 		default:
 		case BreadthFirstSearch:
@@ -60,19 +67,38 @@ void PathfindingModule::_recalculatePath() {
 }
 
 void PathfindingModule::_breadthFirstSearch() {
-	path.push_back(&museum.getTile(start->getPos().x, start->getPos().y + 1));
-	path.push_back(&museum.getTile(start->getPos().x, start->getPos().y + 2));
-	path.push_back(&museum.getTile(start->getPos().x, start->getPos().y + 3));
-	path.push_back(&museum.getTile(start->getPos().x, start->getPos().y + 4));
-	path.push_back(&museum.getTile(start->getPos().x, start->getPos().y + 5));
-	path.push_back(&museum.getTile(start->getPos().x, start->getPos().y + 6));
+	//Start
+	std::queue<Tile*> queue{};
+	queue.push(start);
+	visited.insert(start);
 
-	visited.insert(&museum.getTile(start->getPos().x, start->getPos().y + 1));
-	visited.insert(&museum.getTile(start->getPos().x, start->getPos().y + 2));
-	visited.insert(&museum.getTile(start->getPos().x, start->getPos().y + 3));
-	visited.insert(&museum.getTile(start->getPos().x, start->getPos().y + 4));
-	visited.insert(&museum.getTile(start->getPos().x, start->getPos().y + 5));
-	visited.insert(&museum.getTile(start->getPos().x, start->getPos().y + 6));
+	//Extra condition for early return if the path is found
+	bool targetFound = false;
+
+	//Keep going till queue is either empty or target is found (early return)
+	while (!queue.empty() && !targetFound) {
+		//Get current from dequeue, check if it's the target
+		Tile* current = queue.front();
+
+		//Add all neighbors
+		for (auto it = current->getNeighbors().rbegin(); it != current->getNeighbors().rend(); ++it) {
+			Tile* neighbor = *it;
+			//First add it to the visited set, this set doesn't add if it already contains the tile
+			size_t count = visited.size();
+			visited.insert(neighbor);
+
+			//If tile was actually inserted (meaning it was new) add it to the queue
+			if (count != visited.size()) {
+				if (neighbor == target) {
+					targetFound = true;
+					break;
+				}
+				queue.push(neighbor);
+			}
+		}
+
+		queue.pop();
+	}
 }
 
 void PathfindingModule::_dijkstra() {

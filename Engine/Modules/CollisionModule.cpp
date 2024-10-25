@@ -86,6 +86,7 @@ void CollisionModule::_naiveCollision() {
 
                 if (collision) {
                     artist->isColliding = true;
+                    break;
                 }
             }
         }

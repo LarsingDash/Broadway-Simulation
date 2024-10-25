@@ -70,7 +70,26 @@ void CollisionModule::_naiveCollision() {
             }
         }
     }
+    if (collideWithPath && pathfindingModule.getRenderPath()) {
+        const auto& path = pathfindingModule.getPath();
+        const auto& tileSize = RenderingModule::tileSize;
 
+        for (const auto& artist : artists) {
+            for (const auto* tile : path) {
+                glm::vec2 tilePos = glm::vec2(tile->getPos()) * tileSize;
+
+                bool collision =
+                        artist->pos.x < tilePos.x + tileSize.x &&
+                        artist->pos.x + Artist::size.x > tilePos.x &&
+                        artist->pos.y < tilePos.y + tileSize.y &&
+                        artist->pos.y + Artist::size.y > tilePos.y;
+
+                if (collision) {
+                    artist->isColliding = true;
+                }
+            }
+        }
+    }
 
 }
 

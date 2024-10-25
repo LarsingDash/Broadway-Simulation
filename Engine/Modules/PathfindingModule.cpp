@@ -67,7 +67,7 @@ void PathfindingModule::_recalculatePath() {
 }
 
 void PathfindingModule::_breadthFirstSearch() {
-	//Start
+	//Initialize the queue and add the start (also to the visited set)
 	std::queue<Tile*> queue{};
 	queue.push(start);
 	visited.insert(start);
@@ -77,26 +77,27 @@ void PathfindingModule::_breadthFirstSearch() {
 
 	//Keep going till queue is either empty or target is found (early return)
 	while (!queue.empty() && !targetFound) {
-		//Get current from dequeue, check if it's the target
+		//Get current from dequeue
 		Tile* current = queue.front();
 
-		//Add all neighbors
-		for (auto it = current->getNeighbors().rbegin(); it != current->getNeighbors().rend(); ++it) {
-			Tile* neighbor = *it;
-			//First add it to the visited set, this set doesn't add if it already contains the tile
-			size_t count = visited.size();
-			visited.insert(neighbor);
-
-			//If tile was actually inserted (meaning it was new) add it to the queue
-			if (count != visited.size()) {
-				if (neighbor == target) {
+		//Add all neighbors in reverse order
+		for (auto neighbor = current->getNeighbors().rbegin();
+			 neighbor != current->getNeighbors().rend(); ++neighbor) {
+			
+			//Try and add the neighbor to the tile, the return.second indicates if it was actually added 
+			if (visited.insert(*neighbor).second) {
+				//Check if neighbor was the target, break search if so
+				if (*neighbor == target) {
 					targetFound = true;
 					break;
 				}
-				queue.push(neighbor);
+				
+				//If not: add neighbor to the queue to continue the search
+				queue.push(*neighbor);
 			}
 		}
 
+		//Remove tile that was just processed
 		queue.pop();
 	}
 }

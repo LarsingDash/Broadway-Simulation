@@ -64,10 +64,10 @@ void Quadtree::addCollider(SDL_FRect* collider) { // NOLINT(*-no-recursion)
 			//Loop through colliders and add them to the tree if they overlap
 			for (const auto& otherCollider: colliders)
 				if (nextTree->_checkIfWithinBounds(otherCollider))
-					nextTree->colliders.push_back(otherCollider);
+					nextTree->addCollider(otherCollider);
 
 			//Check if the collider that was attempted to be added fits here
-			if (nextTree->_checkIfWithinBounds(collider))nextTree->colliders.push_back(collider);
+			if (nextTree->_checkIfWithinBounds(collider))nextTree->addCollider(collider);
 		}
 
 		//Clear this node's child list

@@ -102,25 +102,32 @@ void CollisionModule::_quadtreeCollision() {
 	auto& artists = artistsManager.getArtists();
 	auto& path = pathfindingModule.path;
 
-	//Make a list of all colliders
+	//Prepare quadtree
+	quadtree = std::make_unique<Quadtree>(
+			0, collideWithPath,
+			0, 0,
+			WindowModule::width, WindowModule::height
+	);
+
+	//Make a list of all colliders here so that they stay within scope
 	std::vector<std::unique_ptr<SDL_FRect>> colliders{};
-	for (const auto& artist: artists)
-		colliders.emplace_back(std::make_unique<SDL_FRect>(
-				SDL_FRect{artist->pos.x, artist->pos.y, Artist::size.x, Artist::size.y}
-		));
+
+	//Add all tiles quadtree
 	for (const auto& tile: path) {
 		glm::vec2 tilePos = glm::vec2(tile->getPos()) * tileSize;
-		colliders.emplace_back(std::make_unique<SDL_FRect>(
+		auto& rect = colliders.emplace_back(std::make_unique<SDL_FRect>(
 				SDL_FRect{tilePos.x, tilePos.y, tileSize.x, tileSize.y}
 		));
+		quadtree->addCollider(rect.get(), nullptr);
+	}
+	for (const auto& artist: artists) {
+		artist->isColliding = false;
+		auto& rect = colliders.emplace_back(std::make_unique<SDL_FRect>(
+				SDL_FRect{artist->pos.x, artist->pos.y, Artist::size.x, Artist::size.y}
+		));
+		quadtree->addCollider(rect.get(), &artist->isColliding);
 	}
 
-	//Initialize root
-	quadtree = std::make_unique<Quadtree>(0, 0, 0, WindowModule::width, WindowModule::height);
-
-	//Loop through all colliders and add to the quadtree from the root
-	for (const auto& collider: colliders)
-		quadtree->addCollider(collider.get());
 }
 
 void CollisionModule::_quadtreeCollisionInfo() {

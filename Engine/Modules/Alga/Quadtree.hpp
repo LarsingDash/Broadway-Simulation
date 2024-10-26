@@ -11,21 +11,24 @@
 
 class Quadtree {
 	public:
-		Quadtree(int depth, int x, int y, int width, int height);
+		Quadtree(int depth, bool collideWithPath, int x, int y, int width, int height);
 		void render(RenderingModule& renderingModule) const;
-		void addCollider(SDL_FRect* collider);
+		void addCollider(SDL_FRect* collider, bool* isColliding);
 		
 	private:
-		bool _checkIfWithinBounds(SDL_FRect* collider) const;
+		void _subdivide(SDL_FRect* collider, bool* isColliding);
+		void _checkCollisions(SDL_FRect* collider, bool* isColliding);
+		static bool _checkIfWithinBounds(SDL_FRect& collider, SDL_FRect& other) ;
 		static constexpr int cellCapacity = 4;
 		static constexpr int maxDepth = 5;
 
 		int depth;
 		SDL_FRect boundary;
 		bool isDivided = false;
+		bool collideWithPath;
 
 		std::vector<std::unique_ptr<Quadtree>> children;
-		std::vector<SDL_FRect*> colliders;
+		std::vector<std::pair<SDL_FRect*, bool*>> colliders;
 };
 
 

@@ -12,8 +12,9 @@ class GUIModule {
 		static void beginFrame();
 		void render();
 		void shutdown();
-		void enableFileSelectionWindow();
-		void enableInfoWindow();
+        void initInfoWindow();
+        void toggleFileSelectionWindow();
+        void toggleInfoWindow();
 		void closeWindows();
 
 		[[nodiscard]] bool getFileSelectionFocussed() const;
@@ -25,8 +26,8 @@ class GUIModule {
 		SDL_Renderer* renderer;
 		InputModule& inputModule;
 
-		bool showFileSelectionWindow = false;
-		bool showInfoWindow = false;
+		bool showFileSelectionWindow = true;
+		bool showInfoWindow = true;
 		bool fileSelectionWindowFocussed = false;
 		bool infoWindowFocussed = false;
 

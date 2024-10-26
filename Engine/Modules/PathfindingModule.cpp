@@ -152,7 +152,7 @@ void PathfindingModule::_dijkstra() {
         Tile* current = priorityQueue.top().second;
         float currentCost = priorityQueue.top().first;
         priorityQueue.pop();
-
+        visited.insert(current);
         // 2. Als het doel bereikt is, stop
         if (current == target) break;
 

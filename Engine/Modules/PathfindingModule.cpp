@@ -131,6 +131,7 @@ void PathfindingModule::_dijkstra() {
 
     // Distance mappen om de afstand van de start naar elke tile bij te houden
     std::unordered_map<Tile*, float> distance;
+    std::unordered_map<Tile*, Tile*> predecessors;
 
     // Alle onbezochte tiles op infinity zetten
     for (const auto& row : museum.grid) {
@@ -146,13 +147,36 @@ void PathfindingModule::_dijkstra() {
 
     // Dijstkra's algoritme
     // 1. Controleer de tile met de laagste afstand van de start
-    // 2. Als het doel bereikt is, stop
-    // 3. Loop door alle buren van de tile en bereken de totale afstand die het zou kosten om om de huidige tile te bereiken
-    // 4. Als de totale afstand kleiner is dan de huidige afstand, update de afstand en voeg hem toe aan de queu
 
+    while (!priorityQueue.empty()) {
+        Tile* current = priorityQueue.top().second;
+        float currentCost = priorityQueue.top().first;
+        priorityQueue.pop();
+
+        // 2. Als het doel bereikt is, stop
+        if (current == target) break;
+
+
+        // 3. Loop door alle buren van de tile en bereken de totale afstand die het zou kosten om om de huidige tile te bereiken
+        for (Tile* neighbor : current->getNeighbors()) {
+            float neighborCost = currentCost + neighbor->currentState->config.second;
+
+            // 4. Als de totale afstand kleiner is dan de huidige afstand, update de afstand en voeg hem toe aan de queu
+            if (neighborCost < distance[neighbor]) {
+                distance[neighbor] = neighborCost;
+                predecessors[neighbor] = current;
+                priorityQueue.emplace(neighborCost, neighbor);
+            }
+        }
+    }
     // 5. Bouw het pad terug vanaf de target naar de start
-    //Pad terugzoeken zolang er een is gevonden
-
+    Tile* current = target;
+    while (predecessors.find(current) != predecessors.end()) {
+        path.push_back(current);
+        current = predecessors[current];
+    }
+    //flip t pad
+    std::reverse(path.begin(), path.end());
 
 
 }

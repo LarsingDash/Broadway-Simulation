@@ -102,10 +102,14 @@ void RenderingModule::draw() {
 	}
 }
 
-void RenderingModule::drawRectangle(const SDL_Rect& rect, bool isRed) {
+[[maybe_unused]]void RenderingModule::drawRectangle(const SDL_Rect& rect, bool isRed) {
 	isRed ? _red() : _darkGrey();
-
 	SDL_RenderDrawRect(renderer, &rect);
+}
+
+[[maybe_unused]]void RenderingModule::drawRectangleF(const SDL_FRect& rect, bool isRed) {
+	isRed ? _red() : _darkGrey();
+	SDL_RenderDrawRectF(renderer, &rect);
 }
 
 void RenderingModule::present() {

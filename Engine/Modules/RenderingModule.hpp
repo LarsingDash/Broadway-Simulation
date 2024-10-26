@@ -12,7 +12,8 @@ class RenderingModule {
 		void init(Museum* mus,ArtistsManager* artM, PathfindingModule* path);
 		void clear();
 		void draw();
-		void drawRectangle(const SDL_Rect& rect, bool isRed);
+		[[maybe_unused]]void drawRectangle(const SDL_Rect& rect, bool isRed);
+		[[maybe_unused]]void drawRectangleF(const SDL_FRect& rect, bool isRed);
 		void present();
 		[[nodiscard]] SDL_Renderer* getRenderer() const { return renderer; }
 

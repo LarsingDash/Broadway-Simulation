@@ -8,6 +8,7 @@
 #include "../../Artists/ArtistsManager.hpp"
 #include "PathfindingModule.hpp"
 #include "../RenderingModule.hpp"
+#include "Quadtree.hpp"
 
 class CollisionModule {
 	public:
@@ -19,7 +20,7 @@ class CollisionModule {
 
 		enum CollisionType {
 			Naive,
-			Quadtree,
+			Qt,
 			Count, //ALWAYS KEEP LAST
 		};
 		static const char* CollisionTypeItems[];
@@ -28,14 +29,16 @@ class CollisionModule {
 		void toggleCollisionInfo();
 		void toggleCollideWithPath();
 
+		std::unique_ptr<Quadtree> quadtree;
 	private:
 		void _naiveCollision();
 		void _quadtreeCollision();
 		void _quadtreeCollisionInfo();
 		
-		CollisionType collisionType{CollisionType::Quadtree};
+		CollisionType collisionType{CollisionType::Qt};
 		bool renderCollisionInfo{false};
 		bool collideWithPath{false};
+		
 
 		ArtistsManager& artistsManager;
 		PathfindingModule& pathfindingModule;

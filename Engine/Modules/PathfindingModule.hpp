@@ -27,9 +27,10 @@ class PathfindingModule {
 		void toggleRenderPath();
 		void toggleRenderVisited();
 		[[nodiscard]] bool getRenderPath() const;
-		[[nodiscard]] bool getRenderVisited() const;
-		
-		std::vector<Tile*> path {};
+        [[nodiscard]] bool getRenderVisited() const;
+        std::vector<Tile*> getPath() const;
+
+    std::vector<Tile*> path {};
 		std::unordered_set<Tile*> visited {};
 		
 		Tile* start{nullptr};

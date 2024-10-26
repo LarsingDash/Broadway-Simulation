@@ -39,6 +39,7 @@ void PathfindingModule::toggleRenderPath() { renderPath = !renderPath; }
 void PathfindingModule::toggleRenderVisited() { renderVisited = !renderVisited; }
 bool PathfindingModule::getRenderPath() const { return renderPath; }
 bool PathfindingModule::getRenderVisited() const { return renderVisited; }
+std::vector<Tile *> PathfindingModule::getPath() const {return path;}
 
 void PathfindingModule::_recalculatePath() {
 	//Debug log
@@ -125,3 +126,6 @@ void PathfindingModule::_breadthFirstSearch() {
 void PathfindingModule::_dijkstra() {
 
 }
+
+
+

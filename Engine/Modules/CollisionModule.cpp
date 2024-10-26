@@ -45,6 +45,52 @@ void CollisionModule::toggleCollisionInfo() { renderCollisionInfo = !renderColli
 void CollisionModule::toggleCollideWithPath() { collideWithPath = !collideWithPath; }
 
 void CollisionModule::_naiveCollision() {
+    const auto& artists = artistsManager.getArtists();
+    for (const auto& artist : artists) {
+        artist->isColliding = false;
+    }
+
+    // Check collisions between artists
+    for (size_t i = 0; i < artists.size(); i++) {
+        for (size_t j = i + 1; j < artists.size(); j++) {
+            const auto& artist1 = artists[i];
+            const auto& artist2 = artists[j];
+
+            // Check if bounding boxes overlap :)
+            bool collision =
+                    artist1->pos.x < artist2->pos.x + Artist::size.x &&
+                    artist1->pos.x + Artist::size.x > artist2->pos.x &&
+                    artist1->pos.y < artist2->pos.y + Artist::size.y &&
+                    artist1->pos.y + Artist::size.y > artist2->pos.y;
+
+            if (collision) {
+                std::cout << "Collision detected!" << std::endl;
+                artist1->isColliding = true;
+                artist2->isColliding = true;
+            }
+        }
+    }
+    if (collideWithPath && pathfindingModule.getRenderPath()) {
+        const auto& path = pathfindingModule.getPath();
+        const auto& tileSize = RenderingModule::tileSize;
+
+        for (const auto& artist : artists) {
+            for (const auto* tile : path) {
+                glm::vec2 tilePos = glm::vec2(tile->getPos()) * tileSize;
+
+                bool collision =
+                        artist->pos.x < tilePos.x + tileSize.x &&
+                        artist->pos.x + Artist::size.x > tilePos.x &&
+                        artist->pos.y < tilePos.y + tileSize.y &&
+                        artist->pos.y + Artist::size.y > tilePos.y;
+
+                if (collision) {
+                    artist->isColliding = true;
+                    break;
+                }
+            }
+        }
+    }
 
 }
 

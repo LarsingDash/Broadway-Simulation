@@ -22,7 +22,7 @@ void CollisionModule::renderInfo() {
 		default:
 		case Naive:
 			break;
-		case Quadtree:
+		case Qt:
 			_quadtreeCollisionInfo();
 			break;
 	}
@@ -34,7 +34,7 @@ void CollisionModule::update() {
 		case Naive:
 			_naiveCollision();
 			break;
-		case Quadtree:
+		case Qt:
 			_quadtreeCollision();
 			break;
 	}
@@ -46,62 +46,90 @@ void CollisionModule::toggleCollideWithPath() { collideWithPath = !collideWithPa
 
 void CollisionModule::_naiveCollision() {
 	// Get artists and reset colliding flags
-    const auto& artists = artistsManager.getArtists();
-    for (const auto& artist : artists) {
-        artist->isColliding = false;
-    }
+	const auto& artists = artistsManager.getArtists();
+	for (const auto& artist: artists) {
+		artist->isColliding = false;
+	}
 
-    // Check collisions between artists
-    for (size_t i = 0; i < artists.size(); i++) {
+	// Check collisions between artists
+	for (size_t i = 0; i < artists.size(); i++) {
 		const auto& currentArtist = artists[i];
-        for (size_t j = i + 1; j < artists.size(); j++) {
-            const auto& otherArtist = artists[j];
+		for (size_t j = i + 1; j < artists.size(); j++) {
+			const auto& otherArtist = artists[j];
 
-            // Check if bounding boxes overlap :)
-            bool collision =
-					currentArtist->pos.x < otherArtist->pos.x + Artist::size.x &&	//left of cur before right of other
-					currentArtist->pos.x + Artist::size.x > otherArtist->pos.x &&	//right of cur after left of other
-					currentArtist->pos.y < otherArtist->pos.y + Artist::size.y &&	//top cur before bottom of other
-					currentArtist->pos.y + Artist::size.y > otherArtist->pos.y;		//bottom of cur after top of other
+			// Check if bounding boxes overlap :)
+			bool collision =
+					currentArtist->pos.x < otherArtist->pos.x + Artist::size.x &&    //left of cur before right of other
+					currentArtist->pos.x + Artist::size.x > otherArtist->pos.x &&    //right of cur after left of other
+					currentArtist->pos.y < otherArtist->pos.y + Artist::size.y &&    //top cur before bottom of other
+					currentArtist->pos.y + Artist::size.y >
+					otherArtist->pos.y;        //bottom of cur after top of other
 
-            if (collision) {
+			if (collision) {
 				currentArtist->isColliding = true;
 				otherArtist->isColliding = true;
-            }
-        }
-    }
-    if (collideWithPath && pathfindingModule.getRenderPath()) {
-        const auto& path = pathfindingModule.getPath();
-        const auto& tileSize = RenderingModule::tileSize;
+			}
+		}
+	}
+	if (collideWithPath && pathfindingModule.getRenderPath()) {
+		const auto& path = pathfindingModule.getPath();
+		const auto& tileSize = RenderingModule::tileSize;
 
-        for (const auto& artist : artists) {
-            for (const auto* tile : path) {
-                glm::vec2 tilePos = glm::vec2(tile->getPos()) * tileSize;
+		for (const auto& artist: artists) {
+			for (const auto* tile: path) {
+				glm::vec2 tilePos = glm::vec2(tile->getPos()) * tileSize;
 
-                bool collision =
-                        artist->pos.x < tilePos.x + tileSize.x &&
-                        artist->pos.x + Artist::size.x > tilePos.x &&
-                        artist->pos.y < tilePos.y + tileSize.y &&
-                        artist->pos.y + Artist::size.y > tilePos.y;
+				bool collision =
+						artist->pos.x < tilePos.x + tileSize.x &&
+						artist->pos.x + Artist::size.x > tilePos.x &&
+						artist->pos.y < tilePos.y + tileSize.y &&
+						artist->pos.y + Artist::size.y > tilePos.y;
 
-                if (collision) {
-                    artist->isColliding = true;
-                    break;
-                }
-            }
-        }
-    }
+				if (collision) {
+					artist->isColliding = true;
+					break;
+				}
+			}
+		}
+	}
 
 }
 
 void CollisionModule::_quadtreeCollision() {
+	const auto& tileSize = RenderingModule::tileSize;
+
+	//Get list of artists and path
+	auto& artists = artistsManager.getArtists();
+	auto& path = pathfindingModule.path;
+
+	//Prepare quadtree
+	quadtree = std::make_unique<Quadtree>(
+			0, collideWithPath,
+			0, 0,
+			WindowModule::width, WindowModule::height
+	);
+
+	//Make a list of all colliders here so that they stay within scope
+	std::vector<std::unique_ptr<SDL_FRect>> colliders{};
+
+	//Add all tiles quadtree
+	for (const auto& tile: path) {
+		glm::vec2 tilePos = glm::vec2(tile->getPos()) * tileSize;
+		auto& rect = colliders.emplace_back(std::make_unique<SDL_FRect>(
+				SDL_FRect{tilePos.x, tilePos.y, tileSize.x, tileSize.y}
+		));
+		quadtree->addCollider(rect.get(), nullptr);
+	}
+	for (const auto& artist: artists) {
+		artist->isColliding = false;
+		auto& rect = colliders.emplace_back(std::make_unique<SDL_FRect>(
+				SDL_FRect{artist->pos.x, artist->pos.y, Artist::size.x, Artist::size.y}
+		));
+		quadtree->addCollider(rect.get(), &artist->isColliding);
+	}
 
 }
 
 void CollisionModule::_quadtreeCollisionInfo() {
-	int width = WindowModule::width;
-	int height = WindowModule::height;
-	renderingModule.drawRectangle({0, 0, width, height}, true);
-	renderingModule.drawRectangle({0, 0, width / 2, height / 2}, true);
-	renderingModule.drawRectangle({width / 2, 0, width / 2, height / 2}, true);
+	if (quadtree) quadtree->render(renderingModule);
 }

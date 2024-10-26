@@ -104,41 +104,42 @@ void RenderingModule::drawVisitedTiles() {
     }
 }
 
-void RenderingModule::drawRectangle(const SDL_Rect& rect, bool isRed) {
+[[maybe_unused]]void RenderingModule::drawRectangle(const SDL_Rect& rect, bool isRed) {
     isRed ? _red() : _darkGrey();
     SDL_RenderDrawRect(renderer, &rect);
+}
+
+[[maybe_unused]]void RenderingModule::drawRectangleF(const SDL_FRect& rect, bool isRed) {
+	isRed ? _red() : _darkGrey();
+	SDL_RenderDrawRectF(renderer, &rect);
 }
 
 void RenderingModule::present() {
     SDL_RenderPresent(renderer);
 }
 
-void RenderingModule::toggleRendering() {
-    isRenderingActive = !isRenderingActive;
-}
+void RenderingModule::toggleRendering() { isRenderingActive = !isRenderingActive; }
 
 void RenderingModule::recalculateTileSize() const {
-    // Remove scaling
-    for (const auto& artist : artistsManager->getArtists())
-        artist->pos /= tileSize;
+	//Remove scaling
+	for (const auto& artist: artistsManager->getArtists())
+		artist->pos /= tileSize;
 
-    // Recalculate scaling
-    tileSize = glm::vec2{
-            static_cast<float>(WindowModule::width) / static_cast<float>(museum->getCols()),
-            static_cast<float>(WindowModule::height) / static_cast<float>(museum->getRows()),
-    };
-    WindowModule::recalculateTileSize = false;
+	//Recalculate scaling
+	tileSize = glm::vec2{
+			static_cast<float>(WindowModule::width) / static_cast<float>(museum->getCols()),
+			static_cast<float>(WindowModule::height) / static_cast<float>(museum->getRows()),
+	};
+	WindowModule::recalculateTileSize = false;
 
-    Artist::offset = tileSize / 4.f;
-    Artist::size = tileSize / 2.f;
+	Artist::offset = tileSize / 4.f;
+	Artist::size = tileSize / 2.f;
 
-    // Reapply scaling
-    for (const auto& artist : artistsManager->getArtists())
-        artist->pos *= tileSize;
+	//Reapply scaling
+	for (const auto& artist: artistsManager->getArtists())
+		artist->pos *= tileSize;
 }
 
 void RenderingModule::_red() { SDL_SetRenderDrawColor(renderer, 225, 0, 0, 255); }
 void RenderingModule::_white() { SDL_SetRenderDrawColor(renderer, 240, 240, 240, 255); }
 void RenderingModule::_darkGrey() { SDL_SetRenderDrawColor(renderer, 25, 25, 25, 255); }
-
-

@@ -4,6 +4,7 @@
 
 #include "PathfindingModule.hpp"
 #include <queue>
+#include <algorithm>
 
 const char* PathfindingModule::PathfindingTypeItems[] = {
 		"BreadthFirstSearch",
@@ -124,6 +125,59 @@ void PathfindingModule::_breadthFirstSearch() {
 }
 
 void PathfindingModule::_dijkstra() {
+    //Priority queue om waardes automatisch op te slaan op volgorde van grootste naar kleinste waarde
+    using TileCostPair = std::pair<float, Tile*>;
+    std::priority_queue<TileCostPair, std::vector<TileCostPair>, std::greater<TileCostPair>> priorityQueue;
+
+    // Distance mappen om de afstand van de start naar elke tile bij te houden
+    std::unordered_map<Tile*, float> distance;
+    std::unordered_map<Tile*, Tile*> predecessors;
+
+    // Alle onbezochte tiles op infinity zetten
+    for (const auto& row : museum.grid) {
+        for (const auto& tilePtr : row) {
+            distance[tilePtr.get()] = std::numeric_limits<float>::infinity();
+        }
+    }
+    //start tile op 0 zetten
+    distance[start] = 0.0f;
+
+    // Start tile in de priority queue zetten als beginpunt
+    priorityQueue.emplace(0.0f, start);
+
+    // Dijstkra's algoritme
+    // 1. Controleer de tile met de laagste afstand van de start
+
+    while (!priorityQueue.empty()) {
+        Tile* current = priorityQueue.top().second;
+        float currentCost = priorityQueue.top().first;
+        priorityQueue.pop();
+        visited.insert(current);
+        // 2. Als het doel bereikt is, stop
+        if (current == target) break;
+
+
+        // 3. Loop door alle buren van de tile en bereken de totale afstand die het zou kosten om om de huidige tile te bereiken
+        for (Tile* neighbor : current->getNeighbors()) {
+            float neighborCost = currentCost + neighbor->currentState->config.second;
+
+            // 4. Als de totale afstand kleiner is dan de huidige afstand, update de afstand en voeg hem toe aan de queu
+            if (neighborCost < distance[neighbor]) {
+                distance[neighbor] = neighborCost;
+                predecessors[neighbor] = current;
+                priorityQueue.emplace(neighborCost, neighbor);
+            }
+        }
+    }
+    // 5. Bouw het pad terug vanaf de target naar de start
+    Tile* current = target;
+    while (predecessors.find(current) != predecessors.end()) {
+        path.push_back(current);
+        current = predecessors[current];
+    }
+    //flip t pad
+    std::reverse(path.begin(), path.end());
+
 
 }
 

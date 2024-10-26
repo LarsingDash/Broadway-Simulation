@@ -7,5 +7,5 @@
 
 void InfoCommand::execute() {
 	std::cout << "InfoCommand executed" << std::endl;
-	SimulationManager::getInstance().guiModule->enableInfoWindow();
+	SimulationManager::getInstance().guiModule->toggleInfoWindow();
 }

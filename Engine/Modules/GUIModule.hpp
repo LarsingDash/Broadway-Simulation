@@ -17,14 +17,14 @@ class GUIModule {
 		static void beginFrame();
 		void render();
 		void shutdown();
-		void enableFileSelectionWindow();
-		void enableInfoWindow();
+		void initInfoWindow();
 		void closeWindows();
 
 		[[nodiscard]] bool getFileSelectionFocussed() const;
 		[[nodiscard]] bool getInfoFocussed() const;
 		[[nodiscard]] bool isWindowOpen() const;
-
+        void toggleFileSelectionWindow();
+        void toggleInfoWindow();
 		static bool isTyping;
 	private:
 		SDL_Renderer* renderer;
@@ -33,8 +33,8 @@ class GUIModule {
 		CollisionModule& collisionModule;
 		PathfindingModule& pathfindingModule;
 
-		bool showFileSelectionWindow = false;
-		bool showInfoWindow = false;
+		bool showFileSelectionWindow = true;
+		bool showInfoWindow = true;
 		bool fileSelectionWindowFocussed = false;
 		bool infoWindowFocussed = false;
 
@@ -52,6 +52,8 @@ class GUIModule {
 		void _renderInfo();
 
 		static void openFileDialog(char* inputBuffer, const size_t& bufferSize);
+
+
 };
 
 #endif //BROADWAY_SIMULATION_GUIMODULE_HPP

@@ -22,8 +22,8 @@ GUIModule::GUIModule(SDL_Window* window, SDL_Renderer* renderer, InputModule& mI
 
 	ImGui_ImplSDL2_InitForSDLRenderer(window, renderer);
 	ImGui_ImplSDLRenderer2_Init(renderer);
-    GUIModule::enableFileSelectionWindow();
-    GUIModule::enableInfoWindow();
+
+    GUIModule::initInfoWindow();
 }
 
 GUIModule::~GUIModule() {
@@ -56,10 +56,9 @@ void GUIModule::shutdown() {
 	}
 }
 
-void GUIModule::enableFileSelectionWindow() { showFileSelectionWindow = true; }
+//void GUIModule::enableFileSelectionWindow() { showFileSelectionWindow = true; }
 
-void GUIModule::enableInfoWindow() {
-	showInfoWindow = true;
+void GUIModule::initInfoWindow() {
 
 	//Init keyInputs
 	for (const auto& [command, key]: inputModule.keys) {
@@ -72,6 +71,16 @@ void GUIModule::enableInfoWindow() {
 		GUIModule::keyInputs[command] = {keyArray, true};
 	}
 }
+void GUIModule::toggleFileSelectionWindow() {
+    std::cout << "Toggling file selection window to: " << showFileSelectionWindow << std::endl;
+    showFileSelectionWindow = !showFileSelectionWindow;
+}
+
+void GUIModule::toggleInfoWindow() {
+    std::cout << "Toggling info window to: " << showInfoWindow << std::endl;
+    showInfoWindow = !showInfoWindow;
+}
+
 
 void GUIModule::closeWindows() {
 	showFileSelectionWindow = false;
@@ -88,7 +97,7 @@ void GUIModule::_renderFileSelector() {
 	//Begin
 	ImGui::SetNextWindowSize(ImVec2(400, 185), ImGuiCond_Once);
 	ImGui::Begin("File Selection - (ESC to close)", nullptr, ImGuiWindowFlags_NoResize);
-	fileSelectionWindowFocussed = ImGui::IsWindowFocused();
+	fileSelectionWindowFocussed = ImGui::IsAnyItemActive();
 
 	//Museum Header
 	ImGui::Text("Museum/Map");
@@ -186,7 +195,7 @@ void GUIModule::_renderInfo() {
 	//Begin
 	ImGui::SetNextWindowSize(ImVec2(275, 350), ImGuiCond_Once);
 	ImGui::Begin("Info - (ESC to close)", nullptr, ImGuiWindowFlags_NoResize);
-	infoWindowFocussed = ImGui::IsWindowFocused();
+	infoWindowFocussed = ImGui::IsAnyItemActive();
 
 	//Header
 	ImGui::Text("Command / Key");

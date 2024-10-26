@@ -4,6 +4,7 @@
 
 #include "PathfindingModule.hpp"
 #include <queue>
+#include <algorithm>
 
 const char* PathfindingModule::PathfindingTypeItems[] = {
 		"BreadthFirstSearch",
@@ -124,6 +125,25 @@ void PathfindingModule::_breadthFirstSearch() {
 }
 
 void PathfindingModule::_dijkstra() {
+    //Priority queue om waardes automatisch op te slaan op volgorde van grootste naar kleinste waarde
+    using TileCostPair = std::pair<float, Tile*>;
+    std::priority_queue<TileCostPair, std::vector<TileCostPair>, std::greater<TileCostPair>> priorityQueue;
+
+    // Distance mappen om de afstand van de start naar elke tile bij te houden
+    std::unordered_map<Tile*, float> distance;
+
+    // Alle onbezochte tiles op infinity zetten
+    for (const auto& row : museum.grid) {
+        for (const auto& tilePtr : row) {
+            distance[tilePtr.get()] = std::numeric_limits<float>::infinity();
+        }
+    }
+    //start tile op 0 zetten
+    distance[start] = 0.0f;
+
+    // Start tile in de priority queue zetten als beginpunt
+    priorityQueue.emplace(0.0f, start);
+
 
 }
 

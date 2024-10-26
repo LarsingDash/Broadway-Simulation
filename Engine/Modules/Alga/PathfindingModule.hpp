@@ -5,7 +5,7 @@
 #ifndef BROADWAY_SIMULATION_PATHFINDINGMODULE_HPP
 #define BROADWAY_SIMULATION_PATHFINDINGMODULE_HPP
 
-#include "../Tiles/Museum.hpp"
+#include "../../Tiles/Museum.hpp"
 #include <unordered_set>
 
 class PathfindingModule {

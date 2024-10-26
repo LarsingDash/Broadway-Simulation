@@ -3,7 +3,7 @@
 
 #include "../Tiles/Museum.hpp"
 #include "../Artists/ArtistsManager.hpp"
-#include "PathfindingModule.hpp"
+#include "Alga/PathfindingModule.hpp"
 
 class RenderingModule {
 	public:

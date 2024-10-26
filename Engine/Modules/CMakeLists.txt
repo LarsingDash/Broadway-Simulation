@@ -3,6 +3,6 @@
         RenderingModule.cpp
         WindowModule.cpp
         GUIModule.cpp
-        CollisionModule.cpp
-        PathfindingModule.cpp
 )
+
+add_subdirectory(Alga)

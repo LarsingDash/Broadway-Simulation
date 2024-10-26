@@ -4,8 +4,8 @@
 #include "Modules/WindowModule.hpp"
 #include "Modules/RenderingModule.hpp"
 #include "Modules/GUIModule.hpp"
-#include "Modules/CollisionModule.hpp"
-#include "Modules/PathfindingModule.hpp"
+#include "Modules/Alga/CollisionModule.hpp"
+#include "Modules/Alga/PathfindingModule.hpp"
 #include "Tiles/Museum.hpp"
 #include "Artists/ArtistsManager.hpp"
 #include <memory>

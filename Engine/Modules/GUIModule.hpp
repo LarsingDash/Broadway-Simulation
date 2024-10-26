@@ -2,8 +2,8 @@
 #define BROADWAY_SIMULATION_GUIMODULE_HPP
 
 #include "InputModule.hpp"
-#include "CollisionModule.hpp"
-#include "PathfindingModule.hpp"
+#include "Alga/CollisionModule.hpp"
+#include "Alga/PathfindingModule.hpp"
 #include <SDL_render.h>
 
 class GUIModule {

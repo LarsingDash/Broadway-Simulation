@@ -5,9 +5,9 @@
 #ifndef BROADWAY_SIMULATION_COLLISIONMODULE_HPP
 #define BROADWAY_SIMULATION_COLLISIONMODULE_HPP
 
-#include "../Artists/ArtistsManager.hpp"
+#include "../../Artists/ArtistsManager.hpp"
 #include "PathfindingModule.hpp"
-#include "RenderingModule.hpp"
+#include "../RenderingModule.hpp"
 
 class CollisionModule {
 	public:

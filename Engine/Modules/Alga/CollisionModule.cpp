@@ -3,7 +3,7 @@
 //
 
 #include "CollisionModule.hpp"
-#include "WindowModule.hpp"
+#include "../WindowModule.hpp"
 
 const char* CollisionModule::CollisionTypeItems[] = {
 		"Naive",

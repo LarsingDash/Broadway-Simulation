@@ -45,6 +45,7 @@ void CollisionModule::toggleCollisionInfo() { renderCollisionInfo = !renderColli
 void CollisionModule::toggleCollideWithPath() { collideWithPath = !collideWithPath; }
 
 void CollisionModule::_naiveCollision() {
+	// Get artists and reset colliding flags
     const auto& artists = artistsManager.getArtists();
     for (const auto& artist : artists) {
         artist->isColliding = false;
@@ -52,21 +53,20 @@ void CollisionModule::_naiveCollision() {
 
     // Check collisions between artists
     for (size_t i = 0; i < artists.size(); i++) {
+		const auto& currentArtist = artists[i];
         for (size_t j = i + 1; j < artists.size(); j++) {
-            const auto& artist1 = artists[i];
-            const auto& artist2 = artists[j];
+            const auto& otherArtist = artists[j];
 
             // Check if bounding boxes overlap :)
             bool collision =
-                    artist1->pos.x < artist2->pos.x + Artist::size.x &&
-                    artist1->pos.x + Artist::size.x > artist2->pos.x &&
-                    artist1->pos.y < artist2->pos.y + Artist::size.y &&
-                    artist1->pos.y + Artist::size.y > artist2->pos.y;
+					currentArtist->pos.x < otherArtist->pos.x + Artist::size.x &&	//left of cur before right of other
+					currentArtist->pos.x + Artist::size.x > otherArtist->pos.x &&	//right of cur after left of other
+					currentArtist->pos.y < otherArtist->pos.y + Artist::size.y &&	//top cur before bottom of other
+					currentArtist->pos.y + Artist::size.y > otherArtist->pos.y;		//bottom of cur after top of other
 
             if (collision) {
-                std::cout << "Collision detected!" << std::endl;
-                artist1->isColliding = true;
-                artist2->isColliding = true;
+				currentArtist->isColliding = true;
+				otherArtist->isColliding = true;
             }
         }
     }

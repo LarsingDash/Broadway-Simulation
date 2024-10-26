@@ -144,6 +144,16 @@ void PathfindingModule::_dijkstra() {
     // Start tile in de priority queue zetten als beginpunt
     priorityQueue.emplace(0.0f, start);
 
+    // Dijstkra's algoritme
+    // 1. Controleer de tile met de laagste afstand van de start
+    // 2. Als het doel bereikt is, stop
+    // 3. Loop door alle buren van de tile en bereken de totale afstand die het zou kosten om om de huidige tile te bereiken
+    // 4. Als de totale afstand kleiner is dan de huidige afstand, update de afstand en voeg hem toe aan de queu
+
+    // 5. Bouw het pad terug vanaf de target naar de start
+    //Pad terugzoeken zolang er een is gevonden
+
+
 
 }
 

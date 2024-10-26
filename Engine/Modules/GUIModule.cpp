@@ -22,6 +22,8 @@ GUIModule::GUIModule(SDL_Window* window, SDL_Renderer* renderer, InputModule& mI
 
 	ImGui_ImplSDL2_InitForSDLRenderer(window, renderer);
 	ImGui_ImplSDLRenderer2_Init(renderer);
+    GUIModule::enableFileSelectionWindow();
+    GUIModule::enableInfoWindow();
 }
 
 GUIModule::~GUIModule() {
@@ -85,7 +87,7 @@ bool GUIModule::isWindowOpen() const { return showFileSelectionWindow || showInf
 void GUIModule::_renderFileSelector() {
 	//Begin
 	ImGui::SetNextWindowSize(ImVec2(400, 185), ImGuiCond_Once);
-	ImGui::Begin("File Selection", nullptr, ImGuiWindowFlags_NoResize);
+	ImGui::Begin("File Selection - (ESC to close)", nullptr, ImGuiWindowFlags_NoResize);
 	fileSelectionWindowFocussed = ImGui::IsWindowFocused();
 
 	//Museum Header
@@ -183,7 +185,7 @@ void GUIModule::_renderFileSelector() {
 void GUIModule::_renderInfo() {
 	//Begin
 	ImGui::SetNextWindowSize(ImVec2(275, 350), ImGuiCond_Once);
-	ImGui::Begin("Info", nullptr, ImGuiWindowFlags_NoResize);
+	ImGui::Begin("Info - (ESC to close)", nullptr, ImGuiWindowFlags_NoResize);
 	infoWindowFocussed = ImGui::IsWindowFocused();
 
 	//Header

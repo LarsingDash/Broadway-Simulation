@@ -82,6 +82,7 @@ void RenderingModule::draw() {
 		//Path (which includes Target)
 		_darkGrey();
 		for (const auto& tile: pathfindingModule->path) renderPathTile(tile->getPos());
+		if (pathfindingModule->target) renderPathTile(pathfindingModule->target->getPos());
 	}
 
 	//Visited

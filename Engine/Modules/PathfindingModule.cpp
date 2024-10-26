@@ -28,6 +28,7 @@ void PathfindingModule::reset() {
 	start = nullptr;
 	target = nullptr;
 	path.clear();
+	visited.clear();
 }
 
 void PathfindingModule::setPathfindingType(PathfindingModule::PathfindingType type) {
@@ -109,11 +110,12 @@ void PathfindingModule::_breadthFirstSearch() {
 		queue.pop();
 	}
 	
-	//Check if target was found, cancel if not
+	//Print amount of steps if target was found, cancel reconstruction if not
 	if (lookup.find(target) == lookup.cend()) return;
+	std::cout << "BFS visited " << visited.size() << " tiles" << std::endl;
 	
 	//Go through the lookup table to retrace the steps, reconstructing the path
-	Tile* current = target;
+	Tile* current = lookup[target];
 	while (current != nullptr && current != start) {
 		path.push_back(current);
 		current = lookup[current];

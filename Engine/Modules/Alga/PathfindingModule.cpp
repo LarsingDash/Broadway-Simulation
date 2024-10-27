@@ -175,9 +175,13 @@ void PathfindingModule::_dijkstra() {
         path.push_back(current);
         current = predecessors[current];
     }
-    //flip t pad
     std::reverse(path.begin(), path.end());
 
+    if (distance[target] != std::numeric_limits<float>::infinity()) {
+        std::cout << "Shortest path cost: " << distance[target] << std::endl;
+    } else {
+        std::cout << "No path found" << std::endl;
+    }
 
 }
 

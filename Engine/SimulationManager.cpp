@@ -92,7 +92,7 @@ void SimulationManager::run() {
 		frameCount++;
 		fps += delta;
 		if (fps >= fpsInterval) {
-			std::cout << "FPS: " << frameCount << std::endl;
+//			std::cout << "FPS: " << frameCount << std::endl;
 			fps = 0;
 			frameCount = 0;
 		}
